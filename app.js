@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 
 app.set('view engine','jade');
-app.set('views',__dirname + '/templates');
+app.set('views',__dirname + '/views');
 
 app.get('/',function(req,res){
   res.render('index')
@@ -23,7 +23,7 @@ app.get('/dashboard',function(req,res){
 });
 
 app.get('/howitworks',function(req,res){
-	res.render('howitworks')
+	res.render('HowitWorks')
 });
 
 app.get('/searchajob',function(req,res){
