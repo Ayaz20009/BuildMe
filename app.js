@@ -3,28 +3,31 @@
 var express = require('express');
 var app = express();
 
+app.set('view engine','jade');
+app.set('views',__dirname + '/templates');
+
 app.get('/',function(req,res){
-  res.send("<h1>This is the Homepage</h1>");
+  res.render('index')
 });
 
 app.get('/signup',function(req,res){
-	res.send("<h1>Sign up page</h1>");
+	res.render('signup')
 });
 
 app.get('/jobs',function(req,res){
-	res.send("<h1>Jobs page</h1>");
+	res.render('jobs')
 });
 
 app.get('/dashboard',function(req,res){
-	res.send("<h1>dashboard page </h1>");
+	res.render('dashboard')
 });
 
 app.get('/howitworks',function(req,res){
-	res.send("<h1>howitworks page</h1>");
+	res.render('howitworks')
 });
 
 app.get('/searchajob',function(req,res){
-	res.send("<h1>Search a job page</h1>");
+	res.render('searchajob')
 });
 
 app.listen(3000,function(){
