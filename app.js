@@ -1,34 +1,36 @@
 'use strict';
 
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 
 app.set('view engine','jade');
 app.set('views',__dirname + '/views');
 
-app.get('/',function(req,res){
-  res.render('index')
-});
+app.use(require('./controllers'));
 
-app.get('/signup',function(req,res){
-	res.render('signup')
-});
+// var index = require('./controllers/index');
+// app.use('/', index)
 
-app.get('/jobs',function(req,res){
-	res.render('jobs')
-});
 
-app.get('/dashboard',function(req,res){
-	res.render('dashboard')
-});
+// app.get('/signup',function(req,res){
+// 	res.render('signup')
+// });
 
-app.get('/howitworks',function(req,res){
-	res.render('HowitWorks')
-});
+// app.get('/jobs',function(req,res){
+// 	res.render('jobs')
+// });
 
-app.get('/searchajob',function(req,res){
-	res.render('searchajob')
-});
+// app.get('/dashboard',function(req,res){
+// 	res.render('dashboard')
+// });
+
+// app.get('/howitworks',function(req,res){
+// 	res.render('HowitWorks')
+// });
+
+// app.get('/searchajob',function(req,res){
+// 	res.render('searchajob')
+// });
 
 app.listen(3000,function(){
   console.log("The frontend server is running on port 3000")
