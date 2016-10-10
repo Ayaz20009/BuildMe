@@ -6,6 +6,6 @@ var expect = chai.expect;
 chai.use(chaiHttp);
 
 
-describe('Signup Controller', function() { 
-	it('should show email and password textbox')
+describe('dashboard Controller', function() { 
+	it('should list all the jobs');
 });	
