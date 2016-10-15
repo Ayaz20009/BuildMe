@@ -1,11 +1,10 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Homeowners = sequelize.define('Homeowners', {
-    ho_id: DataTypes.INT,
-    ho_fn: DataTypes.STRING,
-    ho_ln: DataTypes.STRING,
+  var homeowners = sequelize.define('homeowners', {
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
     address: DataTypes.STRING,
-    phn_num: DataTypes.STRING,
+    phone_number: DataTypes.STRING,
     email: DataTypes.STRING
   }, {
     classMethods: {
@@ -14,5 +13,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return Homeowners;
+  return homeowners;
 };

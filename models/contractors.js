@@ -1,10 +1,10 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var contractor = sequelize.define('contractor', {
-    c_fn: DataTypes.STRING,
-    c_ln: DataTypes.STRING,
+  var contractors = sequelize.define('contractors', {
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
     address: DataTypes.STRING,
-    phn_num: DataTypes.INT,
+    phone_number: DataTypes.STRING,
     email: DataTypes.STRING
   }, {
     classMethods: {
@@ -13,5 +13,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return contractor;
+  return contractors;
 };
