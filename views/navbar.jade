@@ -1,10 +1,12 @@
 .navbar.navbar-inverse
    div.container-fluid
      div.navbar-header
-        a.navbar-brand BuildMe
+        a.navbar-brand(href="/") BuildMe
      ul.nav.navbar-nav
         li 
            a(href="/howitworks") How it Works
+        li 
+           a(href="/dashboard") Dashboard
         li 
            a(href="/jobs") Jobs
         li 
@@ -15,7 +17,7 @@
         button.btn.btn-primary(type="submit") Submit
      ul.nav.navbar-nav.navbar-right
         li 
-          a
+          a(href="/signup")
             span.glyphicon.glyphicon-user   SignUp
         li 
            a 
