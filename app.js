@@ -32,6 +32,9 @@ var test = sql.authenticate()
 const express = require('express');
 const app = express();
 
+
+// var engines = require('consolidate');
+
 app.set('view engine','jade');
 app.set('views',__dirname + '/views');
 

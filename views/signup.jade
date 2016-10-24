@@ -1,8 +1,16 @@
-doctype html
-html(lang="en")
-	head
-		title SignUp 
-		include head.jade
-	body
-		include navbar.jade
-		h1 This is the SignUp Page
+include base.jade
+div(align='center')
+   div.panel.panel-default(style="width:40%",align='center')
+       div.panel-heading Pleaser Enter your information:
+       div.panel-body(style="width:80%")
+           div.form-group
+              label.pull-left First Name
+              input.form-control(type="text")
+           div.form-group
+              label.pull-left Last Name
+              input.form-control(type="text")
+           div.form-group
+              label.pull-left Phone Number
+              input.form-control(type="text")
+           button.btn.btn-primary.btn-block Sign Up
+       div.panel-footer Question?
