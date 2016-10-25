@@ -1,4 +1,29 @@
 include base.jade
-h1 This is the Search a Job Page
-		
-		
+div(style="width:90%;margin:auto")
+	div.col-lg-4.well
+		div.form-group
+			input.form-control(type="text",placeholder="Key Words",)
+		div.form-group
+			input.form-control(type="text",placeholder="Location Zip",)
+		div.form-group
+			input#datepicker.form-control(type="text",placeholder="Date",)
+		div.btn-group
+			button.btnDays.btn.btn-default.col-lg-3 Monday
+			button.btnDays.btn.btn-default.col-lg-3 Tuesday
+			button.btnDays.btn.btn-default.col-lg-3 Wedsday
+			button.btnDays.btn.btn-default.col-lg-3 Thursday	
+			button.btnDays.btn.btn-default.col-lg-3 Friday
+			button.btnDays.btn.btn-default.col-lg-3 Saturday
+			button.btnDays.btn.btn-default.col-lg-3 Sunday
+			button#btnResetDays.btn.col-lg-3 Reset Days
+		div.form-group(style="margin-top:3%")
+			div.col-lg-2 From
+			div.col-lg-4 
+				input#datepicker.form-control(type="text",placeholder="6 a.m.",)
+			div.col-lg-2 To
+			div.col-lg-4
+				input#datepicker.form-control(type="text",placeholder="10 p.m.",)
+		div.btn-group(style="margin-top:3%;width:100%")
+			button.btn.btn-primary.btn-block Search
+			button.btn.btn-block Reset
+	div.col-lg-8.panel.panel-info(style="height:50vh") Result Google Map

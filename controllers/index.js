@@ -24,6 +24,7 @@ router.get('/searchajob', function(req, res) {
 
 router.get('/signup', function(req, res) {
   res.render('signup', {title: 'Sign Up'})
+
 });
 
 

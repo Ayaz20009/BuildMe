@@ -1,16 +1,22 @@
 include base.jade
 div(align='center')
-   div.panel.panel-default(style="width:40%",align='center')
-       div.panel-heading Pleaser Enter your information:
-       div.panel-body(style="width:80%")
-           div.form-group
-              label.pull-left First Name
-              input.form-control(type="text")
-           div.form-group
-              label.pull-left Last Name
-              input.form-control(type="text")
-           div.form-group
-              label.pull-left Phone Number
-              input.form-control(type="text")
-           button.btn.btn-primary.btn-block Sign Up
-       div.panel-footer Question?
+  div.panel.panel-primary(style="width:40%",align='center')
+    div.panel-heading Get Strated - it's free.
+    div.panel-body(style="width:80%")
+      div.btn-group(style="width:100%")
+        button.btnUserType.btn.btn-default.col-lg-6 Homeowner
+        button.btnUserType.btn.btn-default.col-lg-6  Constructor
+      div.form-group(style="margin-top:3%")
+        input.form-control(type="text",id="inputFname",placeholder="First Name",)
+      div.form-group
+        input.form-control(type="text",id="inputLname",placeholder="Last Name",)
+      //- div.form-group
+      //-   input.form-control(type="text",id="inputUsername",placeholder="Username",)
+      div.form-group
+        input.form-control(type="Password",id="inputPwd",placeholder="Password",)
+      div.form-group
+        input.form-control(type="text",id="inputEmail",placeholder="Email",)
+      div.form-group
+        input.form-control(type="text",id="inputPNo",placeholder="Phone Number",)
+      button.btn.btn-primary.btn-block Sign Up
+    div.panel-footer By clicking Sign Up, you agree to the BuildMe User Agreement, Privacy Policy, and Cookie Policy.
