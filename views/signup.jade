@@ -1,16 +1,23 @@
 include base.jade
 div(align='center')
-   div.panel.panel-default(style="width:40%",align='center')
-       div.panel-heading Pleaser Enter your information:
-       div.panel-body(style="width:80%")
-           div.form-group
-              label.pull-left First Name
-              input.form-control(type="text")
-           div.form-group
-              label.pull-left Last Name
-              input.form-control(type="text")
-           div.form-group
-              label.pull-left Phone Number
-              input.form-control(type="text")
-           button.btn.btn-primary.btn-block Sign Up
-       div.panel-footer Question?
+  div.panel.panel-default(style="width:40%",align='center')
+    div.panel-heading Pleaser Enter your information:
+      div.panel-body(style="width:80%")
+        form(method='POST' action='/signup')
+          div.form-group
+            label(for='firstName') First Name:
+            input#firstName.form-control(type='text', placeholder="First Name " name = "firstName")
+          div.form-group
+            label(for='lastName') Last Name:
+            input#lastName.form-control(type='text', placeholder="Last Name" name ="lastName")
+          div.form-group
+            label(for='address') Address
+            input#address.form-control(type='text', placeholder="Address" name = "address")
+          div.form-group
+            label(for='number') Phone Number
+            input#number.form-control(type='text', placeholder="Phone Number" name="phone")
+          div.form-group
+            label(for='email') Email
+            input#email.form-control(type='email', placeholder="name@email.com" name="email")
+          button.btn.btn-primary(type='submit') Sign Up
+    div.panel-footer Question?

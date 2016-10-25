@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-
+var express = require('express');
+var router = express.Router();
+var models = require('../models')
 
 router.get('/', function(req, res) {
   res.render('index', {title: 'Build Me'})
@@ -24,6 +24,21 @@ router.get('/searchajob', function(req, res) {
 
 router.get('/signup', function(req, res) {
   res.render('signup', {title: 'Sign Up'})
+});
+
+router.post('/signup',function(req,res){
+	console.log(req.body);
+	models.contractors.create({
+		first_name: req.body.firstName,
+ 		last_name: req.body.lastName,
+ 		address: req.body.address,
+ 		phone_number: req.body.phone,
+ 		email: req.body.email
+	}).then(function (user){
+		res.redirect('/')
+	}).catch(function(e){
+		res.send('Error');
+	})
 });
 
 
