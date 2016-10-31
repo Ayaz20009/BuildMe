@@ -1,10 +1,14 @@
 html
 	head
 		title= title
-		link(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+		script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
+		script(src="/js/jq_home.js")
+		link(rel="stylesheet", href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
 		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
 		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
-		meta(name="viewport", content="width=device-width, initial-scale=1.0")
-		script(src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js")
+		script(src="https://maps.googleapis.com/maps/api/js?callback=myMap")
+
 	body 
 		include navbar.jade

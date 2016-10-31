@@ -37,12 +37,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // var engines = require('consolidate');
+app.use(express.static(__dirname + '/public'));
 
 app.set('view engine','jade');
 app.set('views',__dirname + '/views');
 
 app.use(require('./controllers'));
-
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(3000,function(){
   console.log("The frontend server is running on port 3000")

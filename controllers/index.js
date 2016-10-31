@@ -24,6 +24,7 @@ router.get('/searchajob', function(req, res) {
 
 router.get('/signup', function(req, res) {
   res.render('signup', {title: 'Sign Up'})
+
 });
 
 router.post('/signup',function(req,res){
@@ -34,8 +35,8 @@ router.post('/signup',function(req,res){
  		address: req.body.address,
  		phone_number: req.body.phone,
  		email: req.body.email
-	}).then(function (user){
-		res.redirect('/')
+	}).then(function (profile){
+		res.redirect('./profile')
 	}).catch(function(e){
 		res.send('Error');
 	})
