@@ -48,7 +48,11 @@ app.listen(3000,function(){
 });
 
 
+app.post('/signup', function(req,res){
 
+   res.render('/', {title: "Build Me", Fname: "", Lname:"" })
+
+})
 
 
 // var app = express();

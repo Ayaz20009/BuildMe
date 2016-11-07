@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+// $('.nav-tabs').tab();
+
 $(".ui-dialog").dialog({
    autoOpen: false,
    buttons: [
@@ -47,6 +49,16 @@ $(".ui-dialog").dialog({
  $(".btnUserType").click(function(){
 
     $(this).addClass("btn-info").siblings().removeClass("btn-info");
+
+ });
+
+
+
+ $('[data-toggle=tab]').click(function(){
+  var li = $(this).parent();
+  li.addClass("in active").siblings().removeClass("in active");
+   var link = $(this).attr('href');
+   $(link).addClass("in active").siblings().removeClass("in active");
 
  });
 
