@@ -31,23 +31,7 @@ app.use(require('./controllers/'));
 // app.get('/',function(req,res){
 //     res.render()
 // })
-app.get('/signup',function(req,res){
-    res.render('signup');
-});
 
-app.post('/signup',function(req,res){
-    models.contractors.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-    }).then((contractors) => {
-        res.redirect('/');
-    }).catch(() => {
-        res.send('ERROR');
-    });
-});
 // app.use('./controllers/signup');
 // app.use(express.static(path.join(__dirname, 'public')));
 

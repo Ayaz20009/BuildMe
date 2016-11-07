@@ -23,16 +23,34 @@ router.get('/signup',function(req,res){
 
 router.post('/signup',function(req,res){
     models.contractors.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      username: req.body.username,
+      first_name: req.body.firstName,
+      last_name: req.body.lastName,
+      address: req.body.address,
+      phone_number: req.body.phone,
       email: req.body.email,
-      password: req.body.password,
     }).then((contractors) => {
         res.redirect('/');
     }).catch(() => {
         res.send('ERROR');
     });
+
+//Validation 
+// req.checkBody('firstName', 'First Name is required').notEmpty();
+// req.checkBody('lastName', 'First Name is required').notEmpty();
+// req.checkBody('username', 'Username is required').notEmpty();
+// req.checkBody('email','Email is required').notEmpty();
+// req.checkBody('email','Email is not valid').isEmail();
+// req.checkBody('password','Password is required').notEmpty();
+
+// var errors = req.validationErrors();
+// if (errors){
+//   res.render('signup',{
+//     errors:errors
+//   });
+// }
+// else{
+//   console.log('Passed');
+// }
 });
 
 router.get('/jobs', function(req, res) {
