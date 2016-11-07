@@ -1,17 +1,29 @@
 'use strict';
+const bodyParser = require('body-parser');
+const pug = require('pug');
+const express = require('express');
+const models = require('./models/');
+const Sequelize = require("sequelize");
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('./public'));
 
-
-var Sequelize = require("sequelize");
-
+<<<<<<< HEAD
 // var sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
 
 // var sql = new Sequelize('buildme_development', 'pg_user', 'pg_pass', {
 
 var sql = new Sequelize('buildme_development', 'postgres', '', {
+=======
+var sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
+var sql = new Sequelize('buildme_development', 'pg_user', 'pg_pass', {
+>>>>>>> 9bf3d8b1134fd36fb16011f25b133e233913cfff
     host: 'localhost',
     port: 5432,
     dialect: 'postgres'
 });
+<<<<<<< HEAD
 
 // var test = sql.authenticate()
 //     .then(function () {
@@ -21,16 +33,26 @@ var sql = new Sequelize('buildme_development', 'postgres', '', {
 //         console.log("Unable to connect to the database:" + err);
 //     })
 //     .done();
+=======
+var test = sql.authenticate()
+    .then(function () {
+        console.log("CONNECTED! ");
+    })
+    .catch(function (err) {
+        console.log("SOMETHING DONE GOOFED");
+    })
+    .done();
+>>>>>>> 9bf3d8b1134fd36fb16011f25b133e233913cfff
 
-const express = require('express');
-const app = express();
+app.set('view engine','pug');
+app.set('views', `${__dirname}/views/`);
 
-app.use(express.static(__dirname + '/public'));
+app.use(require('./controllers/'));
+// app.get('/',function(req,res){
+//     res.render()
+// })
 
-app.set('view engine','jade');
-app.set('views',__dirname + '/views');
-
-app.use(require('./controllers'));
+// app.use('./controllers/signup');
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(3000,function(){
@@ -47,6 +69,7 @@ app.listen(3000,function(){
     .done();
 });
 
+<<<<<<< HEAD
 
 app.post('/signup', function(req,res){
 
@@ -62,3 +85,5 @@ app.post('/signup', function(req,res){
 //   defaultLayour: 'main',
 
 // }));
+=======
+>>>>>>> 9bf3d8b1134fd36fb16011f25b133e233913cfff

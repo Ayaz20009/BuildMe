@@ -1,0 +1,20 @@
+include base.pug
+div(align='center')
+  div.panel.panel-primary(style="width:40%",align='center')
+    div.panel-heading Get Started - it's free.
+    div.panel-body(style="width:80%")
+      div.btn-group(style="width:100%")
+        button.btnUserType.btn.btn-default.col-lg-12 Homeowner
+      form(action='/signup',method='post')
+        div.form-group(style="margin-top:3%")
+          input.form-control(type="text",name = "firstName", id="inputFname",placeholder="First Name",)
+        div.form-group
+          input.form-control(type="text", id="inputLname", name="lastName", placeholder="Last Name",)
+        div.form-group
+          input.form-control(type="text",id="inputEmail", name="address", placeholder="Address",)
+        div.form-group
+          input.form-control(type="text",id="inputEmail", name="phone", placeholder="Phone Number",)
+        div.form-group
+          input.form-control(type="text",id="inputPNo", name="email",placeholder="Email",)
+        button.btn.btn-primary.btn-block Sign Up
+    div.panel-footer By clicking Sign Up, you agree to the BuildMe User Agreement, Privacy Policy, and Cookie Policy.
