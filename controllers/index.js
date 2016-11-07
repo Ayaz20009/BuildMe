@@ -1,9 +1,38 @@
-var express = require('express');
-var router = express.Router();
-var models = require('../models')
+const express = require('express');
+//const fs = require('fs');
+const path = require('path');
+const models = require('../models');
+const router = express.Router();
+//const basename = path.basename(module.filename);
 
-router.get('/', function(req, res) {
-  res.render('index', {title: 'Build Me'})
+// fs
+//   .readdirSync(__dirname)
+//   .filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
+//   .forEach(file => {
+//     const fileName = file.substr(0, file.length - 3);
+//     router.use(`/${fileName}`, require(`./${fileName}`).registerRouter());
+//   });
+
+router.get('/', (req, res) => {
+  res.render('index');
+});
+
+router.get('/signup',function(req,res){
+    res.render('signup');
+});
+
+router.post('/signup',function(req,res){
+    models.contractors.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    }).then((contractors) => {
+        res.redirect('/');
+    }).catch(() => {
+        res.send('ERROR');
+    });
 });
 
 router.get('/jobs', function(req, res) {
@@ -27,20 +56,6 @@ router.get('/signup', function(req, res) {
 
 });
 
-router.post('/signup',function(req,res){
-	console.log(req.body);
-	models.contractors.create({
-		first_name: req.body.firstName,
- 		last_name: req.body.lastName,
- 		address: req.body.address,
- 		phone_number: req.body.phone,
- 		email: req.body.email
-	}).then(function (profile){
-		res.redirect('./profile')
-	}).catch(function(e){
-		res.send('Error');
-	})
-});
 
 
 module.exports = router;

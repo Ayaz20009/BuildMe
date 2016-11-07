@@ -3,7 +3,7 @@
     "username": "pg_user",
     "password": "pg_pass",
     "database": "buildme_development",
-    "host": "5432",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
