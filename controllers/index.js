@@ -22,18 +22,17 @@ router.get('/signup',function(req,res){
 });
 
 router.post('/signup',function(req,res){
-    models.contractors.create({
+    models.homeowners.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       address: req.body.address,
       phone_number: req.body.phone,
       email: req.body.email,
-    }).then((contractors) => {
+    }).then((homeowners) => {
         res.redirect('/');
     }).catch(() => {
         res.send('ERROR');
     });
-
 //Validation 
 // req.checkBody('firstName', 'First Name is required').notEmpty();
 // req.checkBody('lastName', 'First Name is required').notEmpty();
@@ -52,6 +51,26 @@ router.post('/signup',function(req,res){
 //   console.log('Passed');
 // }
 });
+
+router.get('/cont-signup',function(req,res){
+  res.render('cont-signup')
+});
+
+router.post('/cont-signup',function(req,res){
+    models.contractors.create({
+      first_name: req.body.firstName,
+      last_name: req.body.lastName,
+      address: req.body.address,
+      phone_number: req.body.phone,
+      email: req.body.email,
+    }).then((contractors) => {
+        res.redirect('/');
+    }).catch(() => {
+        res.send('ERROR');
+    });
+});
+
+
 
 router.get('/jobs', function(req, res) {
   res.render('jobs', {title: 'Jobs'})
