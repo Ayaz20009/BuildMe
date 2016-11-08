@@ -5,16 +5,18 @@ div(align='center')
     div.panel-body(style="width:80%")
       div.btn-group(style="width:100%")
         button.btnUserType.btn.btn-default.col-lg-12 Contractor
-      form(action='/cont-signup',method='post')
+      form(action='/contractor-signup', method='post')
         div.form-group(style="margin-top:3%")
-          input.form-control(type="text",name = "firstName", id="inputFname",placeholder="First Name",)
+          input.form-control(type="text", id="inputname", name = "name", placeholder="Name",)
         div.form-group
-          input.form-control(type="text", id="inputLname", name="lastName", placeholder="Last Name",)
+          input.form-control(type="text", id="inputcompanyName", name="companyName", placeholder="Company Name",)
         div.form-group
-          input.form-control(type="text",id="inputEmail", name="address", placeholder="Address",)
+          input.form-control(type="text", id="inputlicenseNumber", name="licenseNumber", placeholder="License Number",)
         div.form-group
-          input.form-control(type="text",id="inputEmail", name="phone", placeholder="Phone Number",)
+          input.form-control(type="text", id="inputphoneNumber", name="phoneNumber", placeholder="Phone Number",)
         div.form-group
-          input.form-control(type="text",id="inputPNo", name="email",placeholder="Email",)
+          input.form-control(type="text", id="inputemail", name="email", placeholder="Email",)
+        div.form-group
+          input.form-control(type="text", id="inputpassword", name="password", placeholder="Passowrd",)
         button.btn.btn-primary.btn-block Sign Up
     div.panel-footer By clicking Sign Up, you agree to the BuildMe User Agreement, Privacy Policy, and Cookie Policy.

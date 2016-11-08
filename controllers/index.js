@@ -17,23 +17,24 @@ router.get('/', (req, res) => {
   res.render('index');
 });
 
-router.get('/cont-signup',function(req,res){
+router.get('/contractor-signup',function(req,res){
     res.render('contractor-signup');
 });
 
-router.post('/cont-signup',function(req,res){
+router.post('/contractor-signup',function(req,res){
     models.contractors.create({
-      first_name: req.body.firstName,
-      last_name: req.body.lastName,
-      address: req.body.address,
-      phone_number: req.body.phone,
+      name: req.body.name,
+      companyName: req.body.companyName,
+      phoneNumber: req.body.phoneNumber,
+      licenseNumber: req.body.licenseNumber,
       email: req.body.email,
+      password: req.body.password,
     }).then((contractors) => {
         res.redirect('/');
     }).catch(() => {
         res.send('ERROR');
     });
-//Validation 
+//Validation
 // req.checkBody('firstName', 'First Name is required').notEmpty();
 // req.checkBody('lastName', 'First Name is required').notEmpty();
 // req.checkBody('username', 'Username is required').notEmpty();
@@ -58,11 +59,11 @@ router.get('/homeowner-signup',function(req,res){
 
 router.post('/homeowner-signup',function(req,res){
     models.homeowners.create({
-      first_name: req.body.firstName,
-      last_name: req.body.lastName,
-      address: req.body.address,
-      phone_number: req.body.phone,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      zipcode: req.body.zipcode,
       email: req.body.email,
+      password: req.body.password,
     }).then((homeowners) => {
         res.redirect('/');
     }).catch(() => {
@@ -88,9 +89,12 @@ router.get('/searchajob', function(req, res) {
   res.render('searchajob', {title: 'Search A job'})
 });
 
-router.get('/signup', function(req, res) {
+router.get('/homeowners-signup', function(req, res) {
   res.render('signup', {title: 'Sign Up'})
+});
 
+router.get('/contractor-signup', function(req, res) {
+  res.render('signup', {title: 'Sign Up'})
 });
 
 
