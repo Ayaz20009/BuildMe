@@ -17,18 +17,18 @@ router.get('/', (req, res) => {
   res.render('index');
 });
 
-router.get('/signup',function(req,res){
-    res.render('signup');
+router.get('/cont-signup',function(req,res){
+    res.render('contractor-signup');
 });
 
-router.post('/signup',function(req,res){
-    models.homeowners.create({
+router.post('/cont-signup',function(req,res){
+    models.contractors.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       address: req.body.address,
       phone_number: req.body.phone,
       email: req.body.email,
-    }).then((homeowners) => {
+    }).then((contractors) => {
         res.redirect('/');
     }).catch(() => {
         res.send('ERROR');
@@ -52,18 +52,18 @@ router.post('/signup',function(req,res){
 // }
 });
 
-router.get('/cont-signup',function(req,res){
-  res.render('cont-signup')
+router.get('/homeowner-signup',function(req,res){
+  res.render('homeowner-signup')
 });
 
-router.post('/cont-signup',function(req,res){
-    models.contractors.create({
+router.post('/homeowner-signup',function(req,res){
+    models.homeowners.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       address: req.body.address,
       phone_number: req.body.phone,
       email: req.body.email,
-    }).then((contractors) => {
+    }).then((homeowners) => {
         res.redirect('/');
     }).catch(() => {
         res.send('ERROR');
