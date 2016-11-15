@@ -18,57 +18,67 @@ router.get('/', (req, res) => {
 });
 
 router.get('/contractor-signup',function(req,res){
-    res.render('contractor-signup');
+    res.render('contractor-signup', {title: 'Contractor Sign Up'});
 });
 
-router.post('/contractor-signup',function(req,res){
+router.post('/contractor-signup',function(req,res,next){
+  if(req.body.name &&
+    req.body.companyName &&
+    req.body.phoneNumber &&
+    req.body.licenseNumber &&
+    req.body.email &&
+    req.body.password){
+
     models.contractors.create({
-      name: req.body.name,
-      companyName: req.body.companyName,
-      phoneNumber: req.body.phoneNumber,
-      licenseNumber: req.body.licenseNumber,
-      email: req.body.email,
-      password: req.body.password,
+    name: req.body.name,
+    companyName: req.body.companyName,
+    phoneNumber: req.body.phoneNumber,
+    licenseNumber: req.body.licenseNumber,
+    email: req.body.email,
+    password: req.body.password
     }).then((contractors) => {
-        res.redirect('/');
+        res.redirect('/contprofile');
     }).catch(() => {
         res.send('ERROR');
     });
-//Validation
-// req.checkBody('firstName', 'First Name is required').notEmpty();
-// req.checkBody('lastName', 'First Name is required').notEmpty();
-// req.checkBody('username', 'Username is required').notEmpty();
-// req.checkBody('email','Email is required').notEmpty();
-// req.checkBody('email','Email is not valid').isEmail();
-// req.checkBody('password','Password is required').notEmpty();
 
-// var errors = req.validationErrors();
-// if (errors){
-//   res.render('signup',{
-//     errors:errors
-//   });
-// }
-// else{
-//   console.log('Passed');
-// }
+  }else{
+    var err = new Error('All fields required');
+    err.status = 400;
+    return next(err);
+  }
+
 });
 
 router.get('/homeowner-signup',function(req,res){
   res.render('homeowner-signup')
 });
 
-router.post('/homeowner-signup',function(req,res){
-    models.homeowners.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      zipcode: req.body.zipcode,
-      email: req.body.email,
-      password: req.body.password,
+router.post('/homeowner-signup',function(req,res,next){
+  if(req.body.firstName &&
+     req.body.lastName &&
+     req.body.zipcode &&
+     req.body.email &&
+     req.body.password){
+
+
+  models.homeowners.create({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    zipcode: req.body.zipcode,
+    email: req.body.email,
+    password: req.body.password,
     }).then((homeowners) => {
-        res.redirect('/');
+        res.redirect('/dashboard');
     }).catch(() => {
         res.send('ERROR');
     });
+
+}else{
+  var err = new Error('All fields required');
+  err.status = 400;
+  return next(err);
+}
 });
 
 

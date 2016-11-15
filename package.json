@@ -18,10 +18,13 @@
   },
   "homepage": "https://github.com/Ayaz20009/BuildMe#readme",
   "dependencies": {
+    "bcrypt": "^0.8.7",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
     "mocha": "^3.1.0",
     "nodemon": "^1.10.2",
     "pg": "^6.1.0",
