@@ -1,0 +1,43 @@
+include base.jade
+div(align='center')
+  div.panel.panel-primary(style="width:40%",align='center')
+    div.panel-heading Get Strated - it's free.
+    div.panel-body(style="width:80%")
+      form(action="", method="post")
+        div.btn-group(style="width:100%")
+          ul.nav.nav-tabs(id="tabSignup")
+            li.active.col-lg-6
+              a(href="#homeowner",data-toggle="tab") Homeowner
+            li.col-lg-6
+              a(href="#contractor",data-toggle="tab") Contractor
+
+        div.tab-content
+
+          div.tab-pane.fade.in.active(id="homeowner")
+            div.form-group(style="margin-top:3%")
+              input.form-control(type="text",id="inputFname",placeholder="First Name", name="Fname1",value="")
+            div.form-group
+              input.form-control(type="text",id="inputLname",placeholder="Last Name", name="Lname1")
+            div.form-group
+              input.form-control(type="Password",id="inputPwd",placeholder="Password", name="password1")
+            div.form-group
+              input.form-control(type="text",id="inputEmail",placeholder="Email", name="email1")
+            //- div.form-group
+            //-   input.form-control(type="text",id="inputPNo",placeholder="Phone Number", name="pnumber")
+
+          div.tab-pane.fade(id="contractor")
+            div.form-group(style="margin-top:3%")
+              input.form-control(type="text",id="inputFname2",placeholder="First Name", name="Fname2")
+            div.form-group
+              input.form-control(type="text",id="inputLname2",placeholder="Last Name", name="Lname2")
+            div.form-group
+              input.form-control(type="Password",id="inputPwd2",placeholder="Password", name="password2")
+            div.form-group
+              input.form-control(type="text",id="inputEmail2",placeholder="Email", name="email2")
+            div.form-group
+              input.form-control(type="text",id="inputPNo2",placeholder="Phone Number", name="pnumber2")
+            div.form-group
+              input.form-control(type="text",id="inputLicence2",placeholder="Licence Number", name="licence2")
+
+        input.btn.btn-primary.btn-block(type="submit",value="Sign Up") 
+      div.panel-footer By clicking Sign Up, you agree to the BuildMe User Agreement, Privacy Policy, and Cookie Policy.
