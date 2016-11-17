@@ -1,12 +1,17 @@
 include base.pug
 div(align='center')
   div.panel.panel-primary(style="width:40%",align='center')
+    div.panel-heading Please enter your account information:
     div.panel-body
       ul.nav.nav-tabs
         li.active
-          a(data-toggle="tab",href="#tab1") Homeowner
+          a(data-toggle="tab",href="#tab1")
+           span.glyphicon.glyphicon-home
+           span.glyphicon.glyphicon-user  Homeowner
         li
-          a(data-toggle="tab",href="#tab2") Contractor
+          a(data-toggle="tab",href="#tab2") 
+           span.glyphicon.glyphicon-wrench
+           span.glyphicon.glyphicon-user  Contractor
       div.tab-content(style="padding-top:5%")
        div#tab1.tab-pane.fade.in.active.bg-success
         form(action='/', method='post')
@@ -14,12 +19,12 @@ div(align='center')
           input.form-control(id="home_email",placeholder="Email")
          div.form-group
           input.form-control(id="home_pass",placeholder="Password")
-         button.btn.btn-primary.btn-block Login
+         button.btn.btn-success.btn-block Login
        div#tab2.tab-pane.fade.in.bg-info
         form(action='/', method='post')
          div.form-group
           input.form-control(id="con_email",placeholder="Email")
          div.form-group
           input.form-control(id="con_pass",placeholder="Password")
-         button.btn.btn-primary.btn-block Login
+         button.btn.btn-info.btn-block Login
       button.btn.btn-block Forgot Password?
