@@ -1,6 +1,6 @@
-include dialog.pug
+//- include dialog.pug
 - login = true
-nav.navbar.navbar-inverse
+nav.navbar.navbar-inverse#navbar
    div.container-fluid
      div.navbar-header
         a.navbar-brand(href="/") BuildMe
@@ -24,11 +24,16 @@ nav.navbar.navbar-inverse
             a
               span #{Fname} #{Lname}
           li#btnLogin
-            a.btn
+            a.btn(href="/login")
               span.glyphicon.glyphicon-log-in  Login
-          li
-            a(href="/homeowner-signup")
-              span.glyphicon.glyphicon-user  Homeowner
-          li
-            a(href="/contractor-signup")
-              span.glyphicon.glyphicon-user  Contractor
+          li.dropdown
+            a.btn.dropbtn
+              span.glyphicon.glyphicon-user  Sign up
+            div.dropdown-content.list-group
+              a.list-group-item.btn(href="/homeowner-signup")
+                span.glyphicon.glyphicon-home
+                span.glyphicon.glyphicon-user  Homeowner
+              a.list-group-item.btn(href="/contractor-signup") 
+                span.glyphicon.glyphicon-wrench
+                span.glyphicon.glyphicon-user  Contractor
+

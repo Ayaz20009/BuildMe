@@ -99,6 +99,10 @@ router.get('/searchajob', function(req, res) {
   res.render('searchajob', {title: 'Search A job'})
 });
 
+router.get('/login', function(req, res) {
+  res.render('login', {title: 'Login'})
+});
+
 router.get('/homeowners-signup', function(req, res) {
   res.render('signup', {title: 'Sign Up'})
 });
