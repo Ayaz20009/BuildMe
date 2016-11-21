@@ -9,7 +9,7 @@ div(align='center')
            span.glyphicon.glyphicon-home
            span.glyphicon.glyphicon-user  Homeowner
         li
-          a(data-toggle="tab",href="#tab2") 
+          a(data-toggle="tab",href="#tab2")
            span.glyphicon.glyphicon-wrench
            span.glyphicon.glyphicon-user  Contractor
       div.tab-content(style="padding-top:5%")
@@ -18,13 +18,13 @@ div(align='center')
          div.form-group
           input.form-control(id="home_email",placeholder="Email")
          div.form-group
-          input.form-control(id="home_pass",placeholder="Password")
+          input.form-control(type= "password", id="home_pass",placeholder="Password")
          button.btn.btn-success.btn-block Login
        div#tab2.tab-pane.fade.in.bg-info
         form(action='/', method='post')
          div.form-group
           input.form-control(id="con_email",placeholder="Email")
          div.form-group
-          input.form-control(id="con_pass",placeholder="Password")
+          input.form-control(type="password",id="con_pass",placeholder="Password")
          button.btn.btn-info.btn-block Login
       button.btn.btn-block Forgot Password?
