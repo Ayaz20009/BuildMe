@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
 //Making connection with the Database
-var sequelize = new Sequelize("postgres://buildme_user:buildme_pass@localhost:5432/buildme_development");
-var sql = new Sequelize('buildme_development', 'buildme_user', 'buildme_pass', {
+var sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
+var sql = new Sequelize('buildme_development', 'pg_user', 'pg_pass', {
     host: 'localhost',
     port: 5432,
     dialect: 'postgres'
