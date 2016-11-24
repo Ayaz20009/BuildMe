@@ -1,4 +1,4 @@
-nav.navbar.navbar-inverse#navbar
+nav.navbar.navbar-inverse.navbar-fixed-top#navbar
    div.container-fluid
      div.navbar-header.col-sm-3.col-md-2
         a.navbar-brand(href="/") BuildMe
@@ -29,12 +29,16 @@ nav.navbar.navbar-inverse#navbar
                 span.glyphicon.glyphicon-user  Contractor
      else
       ul.nav.navbar-nav.navbar-right
-        li
-          a
+        li.dropdown
+          a.btn.dropbtn
            span.glyphicon.glyphicon-user  
               span=user.name
               span=user.firstName 
               span=user.lastName
+          div.dropdown-content.list-group
+              a.btn.btn-block.list-group-item(href="/") Sign Out
+
+
 
 
 

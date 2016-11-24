@@ -75,6 +75,6 @@ $('[data-toggle=tab]').click(function(){
 
  });
 
-
+  $('.sidebar').css('top',$('#navbar').height());
 });
 			 
