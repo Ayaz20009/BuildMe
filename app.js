@@ -26,6 +26,7 @@ var test = sql.authenticate()
 
 app.set('view engine','pug');
 app.set('views', `${__dirname}/views/`);
+app.locals.basedir = app.get('views');
 
 app.use(require('./controllers/'));
 // app.get('/',function(req,res){

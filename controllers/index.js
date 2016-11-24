@@ -12,6 +12,8 @@ const router = express.Router();
 //     const fileName = file.substr(0, file.length - 3);
 //     router.use(`/${fileName}`, require(`./${fileName}`).registerRouter());
 //   });
+router.use('/homeowner', require('./homeowner'));
+router.use('/contractor', require('./contractor'))
 
 router.get('/', (req, res) => {
   res.render('index');
@@ -77,10 +79,6 @@ router.get('/jobs', function(req, res) {
   res.render('jobs', {title: 'Jobs'})
 });
 
-router.get('/dashboard', function(req, res) {
-  res.render('dashboard', {title: 'Dashboard'})
-});
-
 router.get('/howitworks', function(req, res) {
   res.render('HowitWorks', {title: 'How it Works'})
 });
@@ -101,6 +99,37 @@ router.get('/contractor-signup', function(req, res) {
   res.render('signup', {title: 'Sign Up'})
 });
 
+
+// router.get('/contractor/dashboard', function(req, res) {
+//   res.render('contractor/dashboard', {title: 'dashboard'})
+// });
+
+// router.post('/contractor/dashboard', function(req, res) {
+
+//   var email = req.body.input_conEmail;
+//   var pass = req.body.input_conPass;
+//   models.contractors.findOne({
+//       where: {
+//          email: email ,
+//          password:pass,
+//      }
+//   }).then(function(user){
+
+//       if(user){
+//           console.log(user);
+//           res.render('/contractor/dashboard', {title: 'Welcome', data: user.dataValues})
+//       }
+//       else
+//           return res.redirect('/login');
+
+//   });
+// //   .then((contractors) => {
+
+// //        res.render('contractor/dashboard', {title: 'Welcome', name: req.body.input_conEmail})
+// //     }).catch(() => {
+// //         res.send('ERROR');
+// //     });;
+// });
 
 
 module.exports = router;
