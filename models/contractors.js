@@ -1,4 +1,7 @@
 'use strict';
+const bcrypt = require('bcrypt-nodejs');
+const Sequelize = require('sequelize');
+
 module.exports = function(sequelize, DataTypes) {
   var contractors = sequelize.define('contractors', {
     name: DataTypes.STRING,
@@ -14,5 +17,18 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
+
+  contractors.beforeCreate((contractors) =>
+    new sequelize.Promise((resolve) =>{
+      bcrypt.hash(contractors.password, null, null, (err, hashedPassword) => {
+        resolve(hashedPassword);
+      });
+      }).then((hasedPw) => {
+        contractors.password = hasedPw;
+      })
+      );
+
+
+
   return contractors;
 };

@@ -14,8 +14,9 @@ router.get('/dashboard', function(req, res) {
 });
 
 router.post('/dashboard', function(req, res) {
-  var email = req.body.input_hoEmail;
-  var pass = req.body.input_hoPass;
+  var email = req.body.home_email;
+  var pass = req.body.home_pass;
+  console.log(email)
   models.homeowners.findOne({
       where: {
          email: email,

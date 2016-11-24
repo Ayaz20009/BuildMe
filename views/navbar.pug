@@ -1,4 +1,3 @@
-//- include dialog.pug
 nav.navbar.navbar-inverse#navbar
    div.container-fluid
      div.navbar-header
@@ -10,12 +9,8 @@ nav.navbar.navbar-inverse#navbar
            a(href="/jobs") Jobs
         li
            a(href="/searchajob") Search A Job
-     //- form.navbar-form.navbar-left
-     //-    div.form-group
-     //-       input.form-control(placeholder="Search A Job")
-     //-    button.btn.btn-primary(type="submit") Submit
      if !user
-       ul.nav.navbar-nav.navbar-right
+      ul.nav.navbar-nav.navbar-right
           li
             a
               span #{Fname} #{Lname}

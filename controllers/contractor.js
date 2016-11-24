@@ -14,8 +14,8 @@ router.get('/dashboard', function(req, res) {
 });
 
 router.post('/dashboard', function(req, res) {
-  var email = req.body.input_conEmail;
-  var pass = req.body.input_conPass;
+  var email = req.body.con_email;
+  var pass = req.body.con_pass;
   models.contractors.findOne({
       where: {
          email: email,
