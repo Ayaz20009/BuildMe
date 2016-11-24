@@ -76,5 +76,13 @@ $('[data-toggle=tab]').click(function(){
  });
 
   $('.sidebar').css('top',$('#navbar').height());
+
+//add class btn-default to current option 
+var url      = window.location.href;
+var urlSplit = url.split("/");
+var path = urlSplit[3] + "/" + urlSplit[4];
+$('a[href*="'+ path +'"]').addClass("btn-default").siblings().removeClass("btn-default");
+
+
 });
-			 
+
