@@ -81,8 +81,10 @@ $('[data-toggle=tab]').click(function(){
 var url      = window.location.href;
 var urlSplit = url.split("/");
 var path = urlSplit[3] + "/" + urlSplit[4];
-$('a[href*="'+ path +'"]').addClass("btn-default").siblings().removeClass("btn-default");
+$('a[href*="'+ path +'"]').addClass("btn-primary").siblings().removeClass("primary");
 
-
+$("#btnSubmit").click(function(){
+    // alert($('[name="proj_state"]').val());
+});
 });
 

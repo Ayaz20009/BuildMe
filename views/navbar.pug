@@ -1,4 +1,4 @@
-nav.navbar.navbar-inverse.navbar-fixed-top#navbar
+nav.navbar.navbar-default.navbar-fixed-top#navbar
    div.container-fluid
      div.navbar-header.col-sm-3.col-md-2
         a.navbar-brand(href="/") BuildMe
@@ -35,8 +35,12 @@ nav.navbar.navbar-inverse.navbar-fixed-top#navbar
               span=user.name
               span=user.firstName 
               span=user.lastName
-          div.dropdown-content.list-group
-              a.btn.btn-block.list-group-item(href="/") Sign Out
+          div.dropdown-content.list-group(style="width:100%")
+            if user.name
+              a.btn.list-group-item(href="/contractor/dashboard") Dashboard
+            else
+              a.btn.list-group-item(href="/homeowner/dashboard") Dashboard
+            a.btn.list-group-item(href="/") Logout
 
 
 

@@ -1,3 +1,39 @@
 include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-	h1 this is for homeowner create a job 
+  form.form-horizontal.col-lg-11
+   fieldset
+    legend Creat A project
+    div.form-group
+      lable.col-lg-2.control-label(for="proj_desc") Project Description
+      div.col-lg-10
+       textarea.form-control(name="proj_desc",placeholder="Project Description")
+    div.form-group
+      lable.col-lg-2.control-label(for="proj_img") Upload Images
+      div.col-lg-10
+        input.form-control(type="text",name="pproj_img")
+    div.form-group
+      lable.col-lg-2.control-label(for="proj_street") Street
+      div.col-lg-10
+        input.form-control(type="text",name="proj_street")
+    div.form-group
+      lable.col-lg-2.control-label(for="proj_city") City
+      div.col-lg-4
+        input.form-control(type="text",name="proj_city")
+    div.form-group
+      lable.col-lg-2.control-label(for="proj_state") State
+      div.col-lg-4.bfh-selectbox.bfh-states(data-country="US",name="proj_state")
+        input(type="hidden",value="")
+        a.bfh-selectbox-toggle(role="button",data-toggle="bfh-selectbox")
+          span.bfh-selectbox-option.input-medium(data-option="")
+          b.caret
+        div.bfh-selectbox-options
+        div(role="listbox")
+          ul(role="option")
+    div.form-group
+      lable.col-lg-2.control-label(for="proj_zip") Zipcode
+      div.col-lg-4
+        input.form-control(type="text",name="proj_zip")
+    div.form-group
+      div.col-lg-10.col-lg-offset-2
+        button.btn.btn-default.col-lg-2(type="reset") Cancel
+        button.btn.btn-primary.col-lg-2(id="btnSubmit") Submit

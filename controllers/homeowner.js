@@ -4,6 +4,7 @@ const express = require('express');
 const models = require('../models');
 const router = express.Router();
 var homeowner = require('../controllers/homeowner');
+var session;
 
 router.route('/homeowner')
 
@@ -25,6 +26,7 @@ router.post('/dashboard', function(req, res) {
   }).then(function(user){
 
       if(user){
+          session = user.dataValues;
           console.log(user);
           res.render('homeowner/dashboard', {title: user.dataValues.firstName, user: user.dataValues})
       }
@@ -38,37 +40,37 @@ router.post('/dashboard', function(req, res) {
 
 router.get('/pendingjobs', function(req, res) {
   res.render('homeowner/pendingjobs', 
-    {title: "Pending jobs"}
+    {title: "Pending jobs", user: session}
     )
 });
 
 router.get('/createjob', function(req, res) {
   res.render('homeowner/createjob', 
-    {title: "Create a job"}
+    {title: "Create a job", user: session}
     )
 });
 
 router.get('/completedjobs', function(req, res) {
   res.render('homeowner/completedjobs', 
-    {title: "completedjobs"}
+    {title: "completedjobs", user: session}
     )
 });
 
 router.get('/overview', function(req, res) {
   res.render('homeowner/overview', 
-    {title: "overview"}
+    {title: "overview",user: session}
     )
 });
 
 router.get('/message', function(req, res) {
   res.render('homeowner/message', 
-    {title: "message"}
+    {title: "message", user: session}
     )
 });
 
 router.get('/profile', function(req, res) {
   res.render('homeowner/profile', 
-    {title: "profile"}
+    {title: "profile", user: session}
     )
 });
 

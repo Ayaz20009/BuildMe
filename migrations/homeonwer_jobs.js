@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       hoID: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       jobDesc: {
