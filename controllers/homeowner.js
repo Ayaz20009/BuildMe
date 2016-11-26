@@ -17,17 +17,15 @@ router.get('/dashboard', function(req, res) {
 router.post('/dashboard', function(req, res) {
   var email = req.body.home_email;
   var pass = req.body.home_pass;
-  console.log(email)
   models.homeowners.findOne({
       where: {
          email: email,
          // password:pass,
-     }
+     },
   }).then(function(user){
 
       if(user){
           session = user.dataValues;
-          console.log(user);
           res.render('homeowner/dashboard', {title: user.dataValues.firstName, user: user.dataValues})
       }
       else{
@@ -39,9 +37,57 @@ router.post('/dashboard', function(req, res) {
 });
 
 router.get('/pendingjobs', function(req, res) {
-  res.render('homeowner/pendingjobs', 
-    {title: "Pending jobs", user: session}
-    )
+
+  //find projects that were created by this user
+  models.homeowner_jobs.findAll({
+      where: {
+         hoID: session.id,
+     },
+     order: '"createdAt" DESC',
+  }).then(function(projects){
+
+      if(projects){
+          console.log(projects);
+          res.render('homeowner/pendingjobs', 
+          {title: "Pending jobs", user: session, projects: projects})
+      }
+      else{
+
+      }
+
+  });
+
+});
+
+router.post('/createjob', function(req, res) {
+  var hoID = session.id;
+  var desc = req.body.proj_desc;
+  var street = req.body.proj_street;
+  var city = req.body.proj_city;
+  var state = req.body.proj_state;
+  var zipcode = req.body.proj_zip;
+
+  if(hoID && desc && street && city && state){
+
+    models.homeowner_jobs.create({
+       hoID: hoID,
+       jobDesc: desc,
+       street: street,
+       city: city,
+       state: state,
+       zipcode: zipcode, 
+
+    }).then(function(project){
+
+      if(project){
+          return res.redirect('/homeowner/pendingjobs');
+      }
+      else
+        res.render('homeowner/createjob',{title: "Error", user: session}) 
+    });
+  }
+  else
+    res.render('homeowner/createjob',{title: "Error", user: session}) 
 });
 
 router.get('/createjob', function(req, res) {

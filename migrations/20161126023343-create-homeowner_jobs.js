@@ -2,7 +2,7 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('homeowner_jobs', {
-      jobID: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -27,10 +27,7 @@ module.exports = {
       zipcode: {
         type: Sequelize.INTEGER
       },
-      hours: {
-         type: Sequelize.INTEGER
-      },
-      salary : {
+      cost: {
          type: Sequelize.DOUBLE
       },
       coID: {

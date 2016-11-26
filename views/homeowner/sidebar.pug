@@ -1,22 +1,22 @@
 div.col-sm-3.col-md-2.sidebar
   ul.nav.nav-sidebar.list-group.table-of-contents
     li
-      //- i.fa.fa-user= user.firstName
-    li
-      a.list-group-item(href="/homeowner/pendingjobs")
+      i.fa.fa-user= '  id: ' + user.id
+    li.list-group-item
+      a.btn(href="/homeowner/pendingjobs")
        i.fa.fa-tasks &nbsp;&nbsp; Pending Jobs
-    li
-      a.list-group-item(href="/homeowner/createjob")
+    li.list-group-item
+      a.btn(href="/homeowner/createjob")
        i.fa.fa-plus-square-o &nbsp;&nbsp; Create a Job
-    li
-      a.list-group-item(href="/homeowner/completedjobs")
+    li.list-group-item
+      a.btn(href="/homeowner/completedjobs")
        i.fa.fa-check-circle &nbsp;&nbsp; Completed Jobs
-    li
-      a.list-group-item(href="/homeowner/overview")
+    li.list-group-item
+      a.btn(href="/homeowner/overview")
        i.fa.fa-bar-chart &nbsp;&nbsp; Overview
-    li
-      a.list-group-item(href="/homeowner/message") 
+    li.list-group-item
+      a.btn(href="/homeowner/message") 
        i.fa.fa-envelope &nbsp;&nbsp; Message
-    li
-      a.list-group-item(href="/homeowner/profile") 
+    li.list-group-item
+      a.btn(href="/homeowner/profile") 
        i.fa.fa-address-card-o &nbsp;&nbsp; Profile

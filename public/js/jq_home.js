@@ -15,6 +15,8 @@ $(".ui-dialog").dialog({
 
 });
 
+$('.dropdown-toggle').dropdown();
+
 $(".dropdown-content a").css("background-color",$("#navbar").css("background-color"));
 // $(".ui-dialog-titlebar").hide();
  // $("#dlgLogin").dialog({
@@ -34,6 +36,15 @@ $(".dropdown-content a").css("background-color",$("#navbar").css("background-col
 // $('.nav-tabs a').click(function(){
 //     $(this).tab('show');
 // });
+
+$("input.numeric").keyup(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("input.numeric").val("");
+
+    }
+});
 
 $('[data-toggle=tab]').click(function(){
 
@@ -81,7 +92,7 @@ $('[data-toggle=tab]').click(function(){
 var url      = window.location.href;
 var urlSplit = url.split("/");
 var path = urlSplit[3] + "/" + urlSplit[4];
-$('a[href*="'+ path +'"]').addClass("btn-primary").siblings().removeClass("primary");
+$('a[href*="'+ path +'"]').addClass("btn-success").siblings().removeClass("btn-success");
 
 $('#btnEditProfile').click(function(){
 

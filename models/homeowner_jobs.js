@@ -1,10 +1,11 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var homeowner_jobs = sequelize.define('homeowner_jobs', {
-    jobID: DataTypes.INTEGER,
     hoID: DataTypes.INTEGER,
     jobDesc: DataTypes.TEXT,
-    address: DataTypes.STRING,
+    street: DataTypes.STRING,
+    city:DataTypes.STRING,
+    state:DataTypes.STRING,
     zipcode: DataTypes.INTEGER,
   }, {
     classMethods: {
