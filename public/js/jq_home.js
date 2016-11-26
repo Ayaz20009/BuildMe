@@ -96,15 +96,21 @@ $('a[href*="'+ path +'"]').addClass("btn-success").siblings().removeClass("btn-s
 
 
 $('#btnEditProfile').click(function(){
+
    $(this).addClass("hidden").siblings().removeClass("hidden");
-   $('input.form-control').removeClass("hidden").siblings('div.form-control').addClass('hidden');
+   var input =  $(this).closest('form').find('input.form-control');
+   input.removeClass("hidden").prev().addClass('hidden');
 });
 
 $("#btnCancel").click(function(){
 
-   $('#btnEditProfile').removeClass("hidden").siblings().addClass("hidden");
-   $(this).closet('form').find('input.form-control').addClass("hidden").siblings('div.form-control').removeClass('hidden');
+   var input =  $(this).closest('form').find('input.form-control');
+   input.each(function(){
+     $(this).addClass("hidden").val($(this).prev().text()).prev().removeClass('hidden');
 
+   });
+
+   $('#btnEditProfile').removeClass("hidden").siblings().addClass("hidden");
 });
 
 $("#btnPass").click(function(){
@@ -112,7 +118,7 @@ $("#btnPass").click(function(){
 });
 
 $("#btnCancelPass").click(function(){
-  $("#formPass").addClass("hidden");
+  $("#formPass").addClass("hidden").find('input').val("");
 
 });
 
