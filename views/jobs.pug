@@ -1,3 +1,9 @@
 include base.pug
-h1 This is the jobs Page
-		
+div(align="center")
+if projects
+each project in projects
+ div.panel.panel-success(id=project.id,style="width:90%;margin:auto")
+ div.panel-body
+  div=project.jobDesc
+  div=project.street + "," + project.city + " " + project.state + " " + project.zipcode
+  div='Created By: ' + project.hoID

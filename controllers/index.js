@@ -84,7 +84,16 @@ router.post('/homeowner-signup',function(req,res,next){
 });
 
 router.get('/jobs', function(req, res) {
-  res.render('jobs', {title: 'Jobs'})
+
+  models.homeowner_jobs.findAll()
+  .then(function(projects){
+    if(projects){
+      console.log(projects);
+      res.render('jobs', {title: 'Jobs',projects:projects});
+    }
+       
+  });
+  
 });
 
 router.get('/howitworks', function(req, res) {
