@@ -83,8 +83,20 @@ var urlSplit = url.split("/");
 var path = urlSplit[3] + "/" + urlSplit[4];
 $('a[href*="'+ path +'"]').addClass("btn-primary").siblings().removeClass("primary");
 
-$("#btnSubmit").click(function(){
-    // alert($('[name="proj_state"]').val());
+$('#btnEditProfile').click(function(){
+
+   $(this).addClass("hidden").siblings().removeClass("hidden");
+   $('input.form-control').removeClass("hidden").siblings('div.form-control').addClass('hidden');
+
 });
+
+$("#btnCancel").click(function(){
+
+   $('#btnEditProfile').removeClass("hidden").siblings().addClass("hidden");
+   $('input.form-control').addClass("hidden").siblings('div.form-control').removeClass('hidden');
+
+});
+
+
 });
 

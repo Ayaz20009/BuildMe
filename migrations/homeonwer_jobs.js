@@ -15,13 +15,19 @@ module.exports = {
       jobDesc: {
         type: Sequelize.TEXT
       },
-      address: {
+      street: {
+        type: Sequelize.STRING
+      },
+      city: {
+        type: Sequelize.STRING
+      },
+      state: {
         type: Sequelize.STRING
       },
       zipcode: {
         type: Sequelize.INTEGER
       },
-      hours : {
+      hours: {
          type: Sequelize.INTEGER
       },
       salary : {

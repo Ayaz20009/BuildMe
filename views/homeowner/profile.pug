@@ -1,7 +1,30 @@
 include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-	p=user.id
-	p=user.firstName
-	p=user.lastName
-	p=user.zipcode
-	p=user.email
+  form.form-horizontal.col-lg-11
+   fieldset
+    legend= user.firstName + "'s Profile"
+    div.form-group
+      lable.col-lg-2.control-label(for="ho_Fname") First Name
+      div.col-lg-10
+       div.form-control=user.firstName
+       input.form-control.hidden(name="ho_Fname",value=user.firstName)
+    div.form-group
+      lable.col-lg-2.control-label(for="ho_Lname") Last Name
+      div.col-lg-10
+       div.form-control=user.lastName
+       input.form-control.hidden(name="ho_Lname",value=user.lastName)
+    div.form-group
+      lable.col-lg-2.control-label(for="ho_email") Email
+      div.col-lg-10
+       div.form-control=user.email
+       input.form-control.hidden(name="ho_email",value=user.email)
+    div.form-group
+      lable.col-lg-2.control-label(for="ho_zip") Zipcode
+      div.col-lg-10
+       div.form-control=user.zipcode
+       input.form-control.hidden(name="ho_zip",value=user.zipcode)
+    div.form-group
+      div.col-lg-10.col-lg-offset-2
+        div#btnEditProfile.btn.btn-primary.col-lg-2 Edit
+        div#btnCancel.btn.btn-default.col-lg-2.hidden Cancel
+        button.btn.btn-primary.col-lg-2.hidden Submit
