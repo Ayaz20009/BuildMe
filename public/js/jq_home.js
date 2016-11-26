@@ -81,7 +81,21 @@ $('[data-toggle=tab]').click(function(){
 var url      = window.location.href;
 var urlSplit = url.split("/");
 var path = urlSplit[3] + "/" + urlSplit[4];
-$('a[href*="'+ path +'"]').addClass("btn-default").siblings().removeClass("btn-default");
+$('a[href*="'+ path +'"]').addClass("btn-primary").siblings().removeClass("primary");
+
+$('#btnEditProfile').click(function(){
+
+   $(this).addClass("hidden").siblings().removeClass("hidden");
+   $('input.form-control').removeClass("hidden").siblings('div.form-control').addClass('hidden');
+
+});
+
+$("#btnCancel").click(function(){
+
+   $('#btnEditProfile').removeClass("hidden").siblings().addClass("hidden");
+   $('input.form-control').addClass("hidden").siblings('div.form-control').removeClass('hidden');
+
+});
 
 
 });

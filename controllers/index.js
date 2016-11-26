@@ -99,6 +99,16 @@ router.get('/login', function(req, res) {
   res.render('login', {title: 'Login'})
 });
 
+router.get('/login', function(req, res) {
+  req.session.destroy(function(err) {
+  if(err) {
+    console.log(err);
+  } else {
+    res.redirect('/');
+  }
+  });
+});
+
 router.get('/homeowners-signup', function(req, res) {
   res.render('signup', {title: 'Sign Up'})
 });
@@ -106,6 +116,5 @@ router.get('/homeowners-signup', function(req, res) {
 router.get('/contractor-signup', function(req, res) {
   res.render('signup', {title: 'Sign Up'})
 });
-
 
 module.exports = router;
