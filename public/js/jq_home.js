@@ -11,31 +11,15 @@ $(".ui-dialog").dialog({
         $( this ).dialog( "close" );
       }
     }
-  ]
+  ],
+  position: {my: "center", at: "center", of: window}
 
 });
 
-// $('.dropdown-toggle').dropdown();
+$('.dropdown-toggle').dropdown();
 
-$(".dropdown-content a").css("background-color",$("#navbar").css("background-color"));
-// $(".ui-dialog-titlebar").hide();
- // $("#dlgLogin").dialog({
- //     width:500,
- //     show:'fade',
- //     hide: 'blind',
- //     draggable: false,
- //     resizable: false,
- //  });
+$(".ui-dialog-titlebar").hide();
 
- // $("#btnLogin").click(function(){
- 
- //     $("#dlgLogin").dialog("open");
-       
- // });
-
-// $('.nav-tabs a').click(function(){
-//     $(this).tab('show');
-// });
 
 $("input.numeric").keyup(function (e) {
      //if the letter is not digit then display error and don't type anything
@@ -45,11 +29,12 @@ $("input.numeric").keyup(function (e) {
     }
 });
 
-$('[data-toggle=tab]').click(function(){
-
-  $(this).addClass('active').siblings().removeClass('active');
-  $($(this).attr('href')).addClass('active').siblings().removeClass('active');
-
+$('a[data-toggle=tab]').click(function(){
+ 
+  if($(this).text() == "Homeowner")
+    $(this).closest('.panel').removeClass('panel-primary').addClass('panel-success');
+  else
+    $(this).closest('.panel').removeClass('panel-success').addClass('panel-primary');
 });
 
 
@@ -67,24 +52,6 @@ $('[data-toggle=tab]').click(function(){
     $(".btnDays").removeClass("btn-info");
  });
 
-
-
-
- $(".btnUserType").click(function(){
-
-    $(this).addClass("btn-info").siblings().removeClass("btn-info");
-
- });
-
-
-
- $('[data-toggle=tab]').click(function(){
-  var li = $(this).parent();
-  li.addClass("in active").siblings().removeClass("in active");
-   var link = $(this).attr('href');
-   $(link).addClass("in active").siblings().removeClass("in active");
-
- });
 
   $('.sidebar').css('top',$('#navbar').height());
 
@@ -122,6 +89,22 @@ $("#btnCancelPass").click(function(){
 
 });
 
+//select project set proj_id
+$(".btnSelect").click(function(){
+  
+  var panel = $(this).closest('.panel');
+  var proj_id = panel.attr('id');
+  $('input[name=proj_id]').val(proj_id);
+
+});
+
+$(".btnDelete").click(function(){
+
+  var panel_body_html = $(this).closest('.panel').children('.panel-body').html()
+  $('#modal_delete').find('.modal-body').html(panel_body_html);
+});
+
+// $('#dlg_delete').dialog('option', 'position',  {my: "center", at: "center", of: window});
 
 });
 

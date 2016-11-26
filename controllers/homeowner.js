@@ -47,7 +47,7 @@ router.get('/pendingjobs', function(req, res) {
   }).then(function(projects){
 
       if(projects){
-          console.log(projects);
+          // console.log(projects);
           res.render('homeowner/pendingjobs', 
           {title: "Pending jobs", user: session, projects: projects})
       }
@@ -56,6 +56,22 @@ router.get('/pendingjobs', function(req, res) {
       }
 
   });
+
+});
+
+
+router.delete('/pendingjobs',function(req,res){
+
+  console.log(req.body.proj_id);
+  models.homeowner_jobs.findByID(req.body.proj_id).on('success', function(project) {
+
+     project.destroy().on('success', function(u) {
+      if (u && u.deletedAt) {
+      // successfully deleted the project
+       return res.redirect('/homeonwer/pendingjobs');
+    }
+  })
+})
 
 });
 

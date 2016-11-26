@@ -1,5 +1,6 @@
 include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
+ input.hidden(name="proj_id")
  if !projects
    h2 you have no project yet
  else
@@ -10,9 +11,9 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
         a.btn.dropbtn
          span.caret
         div.dropdown-content
-         a.btn.btn-sm.btn-success.btn-block Detail
-         a.btn.btn-sm.btn-info.btn-block Edit
-         a.btn.btn-sm.btn-danger.btn-block Delete
+         button.btnDetail.btnSelect.btn.btn-sm.btn-info.btn-block Detail
+         button.btnUpdate.btnSelect.btn.btn-sm.btn-success.btn-block Update
+         button.btnDelete.btnSelect.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete") Delete
       div.panel-body
        div.row
         label.col-lg-2.control-label Descrption
@@ -23,3 +24,4 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
        div.row
         label.col-lg-2.control-label Create At
         div.col-lg-10=project.createdAt
+include dialog.pug
