@@ -1,6 +1,6 @@
 include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-  form.form-horizontal.col-lg-11
+  form.form-horizontal.col-lg-11(action="/homeowner/profile",method="post")
    fieldset
     legend= user.firstName + "'s Profile"
     div.form-group
@@ -22,9 +22,31 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
       lable.col-lg-2.control-label(for="ho_zip") Zipcode
       div.col-lg-10
        div.form-control=user.zipcode
-       input.form-control.hidden(name="ho_zip",value=user.zipcode)
+       input.form-control.numeric.hidden(name="ho_zip",value=user.zipcode)
     div.form-group
       div.col-lg-10.col-lg-offset-2
-        div#btnEditProfile.btn.btn-primary.col-lg-2 Edit
-        div#btnCancel.btn.btn-default.col-lg-2.hidden Cancel
-        button.btn.btn-primary.col-lg-2.hidden Submit
+        div#btnEditProfile.btn.btn-primary.col-lg-3 Edit
+        div#btnCancel.btn.btn-default.col-lg-3.hidden Cancel
+        button.btn.btn-primary.col-lg-3.hidden Submit
+  form.form-horizontal.col-lg-11()
+   fieldset
+    div.form-group
+      div.col-lg-10.col-lg-offset-2
+        div.btn.btn-warning.col-lg-3#btnPass Change Password
+    div#formPass.row.hidden
+      div.form-group
+        lable.col-lg-2.control-label Old Password
+        div.col-lg-10
+          input.form-control(type="Password",name="old_pass")
+      div.form-group
+        lable.col-lg-2.control-label New Password
+        div.col-lg-10
+          input.form-control(type="Password",name="new_pass")
+      div.form-group
+        lable.col-lg-2.control-label Type Again
+        div.col-lg-10
+          input.form-control(type="Password",name="new_pass_2")
+      div.form-group
+      div.col-lg-10.col-lg-offset-2
+        div#btnCancelPass.btn.btn-default.col-lg-3 Cancel
+        button.btn.btn-primary.col-lg-3 Submit

@@ -20,7 +20,7 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
           li.dropdown
             a.btn.dropbtn
               span.glyphicon.glyphicon-user  Sign up
-            div.dropdown-content.bg-success
+            div.dropdown-content.bg-success(style="width:15vw")
               a.btn.btn-primary.btn-block(href="/homeowner-signup")
                 span.glyphicon.glyphicon-home
                 span.glyphicon.glyphicon-user  Homeowner
@@ -33,9 +33,9 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
           a.btn.dropbtn
            span.glyphicon.glyphicon-user  
               span=user.name
-              span=user.firstName 
+              span=user.firstName + "  "
               span=user.lastName
-          div.dropdown-content.bg-success(style="width:100%")
+          div.dropdown-content.bg-success(style="width:15vw")
             if user.name
               a.btn.btn-primary.btn-block(href="/contractor/dashboard") Dashboard
             else

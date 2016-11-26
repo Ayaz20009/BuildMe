@@ -115,9 +115,40 @@ router.get('/message', function(req, res) {
 });
 
 router.get('/profile', function(req, res) {
+
   res.render('homeowner/profile', 
     {title: "profile", user: session}
     )
+
+});
+
+router.post('/profile', function(req, res) {
+
+  var firstName = req.body.ho_Fname;
+  var lastName = req.body.ho_Lname;
+  var email = req.body.ho_email;
+  var zipcode = req.body.ho_zip;
+  var pass = req.body.ho_pass;
+
+  models.homeowners.findOne({
+      where: {
+         id: session.id,
+     }
+  }).then(function(user){
+      if(user){
+          user.updateAttributes({
+            firstName :firstName,
+            lastName : lastName,
+            email : email,
+            zipcode : zipcode,
+            // pass : pass,
+          })
+          .then(function(user){
+            session = user.dataValues;
+            res.render('homeowner/profile', {title: "profile", user: session})
+          });
+      }
+    });
 });
 
 

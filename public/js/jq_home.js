@@ -15,7 +15,7 @@ $(".ui-dialog").dialog({
 
 });
 
-$('.dropdown-toggle').dropdown();
+// $('.dropdown-toggle').dropdown();
 
 $(".dropdown-content a").css("background-color",$("#navbar").css("background-color"));
 // $(".ui-dialog-titlebar").hide();
@@ -42,7 +42,6 @@ $("input.numeric").keyup(function (e) {
      if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
         //display error message
         $("input.numeric").val("");
-
     }
 });
 
@@ -52,6 +51,7 @@ $('[data-toggle=tab]').click(function(){
   $($(this).attr('href')).addClass('active').siblings().removeClass('active');
 
 });
+
 
  $( "#datepicker" ).datepicker();
 
@@ -94,17 +94,25 @@ var urlSplit = url.split("/");
 var path = urlSplit[3] + "/" + urlSplit[4];
 $('a[href*="'+ path +'"]').addClass("btn-success").siblings().removeClass("btn-success");
 
-$('#btnEditProfile').click(function(){
 
+$('#btnEditProfile').click(function(){
    $(this).addClass("hidden").siblings().removeClass("hidden");
    $('input.form-control').removeClass("hidden").siblings('div.form-control').addClass('hidden');
-
 });
 
 $("#btnCancel").click(function(){
 
    $('#btnEditProfile').removeClass("hidden").siblings().addClass("hidden");
-   $('input.form-control').addClass("hidden").siblings('div.form-control').removeClass('hidden');
+   $(this).closet('form').find('input.form-control').addClass("hidden").siblings('div.form-control').removeClass('hidden');
+
+});
+
+$("#btnPass").click(function(){
+   $("#formPass").removeClass("hidden");
+});
+
+$("#btnCancelPass").click(function(){
+  $("#formPass").addClass("hidden");
 
 });
 
