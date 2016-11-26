@@ -1,3 +1,25 @@
 include dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
- h1 this is for homeowner pending job 
+div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
+ if !projects
+   h2 you have no project yet
+ else
+   each project in projects
+    div.panel.panel-default(id=project.id)
+      div.panel-heading.text-right(style="padding:0")
+       div.dropdown
+        a.btn.dropbtn
+         span.caret
+        div.dropdown-content
+         a.btn.btn-sm.btn-success.btn-block Detail
+         a.btn.btn-sm.btn-info.btn-block Edit
+         a.btn.btn-sm.btn-danger.btn-block Delete
+      div.panel-body
+       div.row
+        label.col-lg-2.control-label Descrption
+        div.col-lg-10=project.jobDesc
+       div.row
+        label.col-lg-2.control-label Address
+        div.col-lg-10=project.street + "," + project.city + " " + project.state + " " + project.zipcode
+       div.row
+        label.col-lg-2.control-label Create At
+        div.col-lg-10=project.createdAt

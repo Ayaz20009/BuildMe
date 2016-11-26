@@ -20,11 +20,11 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
           li.dropdown
             a.btn.dropbtn
               span.glyphicon.glyphicon-user  Sign up
-            div.dropdown-content.list-group
-              a.list-group-item.btn(href="/homeowner-signup")
+            div.dropdown-content.bg-success
+              a.btn.btn-primary.btn-block(href="/homeowner-signup")
                 span.glyphicon.glyphicon-home
                 span.glyphicon.glyphicon-user  Homeowner
-              a.list-group-item.btn(href="/contractor-signup") 
+              a.btn.btn-primary.btn-block(href="/contractor-signup") 
                 span.glyphicon.glyphicon-wrench
                 span.glyphicon.glyphicon-user  Contractor
      else
@@ -35,12 +35,12 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
               span=user.name
               span=user.firstName 
               span=user.lastName
-          div.dropdown-content.list-group(style="width:100%")
+          div.dropdown-content.bg-success(style="width:100%")
             if user.name
-              a.btn.list-group-item(href="/contractor/dashboard") Dashboard
+              a.btn.btn-primary.btn-block(href="/contractor/dashboard") Dashboard
             else
-              a.btn.list-group-item(href="/homeowner/dashboard") Dashboard
-            a.btn.list-group-item(href="/") Logout
+              a.btn.btn-primary.btn-block(href="/homeowner/dashboard") Dashboard
+            a.btn.btn-primary.btn-block(href="/") Logout
 
 
 
