@@ -39,7 +39,7 @@ router.post('/contractor-signup',function(req,res,next){
     email: req.body.email,
     password: req.body.password
     }).then((contractors) => {
-        res.redirect('/contprofile');
+        res.redirect('/login');
     }).catch(() => {
         res.send('ERROR');
     });
@@ -71,7 +71,7 @@ router.post('/homeowner-signup',function(req,res,next){
     email: req.body.email,
     password: req.body.password,
     }).then((homeowners) => {
-        res.redirect('/dashboard');
+        res.redirect('/login');
     }).catch(() => {
         res.send('ERROR');
     });
@@ -91,9 +91,9 @@ router.get('/jobs', function(req, res) {
       console.log(projects);
       res.render('jobs', {title: 'Jobs',projects:projects});
     }
-       
+
   });
-  
+
 });
 
 router.get('/howitworks', function(req, res) {
