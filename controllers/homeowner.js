@@ -13,7 +13,7 @@ client.connect();
 router.route('/contractor')
 
 router.post('/dashboard', function(req, res) {
-  var email = req.body.home_email;
+  var email = req.body.home_email.toLowerCase();
   var pass = req.body.home_pass;
   models.homeowners.findOne({
       where: {
@@ -168,11 +168,8 @@ router.get('/profile', function(req, res) {
 
 router.post('/profile', function(req, res) {
 
-  var firstName = req.body.ho_Fname;
-  var lastName = req.body.ho_Lname;
-  var email = req.body.ho_email;
-  var zipcode = req.body.ho_zip;
-  var pass = req.body.ho_pass;
+  if(!req.session.user)
+     return res.redirect('/login');
 
   models.homeowners.findOne({
       where: {
@@ -181,15 +178,15 @@ router.post('/profile', function(req, res) {
   }).then(function(user){
       if(user){
           user.updateAttributes({
-            firstName :firstName,
-            lastName : lastName,
-            email : email,
-            zipcode : zipcode,
+            firstName : req.body.Fname,
+            lastName :  req.body.Lname,
+            email :     req.body.email.toLowerCase(),
+            zipcode :   req.body.zip,
             // pass : pass,
           })
           .then(function(user){
             
-            res.redirect('homeowner/profile');
+            res.render('homeowner/profile', {title:"profile", user:user, session:req.session});
           });
       }
     });

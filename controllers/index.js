@@ -38,7 +38,8 @@ router.get('/contractor-signup',function(req,res){
 });
 
 router.post('/contractor-signup',function(req,res,next){
-  if(req.body.name &&
+  if(req.body.firstName &&
+    req.body.lastName &&
     req.body.companyName &&
     req.body.phoneNumber &&
     req.body.licenseNumber &&
@@ -46,11 +47,12 @@ router.post('/contractor-signup',function(req,res,next){
     req.body.password){
 
     models.contractors.create({
-    name: req.body.name,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     companyName: req.body.companyName,
     phoneNumber: req.body.phoneNumber,
     licenseNumber: req.body.licenseNumber,
-    email: req.body.email,
+    email: req.body.email.toLowerCase(),
     password: req.body.password
     }).then((contractors) => {
         res.redirect('/login');
@@ -87,7 +89,7 @@ router.post('/homeowner-signup',function(req,res,next){
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     zipcode: req.body.zipcode,
-    email: req.body.email,
+    email: req.body.email.toLowerCase(),
     password: req.body.password,
     }).then((homeowners) => {
         res.redirect('/login');

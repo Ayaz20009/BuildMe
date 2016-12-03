@@ -1,43 +1,38 @@
 include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-  form.form-horizontal.col-lg-11(action="/homeowner/profile",method="post")
+  form.form-horizontal.col-lg-11(action="/contractor/profile",method="post")
    fieldset
     legend= user.name + "'s Profile"
     div.form-group
-      lable.col-lg-2.control-label(for="co_Fname") First Name
+      lable.col-lg-2.control-label(for="Fname") First Name
       div.col-lg-10
-       div.list-group-item=user.name
-       input.form-control.hidden(name="co_Fname",value=user.name)
+       div.list-group-item=user.firstName
+       input.form-control.hidden(name="Fname",value=user.firstName)
     div.form-group
-      lable.col-lg-2.control-label(for="co_Lname") Last Name
+      lable.col-lg-2.control-label(for="Lname") Last Name
       div.col-lg-10
-       div.list-group-item=user.name
-       input.form-control.hidden(name="co_Lname",value=user.name)
+       div.list-group-item=user.lastName
+       input.form-control.hidden(name="Lname",value=user.lastName)
     div.form-group
-      lable.col-lg-2.control-label(for="co_email") Company Name
+      lable.col-lg-2.control-label(for="email") Company Name
       div.col-lg-10
        div.list-group-item=user.companyName
-       input.form-control.hidden(name="co_companyName",value=user.companyName)
+       input.form-control.hidden(name="companyName",value=user.companyName)
     div.form-group
-      lable.col-lg-2.control-label(for="co_phoneNumber") Phone Number
+      lable.col-lg-2.control-label(for="phoneNumber") Phone Number
       div.col-lg-10
        div.list-group-item=user.phoneNumber
-       input.form-control.hidden.numeric(name="co_phoneNumber",value=user.phoneNumber)
+       input.form-control.hidden.numeric(name="phoneNumber",value=user.phoneNumber)
     div.form-group
-      lable.col-lg-2.control-label(for="co_licenseNumber") License Number
+      lable.col-lg-2.control-label.numeric(for="licenseNumber") License Number
       div.col-lg-10
        div.list-group-item=user.licenseNumber
-       input.form-control.hidden.numeric(name="co_licenseNumber",value=user.licenseNumber)
+       input.form-control.hidden.numeric(name="licenseNumber",value=user.licenseNumber)
     div.form-group
-      lable.col-lg-2.control-label(for="co_email") Email
+      lable.col-lg-2.control-label(for="email") Email
       div.col-lg-10
        div.list-group-item=user.email
-       input.form-control.hidden(name="co_email",value=user.email)
-    //- div.form-group
-    //-   lable.col-lg-2.control-label(for="co_zip") Zipcode
-    //-   div.col-lg-10
-    //-    div.list-group-item=user.zipcode
-    //-    input.form-control.numeric.hidden(name="co_zip",value=user.zipcode)
+       input.form-control.numeric.hidden(name="email",value=user.email)
     div.form-group
       div.col-lg-10.col-lg-offset-2
         div#btnEditProfile.btn.btn-primary.col-lg-3 Edit

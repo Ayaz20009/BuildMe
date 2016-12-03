@@ -6,13 +6,15 @@ div(align='center')
       h2 Contractor
       form(action='/contractor-signup', method='post')
         div.form-group(style="margin-top:3%")
-          input.form-control(type="text", id="inputname", name = "name", placeholder="Name",)
+          input.form-control(type="text", id="inputFname", name = "firstName", placeholder="First Name",)
+        div.form-group(style="margin-top:3%")
+          input.form-control(type="text", id="inputLname", name = "lastName", placeholder="Last Name",)
         div.form-group
           input.form-control(type="text", id="inputcompanyName", name="companyName", placeholder="Company Name",)
         div.form-group
-          input.form-control(type="text", id="inputphoneNumber", name="phoneNumber", placeholder="Phone Number",)
+          input.form-control.numeric(type="text", id="inputphoneNumber", name="phoneNumber", placeholder="Phone Number",)
         div.form-group
-          input.form-control(type="text", id="inputlicenseNumber", name="licenseNumber", placeholder="License Number",)
+          input.form-control.numeric(type="text", id="inputlicenseNumber", name="licenseNumber", placeholder="License Number",)
         div.form-group
           input.form-control(type="text", id="inputemail", name="email", placeholder="Email",)
         div.form-group

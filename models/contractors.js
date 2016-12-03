@@ -4,7 +4,8 @@ const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
   var contractors = sequelize.define('contractors', {
-    name: DataTypes.STRING,
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
     companyName: DataTypes.STRING,
     phoneNumber: DataTypes.INTEGER,
     licenseNumber: DataTypes.INTEGER,

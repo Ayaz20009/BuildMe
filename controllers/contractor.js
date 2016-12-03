@@ -19,7 +19,7 @@ router.get('/dashboard', function(req, res) {
 });
 
 router.post('/dashboard', function(req, res) {
-  var email = req.body.con_email;
+  var email = req.body.con_email.toLowerCase();
   var pass = req.body.con_pass;
   models.contractors.findOne({
       where: {
@@ -216,6 +216,9 @@ router.get('/message', function(req,res){
 
 router.get('/profile',function(req,res){
 
+  if(!req.session.user)
+     return res.redirect('/login');
+
  models.contractors.findOne({
       where: {
          id: req.session.userid,
@@ -226,11 +229,36 @@ router.get('/profile',function(req,res){
   });
 });
 
+
+
+//update profile
 router.post('/profile',function(req,res){
 
-   if(!req.session.user)
+  if(!req.session.user)
      return res.redirect('/login');
-   return res.render('contractor/profile', {title: "Profile", session:req.session});
+
+  models.contractors.findOne({
+      where: {
+         id: req.session.userid,
+     }
+  }).then(function(user){
+      if(user){
+          user.updateAttributes({
+            firstName :    req.body.Fname,
+            lastName :     req.body.Lname,
+            email :        req.body.email,
+            companyName :  req.body.companyName,
+            phoneNumber:   req.body.phoneNumber,
+            licenseNumber: req.body.licenseNumber
+            
+          })
+          .then(function(user){
+
+            res.render('contractor/profile', {title:"profile", user:user, session:req.session});
+          });
+      }
+    });
+
 });
 
 
