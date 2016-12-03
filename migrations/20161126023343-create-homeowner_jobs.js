@@ -27,11 +27,13 @@ module.exports = {
       zipcode: {
         type: Sequelize.INTEGER
       },
-      cost: {
-         type: Sequelize.DOUBLE
+      numBids: {
+         type: Sequelize.INTEGER,
+         defaultValue : 0
       },
-      coID: {
+      bidID:{
         type: Sequelize.INTEGER
+
       },
       createdAt: {       
         allowNull: false,

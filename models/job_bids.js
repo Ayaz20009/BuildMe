@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     estCost: DataTypes.INTEGER,
     estTime: DataTypes.INTEGER,
     startDays: DataTypes.INTEGER,
-    comment : DataTypes.STRING,
+    comment : DataTypes.TEXT,
   }, {
     classMethods: {
       associate: function(models) {

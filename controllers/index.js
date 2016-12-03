@@ -4,6 +4,10 @@ const path = require('path');
 const models = require('../models');
 const router = express.Router();
 //const basename = path.basename(module.filename);
+// const pg = require('pg');
+// const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
+// const client = new pg.Client(connectionString);
+// client.connect();
 
 // fs
 //   .readdirSync(__dirname)
@@ -18,10 +22,12 @@ router.use('/homeowner', require('./homeowner'));
 router.use('/contractor', require('./contractor'));
 
 router.get('/', (req, res) => {
+
    if(!req.session.user)
      return res.render('index',{title: "Build Me"});
    else
      return res.render('index',{title: "Build Me", session:req.session});
+
 });
 
 router.get('/contractor-signup',function(req,res){

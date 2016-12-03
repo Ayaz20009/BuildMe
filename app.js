@@ -17,6 +17,12 @@ var sql = new Sequelize('buildme_development', 'pg_user', 'pg_pass', {
     port: 5432,
     dialect: 'postgres'
 });
+
+// const pg = require('pg');
+// const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
+// const client = new pg.Client(connectionString);
+// client.connect();
+
 //Testing the database connection
 var test = sql.authenticate()
     .then(function () {

@@ -10,8 +10,7 @@ router.route('/contractor')
 router.get('/dashboard', function(req, res) {
   if(!req.session.user)
     return res.status(401).send();
-  else
-   return res.render('contractor/dashboard', {title: "Contractor's dashboard", session:req.session})
+  return res.render('contractor/dashboard', {title: "Contractor's dashboard", session:req.session})
 });
 
 router.post('/dashboard', function(req, res) {
@@ -39,112 +38,150 @@ router.post('/dashboard', function(req, res) {
 
 router.get('/openbids', function(req,res){
 
- if(!req.session.user)
-    return res.status(401).send();
-  else{
+   if(!req.session.user)
+      return res.redirect('/login');
 
-
-    //find bidss that were created by this user
+  //find bids;
     models.job_bids.findAll({
-      where: {
-         coID: req.session.userid,
+     where: {
+     coID: req.session.userid,
      },
-      order: '"createdAt" DESC',
-    }).then(function(bids){
+     order: '"createdAt" DESC',
+    })
+    .then(function(bids){
 
-      if(bids){
-        
-         console.log(bids);
-         res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: bids});
-      }
-      else{
-
-      }
+       return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: bids});
 
     });
 
-  }
+  // return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: GetConBids(req.session.userid) });
 
 });
 
+
+
+/*bidding job
+*/
 router.post('/openbids', function(req,res){
 
- if(!req.session.user)
-    return res.status(401).send();
-  else{
+   if(!req.session.user)
+      return res.redirect('/login');
 
-   var jobID = req.body.proj_id;
-   var coID = req.session.userid;
-   var cost = req.body.cost;
-   var time = req.body.time;
-   var ASAP = req.body.ASAP; 
-   var days;
-   if(ASAP)
-    days = 0;
-   else
-    days = 30*req.body.months + 7*req.body.weeks + req.body.days;
-   var comment = req.body.comment;
-   if(jobID && coID && cost && time && days){
+  //find the job
+   models.homeowner_jobs.findOne({
+          where: {
+            id: req.body.proj_id,
+         }
+   }).then(function(job){
 
-     models.job_bids.create({
-       jobID: jobID,
-       coID: coID,
-       estCost: cost,
-       estTime: time,
-       startDays: days,
-       comment : comment,
-     }).then(function(bid){
+    //if find the job
+    if(job){
 
-      if(bid){
-          res.render('contractor/openbids', {title: "Open Bids", session:req.session});
-      }
-      else
-        res.render('/jobs',{title: "Error", session: req.session});
-     });
-   }
-  
-  }
+       var jobID = job.id;
+       var numBids = job.numBids;
+       var coID = req.session.userid;
+       var cost = req.body.cost;
+       var time = req.body.time;
+       var ASAP = req.body.ASAP; 
+       var days = 0;
+       if(!ASAP)
+         days = 30*req.body.months + 7*req.body.weeks + req.body.days;
+       var comment = req.body.comment;
+
+       if(jobID && coID && cost && time && days){
+
+         models.job_bids.create({
+           jobID: jobID,
+           coID: coID,
+           estCost: cost,
+           estTime: time,
+           startDays: days,
+           comment : comment,
+         }).then(function(bid){
+
+          if(bid){
+
+            //update numBids in homeowner_jobs;
+            models.homeowner_jobs.findOne({
+              where: {
+                id: jobID,
+             }
+            })
+            .then(function(home_job){
+                
+              if(home_job){
+
+                home_job.updateAttributes({
+                  numBids : parseInt(numBids) + 1
+                })
+                .then(function(){
+
+                  //find bids for contracors, redirect to openbids
+                    models.job_bids.findAll({
+                     where: {
+                     coID: coID,
+                     },
+                     order: '"createdAt" DESC',
+                    })
+                    .then(function(bids){
+
+                       res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: bids});
+          
+                    });
+                  // res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: GetConBids(coID)});
+                });
+             }
+           });
+
+          }
+          else
+            res.render('/jobs',{title: "Error", session: req.session});
+         });
+       }
+    }
+    //did not find the job : e.g. delelte
+    else{
+
+       res.send("Job doesn't exist");
+    }
+
+  });//find the job
 
 });
 
 
 router.get('/wonbids', function(req,res){
 
- if(!req.session.user)
-    return res.status(401).send();
-  else
-   return res.render('contractor/wonbids', {title: "Won Bids", session:req.session});
+  if(!req.session.user)
+    return res.redirect('/login');
+  return res.render('contractor/wonbids', {title: "Won Bids", session:req.session});
 });
 
 router.get('/ongoingjobs', function(req,res){
 
- if(!req.session.user)
-    return res.status(401).send();
-  else
+    if(!req.session.user)
+     return res.redirect('/login');
    return res.render('contractor/ongoingjobs', {title: "Ongoing jobs", session:req.session});
 });
 
 router.get('/completedjobs', function(req,res){
 
- if(!req.session.user)
-    return res.status(401).send();
-  else
-   return res.render('contractor/completedjobs', {title: "Completed Jobs", session:req.session});
+  if(!req.session.user)
+     return res.redirect('/login');
+  return res.render('contractor/completedjobs', {title: "Completed Jobs", session:req.session});
 });
 
 router.get('/overview', function(req,res){
 
- if(!req.session.user)
-    return res.status(401).send();
-  else
+   if(!req.session.user)
+     return res.redirect('/login');
    return res.render('contractor/overview', {title: "Overview", session:req.session});
 });
 
 router.get('/message', function(req,res){
 
- if(!req.session.user)
-    return res.status(401).send();
-  else
+   if(!req.session.user)
+     return res.redirect('/login');
    return res.render('contractor/message', {title: "Message", session:req.session});
 });
 
@@ -162,12 +199,33 @@ router.get('/profile',function(req,res){
 
 router.post('/profile',function(req,res){
 
- if(!req.session.user)
-    return res.status(401).send();
-  else
+   if(!req.session.user)
+     return res.redirect('/login');
    return res.render('contractor/profile', {title: "Profile", session:req.session});
 });
 
 
+
+
+
+
+/* @coID, integer, contractorID
+Get bids that were created by this contractor
+return bids object
+*/
+function GetConBids(coID){
+
+  // var rs;
+  // //find bidss that were created by this user
+  // return  models.job_bids.findAll({
+  //     where: {
+  //        coID: coID,
+  //    },
+  //     order: '"createdAt" DESC',
+  //   }).then(function(bids){
+
+      
+  //   });
+};
 
 module.exports = router;

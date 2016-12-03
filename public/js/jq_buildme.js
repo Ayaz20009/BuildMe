@@ -80,6 +80,7 @@ $("#btnCancel").click(function(){
    $('#btnEditProfile').removeClass("hidden").siblings().addClass("hidden");
 });
 
+
 $("#btnPass").click(function(){
    $("#formPass").removeClass("hidden");
 });
@@ -98,17 +99,13 @@ $(".btnSelect").click(function(){
 
 });
 
-$(".btnDelete").click(function(){
-
-  var panel_body_html = $(this).closest('.panel').children('.panel-body').html();
-  $('#modal_delete').find('.modal-body').html(panel_body_html);
-});
 
 $(".btnBid").click(function(){
 
-  var job_html = $(this).closest('.panel').find('.jobInfo').html();
-  $('#modal_bid').find('#jobInfo').html(job_html);
+  var jobInfo_html = $(this).closest('.panel').find('.jobInfo').html();
+  $('#modal_bid').find('#jobInfo').html(jobInfo_html);
 });
+
 
 $('#modal_bid [type=checkbox]').change(function(){
 
@@ -121,7 +118,6 @@ $('#modal_bid [type=checkbox]').change(function(){
 
 
 });
-
 
 
 });

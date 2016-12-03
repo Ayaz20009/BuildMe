@@ -6,14 +6,15 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
  else
    each project in projects
     div.panel.panel-default(id=project.id)
-      div.panel-heading.text-right(style="padding:0")
-       div.dropdown
+      div.panel-heading(style="padding:0")
+       a.btn-warning.btn-sm.btn.col-lg-1(href="")=project.numBids
+        i.fa.fa-gavel.pull-left
+       div.dropdown.pull-right
         a.btn.dropbtn
          span.caret
         div.dropdown-content
-         button.btnDetail.btnSelect.btn.btn-sm.btn-info.btn-block Detail
          button.btnUpdate.btnSelect.btn.btn-sm.btn-success.btn-block Update
-         button.btnDelete.btnSelect.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete") Delete
+         button.btnDeleteJob.btnSelect.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
       div.panel-body
        div.row
         label.col-lg-2.control-label Descrption
@@ -24,4 +25,5 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
        div.row
         label.col-lg-2.control-label Create At
         div.col-lg-10=project.createdAt
-include dialog.pug
+
+include modal_delete_job.pug

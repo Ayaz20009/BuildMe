@@ -1,0 +1,11 @@
+div#modal_delete_job.modal.fade(role="dialog")
+ div.modal-dialog 
+  div.modal-content
+   div.modal-header.bg-danger
+    span Are you sure delete this project?
+    a.close(data-dismiss="modal") X 
+   div.modal-body 
+   div.modal-footer 
+    form(action="/pendingjobs",method="delete")
+     button.btn.btn-sm.btn-danger Delete
+     a.btn.btn-default.btn-sm(data-dismiss="modal") Cancel

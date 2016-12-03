@@ -4,6 +4,10 @@ const express = require('express');
 const models = require('../models');
 const router = express.Router();
 var homeowner = require('../controllers/homeowner');
+const pg = require('pg');
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
+const client = new pg.Client(connectionString);
+client.connect();
 
 
 router.route('/contractor')
@@ -19,7 +23,7 @@ router.post('/dashboard', function(req, res) {
   }).then(function(user){
 
       if(user){
-        console.log(user);
+        // console.log(user);
           req.session.user = "homeowner";
           req.session.firstName = user.dataValues.firstName;
           req.session.lastName = user.dataValues.lastName;
@@ -33,15 +37,19 @@ router.post('/dashboard', function(req, res) {
 });
 
 router.get('/dashboard', function(req, res) {
+
   if(!req.session.user)
-    return res.status(401).send();
+    return res.redirect('/login');
   return res.render('homeowner/dashboard', {title: "homeowner's dashboard",session: req.session})
 });
 
 
 router.get('/pendingjobs', function(req, res) {
 
-  //find projects that were created by this user
+  if(!req.session.user)
+    return res.redirect('/login');
+
+//find projects that were created by this user
   models.homeowner_jobs.findAll({
       where: {
          hoID: req.session.userid,
@@ -79,7 +87,7 @@ router.delete('/pendingjobs',function(req,res){
 });
 
 router.post('/createjob', function(req, res) {
-  var hoID = session.id;
+  var hoID = req.session.userid;
   var desc = req.body.proj_desc;
   var street = req.body.proj_street;
   var city = req.body.proj_city;
@@ -109,30 +117,43 @@ router.post('/createjob', function(req, res) {
     res.render('homeowner/createjob',{title: "Error", session: req.session}) 
 });
 
+
 router.get('/createjob', function(req, res) {
-  res.render('homeowner/createjob', 
+
+  if(!req.session.user)
+    return res.redirect('/login');
+  return res.render('homeowner/createjob', 
     {title: "Create a job", session: req.session}
     )
+
 });
 
 router.get('/completedjobs', function(req, res) {
-  res.render('homeowner/completedjobs', 
+  if(!req.session.user)
+    return res.redirect('/login');
+  return res.render('homeowner/completedjobs', 
     {title: "completedjobs", session: req.session}
     )
 });
 
 router.get('/overview', function(req, res) {
-  res.render('homeowner/overview', 
+  if(!req.session.user)
+    return res.redirect('/login');
+  return res.render('homeowner/overview', 
     {title: "overview",session: req.session})
 });
 
 router.get('/message', function(req, res) {
-  res.render('homeowner/message', 
+  if(!req.session.user)
+    return res.redirect('/login');
+  return res.render('homeowner/message', 
     {title: "message", session: req.session}
     )
 });
 
 router.get('/profile', function(req, res) {
+  if(!req.session.user)
+    return res.redirect('/login');
 
   models.homeowners.findOne({
       where: {
