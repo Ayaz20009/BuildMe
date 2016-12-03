@@ -25,7 +25,7 @@ $("input.numeric").keyup(function (e) {
      //if the letter is not digit then display error and don't type anything
      if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
         //display error message
-        $("input.numeric").val("");
+        $(this).val("");
     }
 });
 
@@ -110,9 +110,19 @@ $(".btnBid").click(function(){
   $('#modal_bid').find('#jobInfo').html(job_html);
 });
 
+$('#modal_bid [type=checkbox]').change(function(){
+
+   if($(this).is(":checked")){
+
+    $("#modal_bid").find("[name=months]").val("");
+    $("#modal_bid").find("[name=weeks]").val("");
+    $("#modal_bid").find("[name=days]").val("");
+   }
 
 
-// $('#dlg_delete').dialog('option', 'position',  {my: "center", at: "center", of: window});
+});
+
+
 
 });
 

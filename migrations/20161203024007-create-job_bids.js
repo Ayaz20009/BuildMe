@@ -25,6 +25,9 @@ module.exports = {
       startDays: {
         type: Sequelize.INTEGER
       },
+      comment: {
+        type: Sequelize.STRING
+      },
       createdAt: {       
         allowNull: false,
         type: Sequelize.DATE

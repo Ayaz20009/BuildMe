@@ -1,0 +1,67 @@
+include dashboard.pug
+div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
+  form.form-horizontal.col-lg-11(action="/homeowner/profile",method="post")
+   fieldset
+    legend= user.name + "'s Profile"
+    div.form-group
+      lable.col-lg-2.control-label(for="co_Fname") First Name
+      div.col-lg-10
+       div.list-group-item=user.name
+       input.form-control.hidden(name="co_Fname",value=user.name)
+    div.form-group
+      lable.col-lg-2.control-label(for="co_Lname") Last Name
+      div.col-lg-10
+       div.list-group-item=user.name
+       input.form-control.hidden(name="co_Lname",value=user.name)
+    div.form-group
+      lable.col-lg-2.control-label(for="co_email") Company Name
+      div.col-lg-10
+       div.list-group-item=user.companyName
+       input.form-control.hidden(name="co_companyName",value=user.companyName)
+    div.form-group
+      lable.col-lg-2.control-label(for="co_phoneNumber") Phone Number
+      div.col-lg-10
+       div.list-group-item=user.phoneNumber
+       input.form-control.hidden.numeric(name="co_phoneNumber",value=user.phoneNumber)
+    div.form-group
+      lable.col-lg-2.control-label(for="co_licenseNumber") License Number
+      div.col-lg-10
+       div.list-group-item=user.licenseNumber
+       input.form-control.hidden.numeric(name="co_licenseNumber",value=user.licenseNumber)
+    div.form-group
+      lable.col-lg-2.control-label(for="co_email") Email
+      div.col-lg-10
+       div.list-group-item=user.email
+       input.form-control.hidden(name="co_email",value=user.email)
+    //- div.form-group
+    //-   lable.col-lg-2.control-label(for="co_zip") Zipcode
+    //-   div.col-lg-10
+    //-    div.list-group-item=user.zipcode
+    //-    input.form-control.numeric.hidden(name="co_zip",value=user.zipcode)
+    div.form-group
+      div.col-lg-10.col-lg-offset-2
+        div#btnEditProfile.btn.btn-primary.col-lg-3 Edit
+        div#btnCancel.btn.btn-default.col-lg-3.hidden Cancel
+        button.btn.btn-primary.col-lg-3.hidden Submit
+  form.form-horizontal.col-lg-11()
+   fieldset
+    div.form-group
+      div.col-lg-10.col-lg-offset-2
+        div.btn.btn-warning.col-lg-3#btnPass Change Password
+    div#formPass.row.hidden
+      div.form-group
+        lable.col-lg-2.control-label Old Password
+        div.col-lg-10
+          input.form-control(type="Password",name="old_pass")
+      div.form-group
+        lable.col-lg-2.control-label New Password
+        div.col-lg-10
+          input.form-control(type="Password",name="new_pass")
+      div.form-group
+        lable.col-lg-2.control-label Type Again
+        div.col-lg-10
+          input.form-control(type="Password",name="new_pass_2")
+      div.form-group
+      div.col-lg-10.col-lg-offset-2
+        div#btnCancelPass.btn.btn-default.col-lg-3 Cancel
+        button.btn.btn-primary.col-lg-3 Submit

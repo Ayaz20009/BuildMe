@@ -1,26 +1,4 @@
 include /base.pug
 div.container-fluid
     div.row
-       div.col-sm-3.col-md-2.sidebar
-          ul.nav.nav-sidebar
-            li
-              a(href="#")
-               i.fa.fa-tasks &nbsp;&nbsp; Bidding Jobs
-            li
-              a(href="#")
-               i.fa.fa-tasks &nbsp;&nbsp; Bidden Jobs
-            li
-              a(href="#")
-               i.fa.fa-search &nbsp;&nbsp; Search a Job
-            li
-              a(href="#")
-               i.fa.fa-check-circle &nbsp;&nbsp; Complete Job
-            li
-              a(href="#")
-               i.fa.fa-bar-chart &nbsp;&nbsp; Overview
-            li
-              a(href="#") 
-               i.fa.fa-envelope &nbsp;&nbsp; Message
-            li
-              a(href="#") 
-               i.fa.fa-address-card-o &nbsp;&nbsp; Profile
+       include sidebar.pug
