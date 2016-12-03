@@ -4,14 +4,20 @@ if projects
 each project in projects
  div.panel.panel-success(id=project.id,style="width:90%;margin:2% 5% 2% 5%")
    div.panel-body(style="padding:2%")
-    div.col-lg-1.avatar.btn.btn-default=project.hoID
+    div.col-lg-1.avatar.btn.btn-default=project.firstName[0] + project.lastName[0]
     div.col-lg-11.jobInfo
-     div.col-lg-12 
+     div.col-lg-12.jobInfo
       label.col-lg-2  Description:
       div.col-lg-10=project.jobDesc
      div.col-lg-12
       label.col-lg-2 Location:
       div.col-lg-10=project.city + "  " + project.state + "  " + project.zipcode
+     div.col-lg-12
+      label.col-lg-2 Created At:
+      div.col-lg-10=project.createdAt
+     div.col-lg-12
+      label.col-lg-2 Updated At:
+      div.col-lg-10=project.updatedAt
     if (session && session.user == "contractor")
      div.col-lg-1.pull-right
       button.btnBid.btnSelect.btn.btn-warning(data-toggle="modal",data-target="#modal_bid")

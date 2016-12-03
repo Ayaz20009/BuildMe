@@ -4,10 +4,10 @@ const path = require('path');
 const models = require('../models');
 const router = express.Router();
 //const basename = path.basename(module.filename);
-// const pg = require('pg');
-// const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
-// const client = new pg.Client(connectionString);
-// client.connect();
+const pg = require('pg');
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
+const client = new pg.Client(connectionString);
+client.connect();
 
 // fs
 //   .readdirSync(__dirname)
@@ -104,16 +104,36 @@ router.post('/homeowner-signup',function(req,res,next){
 
 router.get('/jobs', function(req, res) {
 
-  models.homeowner_jobs.findAll()
-  .then(function(projects){
-    if(projects){
+  var results = [];
+  var queryString = 'SELECT "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
+                  + '"firstName", "lastName" '
+                  + 'FROM "homeowner_jobs" AS "jobs" '
+                  + 'JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID" '
+                  + 'WHERE "bidID" IS null '
+                  + 'ORDER BY "jobs"."createdAt" DESC';
 
-       if(!req.session.user)
-         return res.render('jobs', {title: 'Jobs',projects:projects});
-       else
-         return res.render('jobs', {title: 'Jobs',projects:projects, session: req.session});
-    }
+  query = client.query(queryString);
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
+    });
+  // After all data is returned, close connection and return results
+  query.on('end', () => {
+      // return res.json(results);
+         return res.render('jobs', {title: 'Jobs',projects:results, session: req.session});
+       // return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: results});
   });
+
+  // models.homeowner_jobs.findAll()
+  // .then(function(projects){
+  //   if(projects){
+
+  //      if(!req.session.user)
+  //        return res.render('jobs', {title: 'Jobs',projects:projects});
+  //      else
+  //        return res.render('jobs', {title: 'Jobs',projects:projects, session: req.session});
+  //   }
+  // });
 
 });
 

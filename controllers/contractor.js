@@ -50,10 +50,12 @@ router.get('/openbids', function(req,res){
   // Grab data from http request
   // Get a Postgres client from the connection pool
   var queryString = 'SELECT "jobID", "estCost", "estTime", "startDays","comment", "bids"."updatedAt" AS "bidUpdatedAt",'
-                  + '"street", "city", "state", "zipcode", "jobDesc", "jobs"."updatedAt" AS "jobUpdatedAt", "bidID"'
+                  + '"street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."updatedAt" AS "jobUpdatedAt", "bidID",'
+                  + '"firstName", "lastName"'
                   + 'FROM "job_bids" AS "bids"'
                   + 'JOIN "homeowner_jobs" AS "jobs"'
-                  + 'ON "bids"."jobID" ="jobs"."id"'
+                  + 'ON "bids"."jobID" = "jobs"."id"'
+                  + ' JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID"'
                   + 'WHERE "coID" = '+ req.session.userid
                   // + 'AND "bidID" IS NOT null '
                   + 'ORDER BY "jobUpdatedAt" DESC, "bidUpdatedAt" DESC';
@@ -65,9 +67,7 @@ router.get('/openbids', function(req,res){
   // After all data is returned, close connection and return results
   query.on('end', () => {
       // return res.json(results);
-
        return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: results});
-
   });
 
   //find bids;
