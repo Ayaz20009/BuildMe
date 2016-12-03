@@ -4,6 +4,11 @@ const express = require('express');
 const models = require('../models');
 const router = express.Router();
 var contractor = require('../controllers/contractor');
+const pg = require('pg');
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
+const client = new pg.Client(connectionString);
+client.connect();
+
 
 router.route('/contractor')
 
@@ -41,18 +46,42 @@ router.get('/openbids', function(req,res){
    if(!req.session.user)
       return res.redirect('/login');
 
-  //find bids;
-    models.job_bids.findAll({
-     where: {
-     coID: req.session.userid,
-     },
-     order: '"createdAt" DESC',
-    })
-    .then(function(bids){
-
-       return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: bids});
-
+  var results = [];
+  // Grab data from http request
+  // Get a Postgres client from the connection pool
+  var queryString = 'SELECT "jobID", "estCost", "estTime", "startDays","comment", "bids"."updatedAt" AS "bidUpdatedAt",'
+                  + '"street", "city", "state", "zipcode", "jobDesc", "jobs"."updatedAt" AS "jobUpdatedAt", "bidID"'
+                  + 'FROM "job_bids" AS "bids"'
+                  + 'JOIN "homeowner_jobs" AS "jobs"'
+                  + 'ON "bids"."jobID" ="jobs"."id"'
+                  + 'WHERE "coID" = '+ req.session.userid
+                  // + 'AND "bidID" IS NOT null '
+                  + 'ORDER BY "jobUpdatedAt" DESC, "bidUpdatedAt" DESC';
+  query = client.query(queryString);
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
     });
+  // After all data is returned, close connection and return results
+  query.on('end', () => {
+      // return res.json(results);
+
+       return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: results});
+
+  });
+
+  //find bids;
+    // models.job_bids.findAll({
+    //  where: {
+    //  coID: req.session.userid,
+    //  },
+    //  order: '"createdAt" DESC',
+    // })
+    // .then(function(bids){
+
+       // return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: results});
+
+    // });
 
   // return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: GetConBids(req.session.userid) });
 

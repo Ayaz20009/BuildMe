@@ -5,7 +5,7 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
    h2 you have no bids yet
  else
    each bid in bids
-    div.panel.panel-default(id=bids.id)
+    div.panel.panel-default.col-lg-6(id=bids.id)
       div(style="padding:0") 
         //- //- button.btn-danger.btn.btn-sm(data-toggle="modal",data-target="#modal_withdraw") X
         div.dropdown.pull-right 
@@ -14,22 +14,31 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
           div.dropdown-content
            button.btnUpdate.btnSelect.btn.btn-sm.btn-warning.btn-block Edit
            button.btnDeleteBid.btnSelect.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_bid") X
-      div.panel-body.row
+      div.panel-body.row(style="padding:2%")
        //- div.col-lg-1.avatar.btn.btn-default=bid.jobID
        div.col-lg-11.bidInfo
          div.row
-          label.col-lg-3.control-label Estimate Cost
-          div.col-lg-9='$ ' + bid.estCost
+          label.col-lg-4.control-label Description
+          div.col-lg-8=bid.jobDesc
          div.row
-          label.col-lg-3.control-label Estimate Days
-          div.col-lg-9=bid.estTime + ' Days'
+          label.col-lg-4.control-label Location
+          div.col-lg-8=bid.city + "  " + bid.state + "  " + bid.zipcode
          div.row
-          label.col-lg-3.control-label Avaible Start In
-          div.col-lg-9=bid.startDays + ' Days'
+          label.col-lg-4.control-label Job Updated At
+          div.col-lg-8=bid.jobUpdatedAt
          div.row
-          label.col-lg-3.control-label Comment
-          div.col-lg-9=bid.comment
+          label.col-lg-4.control-label Estimate Cost
+          div.col-lg-8='$ ' + bid.estCost
          div.row
-          label.col-lg-3.control-label Bid At
-          div.col-lg-9=bid.createdAt
+          label.col-lg-4.control-label Estimate Days
+          div.col-lg-8=bid.estTime + ' Days'
+         div.row
+          label.col-lg-4.control-label Avaible Start In
+          div.col-lg-8=bid.startDays + ' Days'
+         div.row
+          label.col-lg-4.control-label Comment
+          div.col-lg-8=bid.comment
+         div.row
+          label.col-lg-4.control-label Bid Updated At
+          div.col-lg-8=bid.bidUpdatedAt
 include modal_delete_bid.pug
