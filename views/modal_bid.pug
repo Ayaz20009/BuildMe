@@ -1,0 +1,38 @@
+div#modal_bid.modal.fade(role="dialog")
+ div.modal-dialog 
+  div.modal-content
+   div.modal-header.bg-success
+    span Bid on the job:
+    a.close(data-dismiss="modal") X 
+   div.modal-body(style="height:70vh")
+     div#jobInfo.col-lg-12
+     div#biddingForm.col-lg-12
+      form
+       div.col-lg-6.form-group 
+        label(for="cost") Cost estimate :
+        input.form-control.numeric(type="text",name="cost")
+       div.col-lg-6.form-group 
+        label(for="time") Time estimate :
+        input.form-control(type="text",name="time")
+       div.col-lg-12
+        label.col-lg-12(for="startTime") Avaliable Start Time In:
+        form.form-inline
+         div.col-lg-3.form-group 
+          input.form-control.numeric(type="text",name="months")
+          label(for="months") Months
+         div.col-lg-3.form-group 
+          input.form-control.numeric(type="text",name="weeks")
+          label(for="weeks") Weeks
+         div.col-lg-3.form-group 
+          input.form-control.numeric(type="text",name="days")
+          label(for="days") Days
+         div.col-lg-3.checkbox 
+          input(type="checkbox",name="ASAP")
+          label(for="ASAP",) ASAP
+       div.col-lg-12.form-group 
+        label(for="comment") Comment:
+        textarea.form-control(name="comment",rows="6",type="text",placeholder="Please explain why you are good fit for this job.")
+      button.btn.btn-sm.btn-success.col-lg-6 Submit
+      a.btn.btn-default.btn-sm.col-lg-6(data-dismiss="modal",type="reset") Cancel
+   //- div.modal-footer 
+     

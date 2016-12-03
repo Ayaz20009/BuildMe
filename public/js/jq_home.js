@@ -59,7 +59,7 @@ $('a[data-toggle=tab]').click(function(){
 var url      = window.location.href;
 var urlSplit = url.split("/");
 var path = urlSplit[3] + "/" + urlSplit[4];
-$('a[href*="'+ path +'"]').addClass("btn-success").siblings().removeClass("btn-success");
+$('.sidebar a[href*="'+ path +'"]').addClass("btn-success").siblings().removeClass("btn-success");
 
 
 $('#btnEditProfile').click(function(){
@@ -100,9 +100,17 @@ $(".btnSelect").click(function(){
 
 $(".btnDelete").click(function(){
 
-  var panel_body_html = $(this).closest('.panel').children('.panel-body').html()
+  var panel_body_html = $(this).closest('.panel').children('.panel-body').html();
   $('#modal_delete').find('.modal-body').html(panel_body_html);
 });
+
+$(".btnBid").click(function(){
+
+  var job_html = $(this).closest('.panel').find('.jobInfo').html();
+  $('#modal_bid').find('#jobInfo').html(job_html);
+});
+
+
 
 // $('#dlg_delete').dialog('option', 'position',  {my: "center", at: "center", of: window});
 

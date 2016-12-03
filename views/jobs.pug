@@ -1,9 +1,20 @@
 include base.pug
+input.hidden(name="proj_id")
 div.container
 if projects
 each project in projects
  div.panel.panel-success(id=project.id,style="width:90%;margin:2% 5% 2% 5%")
-   div.panel-heading='Created By: ' + project.hoID
-   div.panel-body
-    div=project.jobDesc
-    div=project.street + "," + project.city + " " + project.state + " " + project.zipcode
+   div.panel-body(style="padding:2%")
+    div.col-lg-1.avatar.btn.btn-default=project.hoID
+    div.col-lg-10.jobInfo
+     div.col-lg-12 
+      label.col-lg-2  Description:
+      div.col-lg-10=project.jobDesc
+     div.col-lg-12
+      label.col-lg-2 Location:
+      div.col-lg-10=project.city + "  " + project.state + "  " + project.zipcode
+    if (session && session.user = "contractor")
+     div.col-lg-1.pull-right
+      button.btnBid.btnSelect.btn.btn-warning(data-toggle="modal",data-target="#modal_bid")
+       i.fa.fa-gavel  Bid
+include modal_bid.pug

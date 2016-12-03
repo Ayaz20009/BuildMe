@@ -12,15 +12,23 @@ const router = express.Router();
 //     const fileName = file.substr(0, file.length - 3);
 //     router.use(`/${fileName}`, require(`./${fileName}`).registerRouter());
 //   });
+
+
 router.use('/homeowner', require('./homeowner'));
 router.use('/contractor', require('./contractor'));
 
 router.get('/', (req, res) => {
-  res.render('index');
+   if(!req.session.user)
+     return res.render('index',{title: "Build Me"});
+   else
+     return res.render('index',{title: "Build Me", session:req.session});
 });
 
 router.get('/contractor-signup',function(req,res){
-    res.render('contractor-signup', {title: 'Contractor Sign Up'});
+   if(!req.session.user)
+    return res.render('contractor-signup', {title: 'Contractor Sign Up'});
+   else
+     return res.render('contractor-signup', {title: 'Contractor Sign Up', session:req.session});
 });
 
 router.post('/contractor-signup',function(req,res,next){
@@ -53,7 +61,12 @@ router.post('/contractor-signup',function(req,res,next){
 });
 
 router.get('/homeowner-signup',function(req,res){
-  res.render('homeowner-signup')
+  if(!req.session.user)
+   return res.render('homeowner-signup',{title: "Homeowner Sign Up"});
+ else
+   return res.render('homeowner-signup',{title: "Homeowner Sign Up", session:req.session});
+
+
 });
 
 router.post('/homeowner-signup',function(req,res,next){
@@ -88,27 +101,41 @@ router.get('/jobs', function(req, res) {
   models.homeowner_jobs.findAll()
   .then(function(projects){
     if(projects){
-      console.log(projects);
-      res.render('jobs', {title: 'Jobs',projects:projects});
-    }
 
+       if(!req.session.user)
+         return res.render('jobs', {title: 'Jobs',projects:projects});
+       else
+         return res.render('jobs', {title: 'Jobs',projects:projects, session: req.session});
+    }
   });
 
 });
 
 router.get('/howitworks', function(req, res) {
-  res.render('HowitWorks', {title: 'How it Works'})
+   if(!req.session.user)
+     return res.render('HowitWorks', {title: 'How it Works'}) 
+   else
+     return res.render('HowitWorks', {title: 'How it Works',session: req.session})
 });
 
 router.get('/searchajob', function(req, res) {
-  res.render('searchajob', {title: 'Search A job'})
+  if(!req.session.user)
+    return res.render('searchajob', {title: 'Search A job'})
+  else
+    res.render('searchajob', {title: 'Search A job',session: req.session})
 });
 
 router.get('/login', function(req, res) {
-  res.render('login', {title: 'Login'})
+  if(!req.session.user)
+   return res.render('login', {title: 'Login'})
+  else
+   return res.render('login', {title: 'Login',session: req.session})
+
+
 });
 
-router.get('/login', function(req, res) {
+router.get('/logout', function(req, res) {
+  req.session.user = null;
   req.session.destroy(function(err) {
   if(err) {
     console.log(err);
@@ -118,12 +145,5 @@ router.get('/login', function(req, res) {
   });
 });
 
-router.get('/homeowners-signup', function(req, res) {
-  res.render('signup', {title: 'Sign Up'})
-});
-
-router.get('/contractor-signup', function(req, res) {
-  res.render('signup', {title: 'Sign Up'})
-});
 
 module.exports = router;

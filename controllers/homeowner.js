@@ -4,15 +4,9 @@ const express = require('express');
 const models = require('../models');
 const router = express.Router();
 var homeowner = require('../controllers/homeowner');
-var session;
 
-router.route('/homeowner')
 
-router.get('/dashboard', function(req, res) {
-  res.render('homeowner/dashboard', 
-    {title: "homeowner's dashboard"}
-    )
-});
+router.route('/contractor')
 
 router.post('/dashboard', function(req, res) {
   var email = req.body.home_email;
@@ -25,23 +19,32 @@ router.post('/dashboard', function(req, res) {
   }).then(function(user){
 
       if(user){
-          session = user.dataValues;
-          res.render('homeowner/dashboard', {title: user.dataValues.firstName, user: user.dataValues})
+        console.log(user);
+          req.session.user = "homeowner";
+          req.session.firstName = user.dataValues.firstName;
+          req.session.lastName = user.dataValues.lastName;
+          req.session.userid = user.dataValues.id;
+          res.render('homeowner/dashboard', {title: user.dataValues.firstName, session: req.session})
       }
-      else{
-          // req.session.valid = false;
+      else
           return res.redirect('/login');
-      }
-
   });
+
 });
+
+router.get('/dashboard', function(req, res) {
+  if(!req.session.user)
+    return res.status(401).send();
+  return res.render('homeowner/dashboard', {title: "homeowner's dashboard",session: req.session})
+});
+
 
 router.get('/pendingjobs', function(req, res) {
 
   //find projects that were created by this user
   models.homeowner_jobs.findAll({
       where: {
-         hoID: session.id,
+         hoID: req.session.userid,
      },
      order: '"createdAt" DESC',
   }).then(function(projects){
@@ -49,7 +52,7 @@ router.get('/pendingjobs', function(req, res) {
       if(projects){
           // console.log(projects);
           res.render('homeowner/pendingjobs', 
-          {title: "Pending jobs", user: session, projects: projects})
+          {title: "Pending jobs", session: req.session, projects: projects})
       }
       else{
 
@@ -99,42 +102,46 @@ router.post('/createjob', function(req, res) {
           return res.redirect('/homeowner/pendingjobs');
       }
       else
-        res.render('homeowner/createjob',{title: "Error", user: session}) 
+        res.render('homeowner/createjob',{title: "Error", session: req.session}) 
     });
   }
   else
-    res.render('homeowner/createjob',{title: "Error", user: session}) 
+    res.render('homeowner/createjob',{title: "Error", session: req.session}) 
 });
 
 router.get('/createjob', function(req, res) {
   res.render('homeowner/createjob', 
-    {title: "Create a job", user: session}
+    {title: "Create a job", session: req.session}
     )
 });
 
 router.get('/completedjobs', function(req, res) {
   res.render('homeowner/completedjobs', 
-    {title: "completedjobs", user: session}
+    {title: "completedjobs", session: req.session}
     )
 });
 
 router.get('/overview', function(req, res) {
   res.render('homeowner/overview', 
-    {title: "overview",user: session}
-    )
+    {title: "overview",session: req.session})
 });
 
 router.get('/message', function(req, res) {
   res.render('homeowner/message', 
-    {title: "message", user: session}
+    {title: "message", session: req.session}
     )
 });
 
 router.get('/profile', function(req, res) {
 
-  res.render('homeowner/profile', 
-    {title: "profile", user: session}
-    )
+  models.homeowners.findOne({
+      where: {
+         id: req.session.userid,
+     }
+  }).then(function(user){
+    
+    res.render('homeowner/profile', {title:"profile", user:user, session:req.session});
+  });
 
 });
 
@@ -148,7 +155,7 @@ router.post('/profile', function(req, res) {
 
   models.homeowners.findOne({
       where: {
-         id: session.id,
+         id: req.session.userid,
      }
   }).then(function(user){
       if(user){
@@ -160,8 +167,8 @@ router.post('/profile', function(req, res) {
             // pass : pass,
           })
           .then(function(user){
-            session = user.dataValues;
-            res.render('homeowner/profile', {title: "profile", user: session})
+            
+            res.redirect('homeowner/profile');
           });
       }
     });

@@ -9,7 +9,7 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
            a(href="/jobs") Jobs
         li
            a(href="/searchajob") Search A Job
-     if !user
+     if !session
       ul.nav.navbar-nav.navbar-right
           li
             a
@@ -31,16 +31,18 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
       ul.nav.navbar-nav.navbar-right
         li.dropdown
           a.btn.dropbtn
-           span.glyphicon.glyphicon-user  
-              span=user.name
-              span=user.firstName + "  "
-              span=user.lastName
+           span.glyphicon.glyphicon-user 
+            if session.name
+              span=session.name
+            else
+              span=session.firstName + "  "
+              span=session.lastName
           div.dropdown-content.bg-success(style="width:15vw")
-            if user.name
+            if session.name
               a.btn.btn-primary.btn-block(href="/contractor/dashboard") Dashboard
             else
               a.btn.btn-primary.btn-block(href="/homeowner/dashboard") Dashboard
-            a.btn.btn-primary.btn-block(href="/") Logout
+            a.btn.btn-primary.btn-block(href="/logout") Logout
 
 
 

@@ -8,9 +8,10 @@ var contractor = require('../controllers/contractor');
 router.route('/contractor')
 
 router.get('/dashboard', function(req, res) {
-  res.render('contractor/dashboard', 
-    {title: "Contractor's dashboard"}
-  )
+  if(!req.session.user)
+    return res.status(401).send();
+  else
+   return res.render('contractor/dashboard', {title: "Contractor's dashboard", session:req.session})
 });
 
 router.post('/dashboard', function(req, res) {
@@ -24,15 +25,16 @@ router.post('/dashboard', function(req, res) {
   }).then(function(user){
 
       if(user){
-          console.log(user);
-          res.render('contractor/dashboard', {title: user.dataValues.name, user: user.dataValues})
+          req.session.user = "contractor";
+          req.session.name = user.dataValues.name;
+          req.session.userid = user.dataValues.id;
+          res.render('contractor/dashboard', {title: user.dataValues.firstName, session: req.session})
       }
-      else{
-      	  // req.session.valid = false;
+      else
           return res.redirect('/login');
-      }
 
-  });
+});
+
 //   .then((contractors) => {
 
 //        res.render('contractor/dashboard', {title: 'Welcome', name: req.body.input_conEmail})
