@@ -12,29 +12,6 @@ client.connect();
 
 router.route('/contractor')
 
-router.post('/dashboard', function(req, res) {
-  var email = req.body.home_email.toLowerCase();
-  var pass = req.body.home_pass;
-  models.homeowners.findOne({
-      where: {
-         email: email,
-         // password:pass,
-     },
-  }).then(function(user){
-
-      if(user){
-        // console.log(user);
-          req.session.user = "homeowner";
-          req.session.firstName = user.dataValues.firstName;
-          req.session.lastName = user.dataValues.lastName;
-          req.session.userid = user.dataValues.id;
-          res.render('homeowner/dashboard', {title: user.dataValues.firstName, session: req.session})
-      }
-      else
-          return res.redirect('/login');
-  });
-
-});
 
 router.get('/dashboard', function(req, res) {
 
@@ -52,7 +29,7 @@ router.get('/pendingjobs', function(req, res) {
 //find projects that were created by this user
   models.homeowner_jobs.findAll({
       where: {
-         hoID: req.session.userid,
+         hoID: req.session.user.id,
      },
      order: '"createdAt" DESC',
   }).then(function(projects){
@@ -87,7 +64,7 @@ router.delete('/pendingjobs',function(req,res){
 });
 
 router.post('/createjob', function(req, res) {
-  var hoID = req.session.userid;
+  var hoID = req.session.user.id;
   var desc = req.body.proj_desc;
   var street = req.body.proj_street;
   var city = req.body.proj_city;
@@ -157,7 +134,7 @@ router.get('/profile', function(req, res) {
 
   models.homeowners.findOne({
       where: {
-         id: req.session.userid,
+         id: req.session.user.id,
      }
   }).then(function(user){
     
@@ -173,7 +150,7 @@ router.post('/profile', function(req, res) {
 
   models.homeowners.findOne({
       where: {
-         id: req.session.userid,
+         id: req.session.user.id,
      }
   }).then(function(user){
       if(user){
@@ -185,8 +162,10 @@ router.post('/profile', function(req, res) {
             // pass : pass,
           })
           .then(function(user){
+
+            req.session.user = user;
             
-            res.render('homeowner/profile', {title:"profile", user:user, session:req.session});
+            res.render('homeowner/profile', {title:"profile", session:req.session});
           });
       }
     });

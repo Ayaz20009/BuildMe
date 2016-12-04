@@ -4,11 +4,10 @@ div#modal_bid.modal.fade(role="dialog")
    div.modal-header.bg-warning
     span Bid on the job:
     a.close(data-dismiss="modal") X 
-   div.modal-body(style="height:70vh;position:relative")
-    form(method="post",action="/contractor/openbids")
+   div.modal-body.row(style="height:80vh;position:relative;overflow:auto")
+    form(method="post",action="/jobs")
      div#jobInfo.col-lg-12
      div#biddingForm.col-lg-12
-       input.hidden(name="proj_id")
        div.col-lg-6.form-group 
         label(for="cost") Estimate cost ($) :
         input.form-control.numeric(type="text",name="cost",placeholder="Estimate cost ($)")
@@ -31,7 +30,7 @@ div#modal_bid.modal.fade(role="dialog")
           label(for="ASAP",) ASAP
        div.col-lg-12.form-group 
         label(for="comment") Comment:
-        textarea.form-control(name="comment",rows="6",type="text",placeholder="Please explain why you are good fit for this job.")
+        textarea.form-control(name="comment",rows="3",type="text",placeholder="Please explain why you are good fit for this job.")
        div.col-lg-12
         button.btn.btn-md.btn-warning.col-lg-6(style="color:black;",type="submit") Submit
         a.btn.btn-default.btn-md.col-lg-6(data-dismiss="modal",type="reset") Cancel

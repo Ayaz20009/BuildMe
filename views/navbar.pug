@@ -9,9 +9,11 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
            a(href="/jobs") Jobs
         li
            a(href="/searchajob") Search A Job
-        if session
-         li
-          a(href="/" + session.user + "/dashboard") Dashboard
+        li
+          if (session && session.user.usertype == "homeowner")
+             a(href="/homeowner/dashboard") Dashboard
+          else 
+             a(href="/contractor/dashboard") Dashboard
      if !session
       ul.nav.navbar-nav.navbar-right
           li
@@ -35,13 +37,11 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
         li.dropdown
           a.btn.dropbtn
            span.glyphicon.glyphicon-user 
-            if session.name
-              span=session.name
-            else
-              span=session.firstName + "  "
-              span=session.lastName
-          div.dropdown-content(style="width:15vw")
-            a.btn.btn-success.btn-block(href="/logout") Logout
+            span=session.user.firstName + "  "
+            span=session.user.lastName
+          form(action="/logout",methoud="get")  
+           div.dropdown-content(style="width:15vw")
+             button.btn.btn-success.btn-block Logout
 
 
 

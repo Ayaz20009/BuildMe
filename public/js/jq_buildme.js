@@ -38,6 +38,9 @@ $('a[data-toggle=tab]').click(function(){
 });
 
 
+// $('a[data-toggle="tab",href="#homeowner"]').addClass("btn-success");
+
+
  $( "#datepicker" ).datepicker();
 
 
@@ -54,12 +57,6 @@ $('a[data-toggle=tab]').click(function(){
 
 
   $('.sidebar').css('top',$('#navbar').height());
-
-//add class btn-default to current option 
-var url      = window.location.href;
-var urlSplit = url.split("/");
-var path = urlSplit[3] + "/" + urlSplit[4];
-$('.sidebar a[href*="'+ path +'"]').addClass("btn-success").siblings().removeClass("btn-success");
 
 
 $('#btnEditProfile').click(function(){
@@ -90,20 +87,11 @@ $("#btnCancelPass").click(function(){
 
 });
 
-//select project set proj_id
-$(".btnSelect").click(function(){
-  
-  var panel = $(this).closest('.panel');
-  var proj_id = panel.attr('id');
-  $('input[name=proj_id]').val(proj_id);
-
-});
-
 
 $(".btnBid").click(function(){
 
-  var jobInfo_html = $(this).closest('.panel').find('.jobInfo').html();
-  $('#modal_bid').find('#jobInfo').html(jobInfo_html);
+  var jobInfo = $(this).closest('.panel').find('.jobInfo').html();
+  $('#modal_bid').find('#jobInfo').html(jobInfo);
 });
 
 
