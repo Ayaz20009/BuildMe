@@ -16,6 +16,17 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
       div.col-lg-10
         input.form-control(type="file",name="proj_vd")
     div.form-group
+      label.col-lg-2.control-label(for="days") When needed
+      div.col-lg-10
+        div.col-lg-3.form-group 
+          input.form-control.numeric(type="text",name="months",placeholder="months")
+        div.col-lg-3.form-group 
+          input.form-control.numeric(type="text",name="weeks",placeholder="weeks")
+        div.col-lg-3.form-group 
+          input.form-control.numeric(type="text",name="days",placeholder="days")
+        div.col-lg-3
+          div#btnASAP.btn.btn-block.btn-default(name="ASAP",value="FALSE") ASAP
+    div.form-group
       lable.col-lg-2.control-label Address
       div.col-lg-10.row
         div.col-lg-6
