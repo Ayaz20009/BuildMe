@@ -29,6 +29,8 @@ $("input.numeric").keyup(function (e) {
     }
 });
 
+// $("#modal_bid").modal("show");
+
 $('a[data-toggle=tab]').click(function(){
  
   if($(this).text() == "Homeowner")

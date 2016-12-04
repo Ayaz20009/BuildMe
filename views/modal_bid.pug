@@ -16,16 +16,18 @@ div#modal_bid.modal.fade(role="dialog")
         input.form-control.numeric(type="text",name="time",placeholder="Estimate Days")
        div(style="width:100%")
         label.col-lg-12(for="startTime") Avaliable Start Time In:
-        div.col-lg-3.form-group 
+        div.col-lg-2.form-group 
           input.form-control.numeric(type="text",name="months",placeholder="months")
           label(for="months") Months
-        div.col-lg-3.form-group 
+        div.col-lg-2.form-group 
           input.form-control.numeric(type="text",name="weeks",placeholder="weeks")
           label(for="weeks") Weeks
-        div.col-lg-3.form-group 
+        div.col-lg-2.form-group 
           input.form-control.numeric(type="text",name="days",placeholder="days")
           label(for="days") Days
-        div.col-lg-3.checkbox 
+        div.col-lg-4.form-group 
+          input.form-control#datepicker(type="text",name="days",placeholder="Choose A Date")
+        div.col-lg-2.checkbox 
           input(type="checkbox",name="ASAP",)
           label(for="ASAP",) ASAP
        div.col-lg-12.form-group 

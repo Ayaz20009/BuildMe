@@ -8,16 +8,16 @@ module.exports = {
 
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
-    */
-    queryInterface.addColumn('contractors',
-        'lastName',
-        {
-          type: Sequelize.STRING,
-        }
-     );
+    // */
+    // queryInterface.addColumn('contractors',
+    //     'lastName',
+    //     {
+    //       type: Sequelize.STRING,
+    //     }
+    //  );
 
-    queryInterface.renameColumn('contractors', 'name', 'firstName')
-    return ;
+    // queryInterface.renameColumn('contractors', 'name', 'firstName')
+    // return ;
   },
 
   down: function (queryInterface, Sequelize) {

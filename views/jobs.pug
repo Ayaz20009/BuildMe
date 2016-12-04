@@ -1,28 +1,30 @@
 include base.pug
 div.container
-if projects
-each project in projects
- div.panel.panel-success(id=project.id,style="width:90%;margin:2% 5% 2% 5%")
-   div.panel-body(style="padding:2%")
-    div.col-lg-1.avatar.btn.btn-default=project.firstName[0] + project.lastName[0]
-    div.col-lg-10
-     div.row.jobInfo
-       div.col-lg-12.hidden jobID
-        input(name="jobID",value=project.id)
-       div.col-lg-12
-        label.col-lg-2  Description:
-        div.col-lg-10=project.jobDesc
-       div.col-lg-12
-        label.col-lg-2 Location:
-        div.col-lg-10=project.city + "  " + project.state + "  " + project.zipcode
-       div.col-lg-12
-        label.col-lg-2 CreatedAt:
-        div.col-lg-10=project.createdAt
-       div.col-lg-12
-        label.col-lg-2 UpdatedAt:
-        div.col-lg-10=project.updatedAt
-    if (contractor)
-     div.col-lg-1.pull-right
-      button.btnBid.btn.btn-warning(data-toggle="modal",data-target="#modal_bid")
-       i.fa.fa-gavel  Bid
+if (projects.length == 0)
+  h1.text-center There is no job yet.
+else
+  each project in projects
+   div.panel.panel-success(id=project.id,style="width:90%;margin:2% 5% 2% 5%")
+     div.panel-body(style="padding:2%")
+      div.col-lg-1.avatar.btn.btn-default=project.firstName[0] + project.lastName[0]
+      div.col-lg-10
+       div.row.jobInfo
+         div.col-lg-12.hidden jobID
+          input(name="jobID",value=project.id)
+         div.col-lg-12
+          label.col-lg-2  Description:
+          div.col-lg-10=project.jobDesc
+         div.col-lg-12
+          label.col-lg-2 Location:
+          div.col-lg-10=project.city + "  " + project.state + "  " + project.zipcode
+         div.col-lg-12
+          label.col-lg-2 CreatedAt:
+          div.col-lg-10=project.createdAt
+         div.col-lg-12
+          label.col-lg-2 UpdatedAt:
+          div.col-lg-10=project.updatedAt
+      if (contractor)
+       div.col-lg-1.pull-right
+        button.btnBid.btn.btn-warning(data-toggle="modal",data-target="#modal_bid")
+         i.fa.fa-gavel  Bid
 include modal_bid.pug

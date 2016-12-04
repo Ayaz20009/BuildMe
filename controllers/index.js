@@ -110,8 +110,6 @@ router.post('/homeowner-signup',function(req,res,next){
 */
 router.get('/jobs', function(req, res) {
 
-  console.log(req.session.user.usertype);
-
   var results = [];
   var queryString = 'SELECT "jobs"."id", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
                   + '"firstName", "lastName" '
@@ -128,13 +126,15 @@ router.get('/jobs', function(req, res) {
   // After all data is returned, close connection and return results
   query.on('end', () => {
       // return res.json(results);
-      // if(!req.session)
-        if(req.session.user && req.session.usertype != "homeowner" )
-          return res.render('jobs', {title: 'Jobs', projects:results, session:req.session, contractor: true});
-         
-        return res.render('jobs', {title: 'Jobs', projects:results,session:req.session});
-      // else
-      //   return res.render('jobs', {title: 'Jobs', projects:results, session:req.session, contractor: true});
+      
+      var contractor;
+      if(req.session.user && req.session.user.usertype != "homeowner")
+          contractor = true;
+
+      if(!req.session.user)
+         return res.render('jobs', {title: 'Jobs', projects:results, contractor: contractor});
+      else
+         return res.render('jobs', {title: 'Jobs', projects:results, contractor: contractor, session: req.session});
   });
 
   // models.homeowner_jobs.findAll()
@@ -233,7 +233,7 @@ router.post('/jobs',function(req,res){
     //did not find the job : e.g. delelte
     else{
 
-       res.send("Job doesn't exist");
+       res.send("Job doesn't exist or was closed.");
     }
 
   });//find the job

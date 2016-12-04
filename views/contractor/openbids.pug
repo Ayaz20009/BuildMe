@@ -2,7 +2,7 @@ include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
  input.hidden(name="proj_id")
  if !bids
-   h2 you have no bids yet
+   h1.text-center You have no bid on any job yet.
  else
    each bid in bids
      div.panel.panel-default.col-lg-6(id=bids.id)

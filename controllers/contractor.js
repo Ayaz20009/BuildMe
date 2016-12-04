@@ -49,7 +49,10 @@ router.get('/openbids', function(req,res){
   // After all data is returned, close connection and return results
   query.on('end', () => {
       // return res.json(results);
-       return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: results});
+      if(results.length == 0)
+         return res.render('contractor/openbids', {title: "Open Bids", session:req.session});
+
+      return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: results});
   });
 
   

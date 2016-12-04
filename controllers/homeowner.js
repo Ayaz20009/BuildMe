@@ -41,6 +41,7 @@ router.get('/pendingjobs', function(req, res) {
       }
       else{
 
+         res.render('homeowner/pendingjobs', {session: req.session});
       }
 
   });

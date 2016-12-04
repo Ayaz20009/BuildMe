@@ -1,8 +1,8 @@
 include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
  input.hidden(name="proj_id")
- if !projects
-   h2 you have no project yet
+ if (projects.length == 0)
+   h1 You have no project yet.
  else
    each project in projects
     div.panel.panel-default(id=project.id)
@@ -27,5 +27,4 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
        div.row
         label.col-lg-2.control-label Create At
         div.col-lg-10=project.createdAt
-
 include modal_delete_job.pug

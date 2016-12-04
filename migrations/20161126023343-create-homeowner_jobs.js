@@ -33,7 +33,6 @@ module.exports = {
       },
       bidID:{
         type: Sequelize.INTEGER
-
       },
       createdAt: {       
         allowNull: false,
