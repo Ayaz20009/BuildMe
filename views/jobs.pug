@@ -9,7 +9,8 @@ else
       div.col-lg-1.avatar.btn.btn-default=project.firstName[0] + project.lastName[0]
       div.col-lg-10
        div.row.jobInfo
-         div.col-lg-12.hidden jobID
+         div.col-lg-12.hidden 
+          label.col-lg-2 JobID
           input(name="jobID",value=project.id)
          div.col-lg-12
           label.col-lg-2  Description:

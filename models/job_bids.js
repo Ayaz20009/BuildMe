@@ -7,8 +7,9 @@ module.exports = function(sequelize, DataTypes) {
     jobID: DataTypes.INTEGER,
     coID: DataTypes.INTEGER,
     estCost: DataTypes.INTEGER,
-    estTime: DataTypes.INTEGER,
-    startDays: DataTypes.INTEGER,
+    estDays: DataTypes.INTEGER,
+    estHours: DataTypes.INTEGER,
+    startDate: DataTypes.INTEGER,
     comment : DataTypes.TEXT,
   }, {
     classMethods: {

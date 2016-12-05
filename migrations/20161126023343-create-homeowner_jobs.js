@@ -27,10 +27,6 @@ module.exports = {
       zipcode: {
         type: Sequelize.INTEGER
       },
-      numBids: {
-         type: Sequelize.INTEGER,
-         defaultValue : 0
-      },
       bidID:{
         type: Sequelize.INTEGER
       },

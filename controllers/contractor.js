@@ -22,7 +22,7 @@ router.get('/dashboard', function(req, res) {
 
 /* get open bids of these contractor
 */
-router.get('/openbids', function(req,res){
+router.get('/bidding', function(req,res){
 
    if(!req.session.user)
       return res.redirect('/login');
@@ -30,7 +30,7 @@ router.get('/openbids', function(req,res){
   var results = [];
   // Grab data from http request
   // Get a Postgres client from the connection pool
-  var queryString = 'SELECT "bids"."id", "jobID", "estCost", "estTime", "startDays","comment", "bids"."updatedAt" AS "bidUpdatedAt",'
+  var queryString = 'SELECT "bids"."id", "jobID", "estCost", "estDays","estHours", "startDate","comment", "bids"."updatedAt" AS "bidUpdatedAt",'
                   + '"bidID", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."updatedAt" AS "jobUpdatedAt", "bidID",'
                   + '"firstName", "lastName"'
                   + 'FROM "job_bids" AS "bids"'
@@ -50,9 +50,9 @@ router.get('/openbids', function(req,res){
   query.on('end', () => {
       // return res.json(results);
       if(results.length == 0)
-         return res.render('contractor/openbids', {title: "Open Bids", session:req.session});
+         return res.render('contractor/bidding', {title: "Open Bids", session:req.session});
 
-      return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: results});
+      return res.render('contractor/bidding', {title: "Open Bids", session:req.session, bids: results});
   });
 
   
@@ -77,25 +77,25 @@ router.get('/openbids', function(req,res){
 
 
 
-router.get('/wonbids', function(req,res){
+router.get('/bidswon', function(req,res){
 
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('contractor/wonbids', {title: "Won Bids", session:req.session});
+  return res.render('contractor/bidswon', {title: "Bids Won", session:req.session});
 });
 
-router.get('/ongoingjobs', function(req,res){
+router.get('/jobsstarted', function(req,res){
 
     if(!req.session.user)
      return res.redirect('/login');
-   return res.render('contractor/ongoingjobs', {title: "Ongoing jobs", session:req.session});
+   return res.render('contractor/jobsstarted', {title: "Jobs Started", session:req.session});
 });
 
-router.get('/completedjobs', function(req,res){
+router.get('/jobscompleted', function(req,res){
 
   if(!req.session.user)
      return res.redirect('/login');
-  return res.render('contractor/completedjobs', {title: "Completed Jobs", session:req.session});
+  return res.render('contractor/jobscompleted', {title: "Jobs Completed", session:req.session});
 });
 
 router.get('/overview', function(req,res){
@@ -110,6 +110,14 @@ router.get('/message', function(req,res){
    if(!req.session.user)
      return res.redirect('/login');
    return res.render('contractor/message', {title: "Message", session:req.session});
+});
+
+
+router.get('/points', function(req,res){
+
+   if(!req.session.user)
+     return res.redirect('/login');
+   return res.render('contractor/points', {title: "Message", session:req.session});
 });
 
 router.get('/profile',function(req,res){

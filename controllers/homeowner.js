@@ -17,11 +17,11 @@ router.get('/dashboard', function(req, res) {
 
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('homeowner/dashboard', {title: "homeowner's dashboard",session: req.session})
+  return res.render('homeowner/dashboard', {title: req.session.user.firstName + "'s dashboard",session: req.session})
 });
 
 
-router.get('/pendingjobs', function(req, res) {
+router.get('/jobsbidding', function(req, res) {
 
   if(!req.session.user)
     return res.redirect('/login');
@@ -36,12 +36,12 @@ router.get('/pendingjobs', function(req, res) {
 
       if(projects){
           // console.log(projects);
-          res.render('homeowner/pendingjobs', 
-          {title: "Pending jobs", session: req.session, projects: projects})
+          res.render('homeowner/jobsbidding', 
+          {title: projects.length + " Bidding jobs", session: req.session, projects: projects})
       }
       else{
 
-         res.render('homeowner/pendingjobs', {session: req.session});
+         res.render('homeowner/jobsbidding', {session: req.session});
       }
 
   });
@@ -49,7 +49,7 @@ router.get('/pendingjobs', function(req, res) {
 });
 
 
-router.delete('/pendingjobs',function(req,res){
+router.delete('/biddingjobs',function(req,res){
 
   console.log(req.body.proj_id);
   models.homeowner_jobs.findByID(req.body.proj_id).on('success', function(project) {
@@ -57,7 +57,7 @@ router.delete('/pendingjobs',function(req,res){
      project.destroy().on('success', function(u) {
       if (u && u.deletedAt) {
       // successfully deleted the project
-       return res.redirect('/homeonwer/pendingjobs');
+       return res.redirect('/homeonwer/biddingjobs');
     }
   })
 })
@@ -85,7 +85,7 @@ router.post('/createjob', function(req, res) {
     }).then(function(project){
 
       if(project){
-          return res.redirect('/homeowner/pendingjobs');
+          return res.redirect('/homeowner/biddingjobs');
       }
       else
         res.render('homeowner/createjob',{title: "Error", session: req.session}) 
@@ -102,6 +102,28 @@ router.get('/createjob', function(req, res) {
     return res.redirect('/login');
   return res.render('homeowner/createjob', 
     {title: "Create a job", session: req.session}
+    )
+
+});
+
+
+router.get('/joboffered', function(req, res) {
+
+  if(!req.session.user)
+    return res.redirect('/login');
+  return res.render('homeowner/joboffered', 
+    {title: "Job Offered", session: req.session}
+    )
+
+});
+
+
+router.get('/jobstarted', function(req, res) {
+
+  if(!req.session.user)
+    return res.redirect('/login');
+  return res.render('homeowner/jobstarted', 
+    {title: "Job started", session: req.session}
     )
 
 });

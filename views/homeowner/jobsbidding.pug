@@ -1,6 +1,5 @@
 include dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
- input.hidden(name="proj_id")
+div#biddingjobs.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
  if (projects.length == 0)
    h1 You have no project yet.
  else
@@ -25,6 +24,9 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
         label.col-lg-2.control-label Address
         div.col-lg-10=project.street + "," + project.city + " " + project.state + " " + project.zipcode
        div.row
-        label.col-lg-2.control-label Create At
+        label.col-lg-2.control-label Created At
         div.col-lg-10=project.createdAt
+       div.row
+        label.col-lg-2.control-label Updated At
+        div.col-lg-10=project.updatedAt
 include modal_delete_job.pug

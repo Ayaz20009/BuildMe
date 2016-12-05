@@ -2,37 +2,40 @@ div#modal_bid.modal.fade(role="dialog")
  div.modal-dialog 
   div.modal-content
    div.modal-header.bg-warning
-    span Bid on the job:
+    span
+     i.fa.fa-gavel   Bid on the job:
     a.close(data-dismiss="modal") X 
-   div.modal-body.row(style="height:80vh;position:relative;overflow:auto")
+   div.modal-body.row(style="height:80vh;position:relative;overflow:auto;padding-top:2%")
     form(method="post",action="/jobs")
      div#jobInfo.col-lg-12
      div#biddingForm.col-lg-12
        div.col-lg-6.form-group 
-        label(for="cost") Estimate cost ($) :
-        input.form-control.numeric(type="text",name="cost",placeholder="Estimate cost ($)")
-       div.col-lg-6.form-group 
-        label(for="time") Estimate Days:
-        input.form-control.numeric(type="text",name="time",placeholder="Estimate Days")
-       div(style="width:100%")
-        label.col-lg-12(for="startTime") Avaliable Start Time In:
-        div.col-lg-2.form-group 
-          input.form-control.numeric(type="text",name="months",placeholder="months")
-          label(for="months") Months
-        div.col-lg-2.form-group 
-          input.form-control.numeric(type="text",name="weeks",placeholder="weeks")
-          label(for="weeks") Weeks
-        div.col-lg-2.form-group 
-          input.form-control.numeric(type="text",name="days",placeholder="days")
-          label(for="days") Days
-        div.col-lg-4.form-group 
-          input.form-control#datepicker(type="text",name="days",placeholder="Choose A Date")
-        div.col-lg-2.checkbox 
-          input(type="checkbox",name="ASAP",)
-          label(for="ASAP",) ASAP
+        label(for="cost")
+         i.fa.fa-asterisk.text-danger Estimate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cost (Dollars) :
+        input.form-control.numeric(type="text",name="estCost",placeholder="Cost ($)")
+       div.col-lg-3.form-group 
+        label(for="days") Est. Days:
+        input.form-control.numeric(type="text",name="estDays",placeholder="Days (d)")
+       div.col-lg-3.form-group 
+        label(for="hours") Est. Hours:
+        input.form-control.numeric(type="text",name="estHours",placeholder="Hours (h)")
+       div.col-lg-6
+        label.col-lg-12(style="padding-left:0") Avaliable &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Start Time In:
+        div.row(style="padding:0")
+          div.col-lg-6.form-group 
+            input.form-control.numeric.time(type="text",name="week",placeholder="weeks")
+          div.col-lg-6.form-group 
+            input.form-control.numeric.time(type="text",name="day",placeholder="days")
+       div.col-lg-4.form-group 
+        label(for="date") Date
+        input.form-control#datepicker.date(type="text",name="startDate",placeholder="Choose A Date")
+       div.col-lg-2.form-group
+        label(for="ASAP") ASAP 
+        input.form-control.hidden(name="ASAP",value=true)
+        div.btnASAP.btn.btn-block.btn-success TRUE
        div.col-lg-12.form-group 
         label(for="comment") Comment:
-        textarea.form-control(name="comment",rows="3",type="text",placeholder="Please explain why you are good fit for this job.")
+        textarea.form-control(name="comment",rows="6",type="text",placeholder="Please explain why you are good fit for this job.")
        div.col-lg-12
         button.btn.btn-md.btn-warning.col-lg-6(style="color:black;",type="submit") Submit
         a.btn.btn-default.btn-md.col-lg-6(data-dismiss="modal",type="reset") Cancel

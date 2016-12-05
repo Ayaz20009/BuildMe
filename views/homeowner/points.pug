@@ -1,3 +1,4 @@
 include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-  h1 this is for contractor ongoing jobs
+  if (!points)
+   h1.text-center You have no points yet.

@@ -19,11 +19,14 @@ module.exports = {
       estCost: {
          type: Sequelize.INTEGER
       },
-      estTime: {
+      estDays: {
          type: Sequelize.INTEGER
       },
-      startDays: {
-        type: Sequelize.INTEGER
+      estHours: {
+         type: Sequelize.INTEGER
+      },
+      startDate: {
+        type: Sequelize.DATE
       },
       comment: {
         type: Sequelize.TEXT

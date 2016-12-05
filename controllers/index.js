@@ -30,6 +30,9 @@ router.get('/', (req, res) => {
 
 });
 
+
+
+
 router.get('/contractor-signup',function(req,res){
    if(!req.session.user)
     return res.render('contractor-signup', {title: 'Contractor Sign Up'});
@@ -156,91 +159,72 @@ router.post('/jobs',function(req,res){
   if(!req.session.user)
       return res.redirect('/login');
 
-  //find the job
-   models.homeowner_jobs.findOne({
-          where: {
-            id: req.body.jobID,
-         }
-   }).then(function(job){
+   var jobID = req.body.jobID;
+   var coID = req.session.user.id;
+   var estCost = req.body.estCost;
+   var estDays = req.body.estDays;
+   var estHours = req.body.estHours;
+   var startDate = req.body.startDate;
+   var comment = req.body.comment;
 
-    //if find the job
-    if(job){
+   if(estDays == "")
+        estDays = null;
+      if(estHours == "")
+        estHours = null;
+    if(startDate == "")
+        startDate = null;
 
-       var jobID = job.id;
-       var numBids = job.numBids;
-       var coID = req.session.user.id;
-       var cost = req.body.cost;
-       var time = req.body.time;
-       var ASAP = req.body.ASAP; 
-       var days = 0;
-       if(!ASAP)
-         days = 30*req.body.months + 7*req.body.weeks + req.body.days;
-       var comment = req.body.comment;
+   // console.log("jobID: " + jobID);
+   // console.log("coID: " + coID);
+   // console.log("estCost: " + estCost);
+   // console.log("estDays " + estDays);
+   // console.log("estHours " + estHours);
+   // console.log("startDate: " + startDate);
+   // console.log("comment: " + comment);
 
-       if(jobID && coID && cost && time && days){
+   //valid input
+  if(jobID && coID && estCost && (startDate || ASAP )) {
 
-         models.job_bids.create({
-           jobID: jobID,
-           coID: coID,
-           estCost: cost,
-           estTime: time,
-           startDays: days,
-           comment : comment,
-         }).then(function(bid){
-
-          if(bid){
-
-            //update numBids in homeowner_jobs;
-            models.homeowner_jobs.findOne({
+      //find if the job still exist or open
+       models.homeowner_jobs.findOne({
               where: {
-                id: jobID,
+                id: req.body.jobID,
+                bidID : null
              }
-            })
-            .then(function(home_job){
-                
-              if(home_job){
+       })
+       .then(function(job){
 
-                home_job.updateAttributes({
-                  numBids : parseInt(numBids) + 1
-                })
-                .then(function(){
+          if(job){
+            //find the job, create bid
+               models.job_bids.create({
+                 jobID: jobID,
+                 coID: coID,
+                 estCost: estCost,
+                 estDays:  estDays,
+                 estHours: estHours,
+                 startDate: startDate,
+                 comment : comment,
+               }).then(function(bid){
 
-                   res.redirect('/jobs');
-
-                  //find bids for contracors, redirect to openbids
-                    // models.job_bids.findAll({
-                    //  where: {
-                    //  coID: coID,
-                    //  },
-                    //  order: '"createdAt" DESC',
-                    // })
-                    // .then(function(bids){
-
-                    //    res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: bids});
-          
-                    // });
-                  // res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: GetConBids(coID)});
-                });
-             }
-           });
-
+                 if(bid)
+                      return res.redirect('/jobs');
+                 else
+                    return res.render('/jobs',{title: "Error", session: req.session});
+             });
+           }
+          //did not find the job : e.g. delelte
+          else{
+            res.send("Job doesn't exist or the bidding was closed");
+            return res.redirect('/jobs');
           }
-          else
-            res.render('/jobs',{title: "Error", session: req.session});
-         });
-       }
-    }
-    //did not find the job : e.g. delelte
-    else{
-
-       res.send("Job doesn't exist or was closed.");
-    }
-
-  });//find the job
+             
+       });
+   }
+   else{
+           res.send("required fields missing.");
+   }
 
 
-
-   // res.redirect('/jobs');
 
 });
 
@@ -255,8 +239,19 @@ router.get('/searchajob', function(req, res) {
   if(!req.session.user)
     return res.render('searchajob', {title: 'Search A job'})
   else
-    res.render('searchajob', {title: 'Search A job',session: req.session})
+    return res.render('searchajob', {title: 'Search A job',session: req.session})
 });
+
+
+router.get('/*/dashboard', (req, res) => {
+
+   if(!req.session.user)
+     return res.render('index',{title: "Build Me"});
+   else
+     return res.redirect('/login');;
+});
+
+
 
 router.get('/login', function(req, res) {
   if(!req.session.user)

@@ -9,11 +9,9 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
            a(href="/jobs") Jobs
         li
            a(href="/searchajob") Search A Job
-        li
-          if (session && session.user.usertype == "homeowner")
-             a(href="/homeowner/dashboard") Dashboard
-          else 
-             a(href="/contractor/dashboard") Dashboard
+        if (session)
+         li
+           a(href="/" + session.user.usertype + "/dashboard") Dashboard
      if !session
       ul.nav.navbar-nav.navbar-right
           li

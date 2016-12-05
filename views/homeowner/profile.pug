@@ -2,7 +2,10 @@ include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
   form.form-horizontal.col-lg-11(action="/homeowner/profile",method="post")
    fieldset
-    legend= session.user.firstName + "'s Profile"
+    legend
+      label.col-lg-2.control-label.avatar.btn.btn-default=session.user.firstName[0] + session.user.lastName[0]
+    div.form-group
+      label.col-lg-2.control-label.avatar.btn.btn-default=session.user.firstName[0] + session.user.lastName[0]
     div.form-group
       lable.col-lg-2.control-label(for="Fname") First Name
       div.col-lg-10

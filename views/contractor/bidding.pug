@@ -1,11 +1,11 @@
 include dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
- input.hidden(name="proj_id")
+div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
  if !bids
-   h1.text-center You have no bid on any job yet.
+   h1.text-center You have no bidding yet.
  else
    each bid in bids
-     div.panel.panel-default.col-lg-6(id=bids.id)
+    div.col-lg-6(style="height:40vh;")
+     div.panel.panel-warning(id=bids.id,style="overflow:auto")
       div(style="padding:0") 
         if(bids.bidID)
           span.text-danger This job bidding is closed.
@@ -20,8 +20,12 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
       div.panel-body.row(style="padding:2%")
        //- div.col-lg-1.avatar.btn.btn-default=bid.jobID
        div.col-lg-11.bidInfo
+         div.row.hidden
+          label.col-lg-4.control-label Bid ID
+          div.col-lg-8
+           input(name=bidID,value=bid.id)
          div.row
-          label.col-lg-4.control-label Created By
+          label.col-lg-4.control-label Job Created By
           div.col-lg-8.avatar.btn.btn-default=bid.firstName[0] + bid.lastName[0]
          div.row
           label.col-lg-4.control-label Description
@@ -37,10 +41,17 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="padding:2%")
           div.col-lg-8='$ ' + bid.estCost
          div.row
           label.col-lg-4.control-label Estimate Days
-          div.col-lg-8=bid.estTime + ' Days'
+          div.col-lg-8
+            if (bid.estDays)
+              p=bid.estDays + ' Days'
          div.row
-          label.col-lg-4.control-label Avaible Start In
-          div.col-lg-8=bid.startDays + ' Days'
+          label.col-lg-4.control-label Estimate Hours
+          div.col-lg-8
+            if (bid.estDays)
+             p=bid.estDays + ' Hours'
+         div.row
+          label.col-lg-4.control-label Avaible Start From
+          div.col-lg-8=bid.startDate
          div.row
           label.col-lg-4.control-label Comment
           div.col-lg-8=bid.comment
