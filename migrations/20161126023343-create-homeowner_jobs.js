@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      hoID: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       jobDesc: {
         type: Sequelize.TEXT
       },
