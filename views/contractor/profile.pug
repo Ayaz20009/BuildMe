@@ -8,32 +8,32 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
       div.col-lg-10
        div.avatar.btn.btn-default=session.user.firstName[0] + session.user.lastName[0]
        input.form-control.hidden(type="file",name="avatar")
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="Fname") First Name
       div.col-lg-10
        div.list-group-item=session.user.firstName
        input.form-control.hidden(name="Fname",value=session.user.firstName)
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="Lname") Last Name
       div.col-lg-10
        div.list-group-item=session.user.lastName
        input.form-control.hidden(name="Lname",value=session.user.lastName)
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="email") Company Name
       div.col-lg-10
        div.list-group-item=session.user.companyName
        input.form-control.hidden(name="companyName",value=session.user.companyName)
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="phoneNumber") Phone Number
       div.col-lg-10
        div.list-group-item=session.user.phoneNumber
        input.form-control.hidden.numeric(name="phoneNumber",value=session.user.phoneNumber)
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label.numeric(for="licenseNumber") License Number
       div.col-lg-10
        div.list-group-item=session.user.licenseNumber
        input.form-control.hidden.numeric(name="licenseNumber",value=session.user.licenseNumber)
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="email") Email
       div.col-lg-10
        div.list-group-item=session.user.email

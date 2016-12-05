@@ -9,8 +9,9 @@ div#modal_bid.modal.fade(role="dialog")
     form(method="post",action="/jobs")
      div#jobInfo.col-lg-12
      div#biddingForm.col-lg-12
-       div.col-lg-6.form-group.required 
-        label.control-label(for="cost") Estimate Cost (Dollars) :
+       div.col-lg-6.form-group 
+        label(for="cost")
+         i.fa.fa-asterisk.text-danger Estimate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cost (Dollars) :
         input.form-control.numeric(type="text",name="estCost",placeholder="Cost ($)")
        div.col-lg-3.form-group 
         label(for="days") Est. Days:
@@ -25,8 +26,8 @@ div#modal_bid.modal.fade(role="dialog")
             input.form-control.numeric.time(type="text",name="week",placeholder="weeks")
           div.col-lg-6.form-group 
             input.form-control.numeric.time(type="text",name="day",placeholder="days")
-       div.col-lg-4.form-group.required
-        label.control-label(for="date") Date
+       div.col-lg-4.form-group 
+        label(for="date") Date
         input.form-control#datepicker.date(type="text",name="startDate",placeholder="Choose A Date")
        div.col-lg-2.form-group
         label(for="ASAP") ASAP 

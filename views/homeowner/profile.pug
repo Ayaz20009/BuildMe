@@ -8,22 +8,22 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
       div.col-lg-10
        div.avatar.btn.btn-default=session.user.firstName[0] + session.user.lastName[0]
        input.form-control.hidden(type="file",name="avatar")
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="Fname") First Name
       div.col-lg-10
        div.list-group-item=session.user.firstName
        input.form-control.hidden(name="Fname",value=session.user.firstName)
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="Lname") Last Name
       div.col-lg-10
        div.list-group-item=session.user.lastName
        input.form-control.hidden(name="Lname",value=session.user.lastName)
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="email") Email
       div.col-lg-10
        div.list-group-item=session.user.email
        input.form-control.hidden(name="email",value=session.user.email)
-    div.form-group.required
+    div.form-group
       lable.col-lg-2.control-label(for="zip") Zipcode
       div.col-lg-10
        div.list-group-item=session.user.zipcode
