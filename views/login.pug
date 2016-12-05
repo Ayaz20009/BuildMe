@@ -16,14 +16,14 @@ div(align='center')
            span.glyphicon.glyphicon-user  Contractor
       div.tab-content(style="padding-top:5%")
        div#homeowner.tab-pane.active
-        form(action='./homeowner-login', method='post')
+        form(action='/homeowner/dashboard', method='post')
          div.form-group
           input.form-control(name="home_email",id="home_email",placeholder="Email",)
          div.form-group
           input.form-control(type= "password", name="home_pass",id="home_pass",placeholder="Password")
          button.btn.btn-success.btn-block Login
        div#contractor.tab-pane
-        form(action='./contractor-login', method='post')
+        form(action='/contractor/dashboard', method='post')
          div.form-group
           input.form-control(name="con_email",id="con_email",placeholder="Email")
          div.form-group

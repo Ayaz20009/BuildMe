@@ -292,7 +292,7 @@ router.get('/login', function(req, res) {
 
 
 
-router.post('/homeowner-login', function(req, res) {
+router.post('/homeowner/dashboard', function(req, res) {
   var email = req.body.home_email.toLowerCase();
   var pass = req.body.home_pass;
   models.homeowners.findOne({
@@ -306,7 +306,7 @@ router.post('/homeowner-login', function(req, res) {
 
           req.session.user = user.dataValues;
           req.session.user.usertype = "homeowner";
-          res.render('homeowner/dashboard', 
+          res.render('./homeowner/dashboard', 
             {title: user.dataValues.firstName + " " + user.dataValues.lastName, session: req.session})
       }
       else
@@ -318,7 +318,7 @@ router.post('/homeowner-login', function(req, res) {
 
 /*
 */
-router.post('/contractor-login', function(req, res) {
+router.post('/contractor/dashboard', function(req, res) {
   var email = req.body.con_email.toLowerCase();
   var pass = req.body.con_pass;
   models.contractors.findOne({
@@ -333,7 +333,7 @@ router.post('/contractor-login', function(req, res) {
           req.session.user.usertype = "contractor";
           console.log(req.session.user.usertype);
 
-          res.render('contractor/dashboard', {title: user.dataValues.firstName, session: req.session})
+          res.render('./contractor/dashboard', {title: user.dataValues.firstName, session: req.session})
       }
       else
         return res.render('login', {error: true, title: 'Error'})

@@ -17,7 +17,5 @@ $('.sidebar a[href*="'+ path +'"]').addClass("btn-success").siblings().removeCla
 
 
 
-
-
 });
 

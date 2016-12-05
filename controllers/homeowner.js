@@ -158,12 +158,94 @@ router.get('/jobscompleted', function(req, res) {
     )
 });
 
+
+router.get('/overviewdata',function(req,res) {
+
+        var cityData = [
+        {
+            'cityName': 'Debrecen',
+            'population': 237888,
+            'income': 135430
+        },
+        {
+            'cityName': 'Miskolc',
+            'population': 216470,
+            'income': 151102
+        },
+        {
+            'cityName': 'Szeged',
+            'population': 201307,
+            'income': 141233
+        },
+        {
+            'cityName': 'Pecs',
+            'population': 179215,
+            'income': 138830
+        },
+        {
+            'cityName': 'Gyor',
+            'population': 182776,
+            'income': 145900
+        },
+        {
+            'cityName': 'Kecskemet',
+            'population': 111863,
+            'income': 178565
+        },
+        {
+            'cityName': 'Szombathely',
+            'population': 79348,
+            'income': 115900
+        },
+        {
+            'cityName': 'Szolnok',
+            'population': 74343,
+            'income': 118400
+        },
+        {
+            'cityName': 'Erd',
+            'population': 65267,
+            'income': 122000
+        },
+        {
+            'cityName': 'Szekesfehervar',
+            'population': 108958,
+            'income': 102000
+        },
+        {
+            'cityName': 'Zalaegerszeg',
+            'population': 61390,
+            'income': 112050
+        },
+        {
+            'cityName': 'Nyiregyhaza',
+            'population': 118185,
+            'income': 137855
+        },
+        {
+            'cityName': 'Szigetszentmiklos',
+            'population': 34877,
+            'income': 111542
+        }
+    ];
+
+
+    res.json(cityData);
+
+});
+
+/*show graphs*/
 router.get('/overview', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
+
   return res.render('homeowner/overview', 
     {title: "overview",session: req.session})
 });
+
+
+
+
 
 router.get('/message', function(req, res) {
   if(!req.session.user)
