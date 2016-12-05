@@ -2,7 +2,7 @@ include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
   form.form-horizontal.col-lg-11(action="/homeowner/newjob",method="post")
    fieldset
-    legend Creat A project
+    legend Creat A projects 
     div.form-group
       lable.col-lg-2.control-label(for="proj_desc") Project Description
       div.col-lg-10
@@ -43,6 +43,10 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
         div.col-lg-6
           input.form-control.numeric(type="text",name="proj_zip",placeholder="Zipcode")
     div.form-group
-      div.col-lg-10.col-lg-offset-2
-        button.btn.btn-default.col-lg-2(type="reset") Cancel
-        button.btn.btn-primary.col-lg-2(id="btnSubmit") Submit
+      lable.col-lg-2.control-label  Action
+      div.col-lg-10
+        button.btn.btn-default.col-lg-3(type="reset") Cancel
+        button.btn.btn-primary.col-lg-3(id="btnSubmit") Submit
+    if error
+     div.form-group
+       lable.col-lg-offset-2.col-lg-8.control-label Job Description and address required

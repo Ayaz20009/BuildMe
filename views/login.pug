@@ -1,8 +1,10 @@
 include base.pug
 div(align='center')
   div.panel.panel-success(style="width:40%;margin-top:3%",align='center')
-    div.panel-heading Please enter your account information:
+    div.panel-heading.bg-danger Please enter your account information:
     div.panel-body
+      if error
+       div.bg-danger(style="margin:2%") Error : Email or password not match.
       ul.nav.nav-tabs
         li.active
           a(data-toggle="tab",href="#homeowner")

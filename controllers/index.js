@@ -122,7 +122,7 @@ router.get('/jobs', function(req, res) {
                   + 'WHERE "bidID" IS null '
                   + 'ORDER BY "jobs"."createdAt" DESC';
 
-  query = client.query(queryString);
+  var query = client.query(queryString);
     // Stream results back one row at a time
   query.on('row', (row) => {
       results.push(row);
@@ -226,8 +226,16 @@ router.post('/jobs',function(req,res){
                  comment : comment,
                }).then(function(bid){
 
-                 if(bid)
-                      return res.redirect('/jobs');
+                 if(bid){
+                      //update value of numBids at homeowner_jobs;
+                       job.updateAttributes({                      
+                         numBids : job.numBids + 1,
+                    })
+                    .then(function(){
+
+                        return res.redirect('/jobs');
+                     });
+                 }
                  else
                     return res.render('/jobs',{title: "Error", session: req.session});
              });
@@ -302,7 +310,7 @@ router.post('/homeowner-login', function(req, res) {
             {title: user.dataValues.firstName + " " + user.dataValues.lastName, session: req.session})
       }
       else
-          return res.redirect('/login');
+        return res.render('login', {error: true, title: 'Error'})
   });
 
 });
@@ -328,7 +336,7 @@ router.post('/contractor-login', function(req, res) {
           res.render('contractor/dashboard', {title: user.dataValues.firstName, session: req.session})
       }
       else
-          return res.redirect('/login');
+        return res.render('login', {error: true, title: 'Error'})
   });
 });
 

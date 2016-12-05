@@ -114,7 +114,7 @@ router.post('/newjob', function(req, res) {
     });
   }
   else
-    res.render('homeowner/newjob',{title: "Error", session: req.session}) 
+    res.render('homeowner/newjob',{title: "Error",error: "Required Fields missing", session: req.session}) 
 });
 
 
