@@ -8,10 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      hoID: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
       jobDesc: {
         type: Sequelize.TEXT
       },
@@ -26,6 +22,10 @@ module.exports = {
       },
       zipcode: {
         type: Sequelize.INTEGER
+      },
+      numBids:{
+        type: Sequelize.INTEGER
+         defaultValue:0
       },
       bidID:{
         type: Sequelize.INTEGER

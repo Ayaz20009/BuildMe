@@ -7,6 +7,8 @@ module.exports = function(sequelize, DataTypes) {
     city:DataTypes.STRING,
     state:DataTypes.STRING,
     zipcode: DataTypes.INTEGER,
+    numBids:DataTypes.INTEGER,
+    bidID: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate: function(models) {

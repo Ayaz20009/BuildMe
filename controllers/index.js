@@ -4,6 +4,7 @@ const path = require('path');
 const models = require('../models');
 const router = express.Router();
 //const basename = path.basename(module.filename);
+
 const pg = require('pg');
 const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
 const client = new pg.Client(connectionString);
@@ -112,9 +113,9 @@ router.post('/homeowner-signup',function(req,res,next){
 /*get all jobs created by all users
 */
 router.get('/jobs', function(req, res) {
-
+     
   var results = [];
-  var queryString = 'SELECT "jobs"."id", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
+  var queryString = 'SELECT "jobs"."id" AS "jobID","jobs"."hoID", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
                   + '"firstName", "lastName" '
                   + 'FROM "homeowner_jobs" AS "jobs" '
                   + 'JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID" '
@@ -129,15 +130,34 @@ router.get('/jobs', function(req, res) {
   // After all data is returned, close connection and return results
   query.on('end', () => {
       // return res.json(results);
-      
-      var contractor;
-      if(req.session.user && req.session.user.usertype != "homeowner")
-          contractor = true;
-
       if(!req.session.user)
-         return res.render('jobs', {title: 'Jobs', projects:results, contractor: contractor});
-      else
-         return res.render('jobs', {title: 'Jobs', projects:results, contractor: contractor, session: req.session});
+          return res.render('jobs', {title: 'Jobs', projects:results, contractor: false});
+      else{
+
+          if(req.session.user && req.session.user.usertype == "homeowner"){
+
+              return res.render('jobs', {title: 'Jobs', projects:results, contractor: false, session: req.session}); 
+          }
+          else{
+               //if contractor , first get the job that alreday bidden by the contractor
+              models.job_bids.findAll({
+                  where: {
+                     coID: req.session.user.id,
+                 },
+                  attributes: ['jobID'], 
+              }).then(function(bids){
+
+                var bidJobID = [];
+                for(var i in bids ){
+                     bidJobID.push(bids[i].jobID);
+                }
+                  return res.render('jobs',
+                    {title: 'Jobs', projects:results, bidJobID : bidJobID, contractor: true, session: req.session}
+                  ); 
+             });
+
+          }
+      }
   });
 
   // models.homeowner_jobs.findAll()

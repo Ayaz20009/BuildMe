@@ -4,14 +4,17 @@ if (projects.length == 0)
   h1.text-center There is no job yet.
 else
   each project in projects
-   div.panel.panel-success(id=project.id,style="width:90%;margin:2% 5% 2% 5%")
+   div.panel.panel-success(id=project.jobID,style="width:90%;margin:2% 5% 2% 5%")
+     if (!contractor && session)
+      if (project.hoID == session.user.id )
+       div.panel-heading.text-center(style="padding:0") You created this job
      div.panel-body(style="padding:2%")
       div.col-lg-1.avatar.btn.btn-default=project.firstName[0] + project.lastName[0]
       div.col-lg-10
        div.row.jobInfo
-         div.col-lg-12.hidden 
+         div.col-lg-12.hidden
           label.col-lg-2 JobID
-          input(name="jobID",value=project.id)
+          input(name="jobID",value=project.jobID)
          div.col-lg-12
           label.col-lg-2  Description:
           div.col-lg-10=project.jobDesc
@@ -25,7 +28,13 @@ else
           label.col-lg-2 UpdatedAt:
           div.col-lg-10=project.updatedAt
       if (contractor)
-       div.col-lg-1.pull-right
-        button.btnBid.btn.btn-warning(data-toggle="modal",data-target="#modal_bid")
-         i.fa.fa-gavel  Bid
+        if (bidJobID.indexOf(project.jobID) != -1)
+         div.col-lg-1.pull-right
+            button.btnBid.btn.btn-warning.disabled(style="white-space:normal")
+             i.fa.fa-gavel  You bid this job.
+        else
+         div.col-lg-1.pull-right
+            button.btnBid.btn.btn-warning(data-toggle="modal",data-target="#modal_bid")
+             i.fa.fa-gavel  Bid
+
 include modal_bid.pug
