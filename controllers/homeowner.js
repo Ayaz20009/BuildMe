@@ -26,28 +26,6 @@ router.get('/jobscreated', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
 
-  // var results = [];
-
-  // var queryString = 'SELECT "jobs"."id", "count","street", "city", "state", "zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID"'
-  //                 + 'FROM (SELECT COUNT("jobID") AS "count", "jobID" FROM "job_bids" GROUP BY "jobID") AS "bids"'
-  //                 + 'RIGHT JOIN "homeowner_jobs" AS "jobs" on "jobs"."id" = "bids"."jobID"'
-  //                 + 'WHERE "jobs"."hoID" =' + req.session.user.id
-  //                 + 'ORDER BY "jobs"."createdAt" DESC';
-
-  // query = client.query(queryString);
-  //   // Stream results back one row at a time
-  // query.on('row', (row) => {
-  //     results.push(row);
-  //   });
-  // // After all data is returned, close connection and return results
-  // query.on('end', () => {
-  //     // return res.json(results);
-  //     res.render('homeowner/jobscreated', 
-  //     {title: results.length + " jobs created", session: req.session, projects: results })
-
-  // });
-
-
 // find projects that were created by this user
   models.homeowner_jobs.findAll({
       where: {
@@ -159,79 +137,20 @@ router.get('/jobscompleted', function(req, res) {
 });
 
 
-router.get('/overviewdata',function(req,res) {
-
-        var cityData = [
-        {
-            'cityName': 'Debrecen',
-            'population': 237888,
-            'income': 135430
-        },
-        {
-            'cityName': 'Miskolc',
-            'population': 216470,
-            'income': 151102
-        },
-        {
-            'cityName': 'Szeged',
-            'population': 201307,
-            'income': 141233
-        },
-        {
-            'cityName': 'Pecs',
-            'population': 179215,
-            'income': 138830
-        },
-        {
-            'cityName': 'Gyor',
-            'population': 182776,
-            'income': 145900
-        },
-        {
-            'cityName': 'Kecskemet',
-            'population': 111863,
-            'income': 178565
-        },
-        {
-            'cityName': 'Szombathely',
-            'population': 79348,
-            'income': 115900
-        },
-        {
-            'cityName': 'Szolnok',
-            'population': 74343,
-            'income': 118400
-        },
-        {
-            'cityName': 'Erd',
-            'population': 65267,
-            'income': 122000
-        },
-        {
-            'cityName': 'Szekesfehervar',
-            'population': 108958,
-            'income': 102000
-        },
-        {
-            'cityName': 'Zalaegerszeg',
-            'population': 61390,
-            'income': 112050
-        },
-        {
-            'cityName': 'Nyiregyhaza',
-            'population': 118185,
-            'income': 137855
-        },
-        {
-            'cityName': 'Szigetszentmiklos',
-            'population': 34877,
-            'income': 111542
-        }
-    ];
+router.get('/overviewbids',function(req,res) {
 
 
-    res.json(cityData);
+   models.homeowner_jobs.findAll({
+      where: {
+         hoID: req.session.user.id,
+     },
+     order: '"createdAt" DESC',
+  }).then(function(data){
 
+      res.json(data);
+
+  })
+    
 });
 
 /*show graphs*/
