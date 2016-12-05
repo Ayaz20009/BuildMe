@@ -329,30 +329,28 @@ router.get('/logout', function(req, res) {
 get all jobs 
 
 */
-function getAllJobs(){
+// function getAllJobs(){
 
 
-  var results = [];
-  var queryString = 'SELECT "jobs"."id", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
-                  + '"firstName", "lastName" '
-                  + 'FROM "homeowner_jobs" AS "jobs" '
-                  + 'JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID" '
-                  + 'WHERE "bidID" IS null '
-                  + 'ORDER BY "jobs"."createdAt" DESC';
+//   var results = [];
+//   var queryString = 'SELECT "jobs"."id", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
+//                   + '"firstName", "lastName" '
+//                   + 'FROM "homeowner_jobs" AS "jobs" '
+//                   + 'JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID" '
+//                   + 'WHERE "bidID" IS null '
+//                   + 'ORDER BY "jobs"."createdAt" DESC';
 
-  query = client.query(queryString);
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-query.on('end', () =>{console.log(results);
+//   query = client.query(queryString);
+//     // Stream results back one row at a time
+//     query.on('row', (row) => {
+//       results.push(row);
+//     });
+// query.on('end', () =>{console.log(results);
 
-  return results;
-});
-
-
+//   return results;
+// });
 
 
-};
+// };
 
 module.exports = router;

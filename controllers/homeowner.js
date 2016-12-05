@@ -26,25 +26,47 @@ router.get('/jobscreated', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
 
-//find projects that were created by this user
-  models.homeowner_jobs.findAll({
-      where: {
-         hoID: req.session.user.id,
-     },
-     order: '"createdAt" DESC',
-  }).then(function(projects){
+  var results = [];
 
-      if(projects){
-          // console.log(projects);
-          res.render('homeowner/jobscreated', 
-          {title: projects.length + " jobs created", session: req.session, projects: projects})
-      }
-      else{
+  var queryString = 'SELECT "jobs"."id", "count","street", "city", "state", "zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID"'
+                  + 'FROM (SELECT COUNT("jobID") AS "count", "jobID" FROM "job_bids" GROUP BY "jobID") AS "bids"'
+                  + 'JOIN "homeowner_jobs" AS "jobs" on "jobs"."id" = "bids"."jobID"'
+                  + 'WHERE "jobs"."hoID" =' + req.session.user.id
+                  + 'ORDER BY "jobs"."createdAt" DESC';
 
-         res.render('homeowner/jobscreated', {session: req.session});
-      }
+  query = client.query(queryString);
+    // Stream results back one row at a time
+  query.on('row', (row) => {
+      results.push(row);
+    });
+  // After all data is returned, close connection and return results
+  query.on('end', () => {
+      // return res.json(results);
+      res.render('homeowner/jobscreated', 
+      {title: results.length + " jobs created", session: req.session, projects: results })
 
   });
+
+
+//find projects that were created by this user
+  // models.homeowner_jobs.findAll({
+  //     where: {
+  //        hoID: req.session.user.id,
+  //    },
+  //    order: '"createdAt" DESC',
+  // }).then(function(projects){
+
+  //     if(projects){
+  //         // console.log(projects);
+  //         res.render('homeowner/jobscreated', 
+  //         {title: projects.length + " jobs created", session: req.session, projects: projects})
+  //     }
+  //     else{
+
+  //        res.render('homeowner/jobscreated', {session: req.session});
+  //     }
+
+  // });
 
 });
 
