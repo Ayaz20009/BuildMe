@@ -123,7 +123,7 @@ router.get('/jobs', function(req, res) {
 
   query = client.query(queryString);
     // Stream results back one row at a time
-    query.on('row', (row) => {
+  query.on('row', (row) => {
       results.push(row);
     });
   // After all data is returned, close connection and return results
@@ -325,5 +325,34 @@ router.get('/logout', function(req, res) {
 });
 
 
+/*
+get all jobs 
+
+*/
+function getAllJobs(){
+
+
+  var results = [];
+  var queryString = 'SELECT "jobs"."id", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
+                  + '"firstName", "lastName" '
+                  + 'FROM "homeowner_jobs" AS "jobs" '
+                  + 'JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID" '
+                  + 'WHERE "bidID" IS null '
+                  + 'ORDER BY "jobs"."createdAt" DESC';
+
+  query = client.query(queryString);
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+      results.push(row);
+    });
+query.on('end', () =>{console.log(results);
+
+  return results;
+});
+
+
+
+
+};
 
 module.exports = router;

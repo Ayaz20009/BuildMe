@@ -51,7 +51,7 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
              p=bid.estDays + ' Hours'
          div.row
           label.col-lg-4.control-label Avaible Start From
-          div.col-lg-8=bid.startDate
+          div.col-lg-8=bid.startDate.toString().substr(0,14)
          div.row
           label.col-lg-4.control-label Comment
           div.col-lg-8=bid.comment

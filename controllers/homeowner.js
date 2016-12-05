@@ -21,7 +21,7 @@ router.get('/dashboard', function(req, res) {
 });
 
 
-router.get('/jobsbidding', function(req, res) {
+router.get('/jobscreated', function(req, res) {
 
   if(!req.session.user)
     return res.redirect('/login');
@@ -36,12 +36,12 @@ router.get('/jobsbidding', function(req, res) {
 
       if(projects){
           // console.log(projects);
-          res.render('homeowner/jobsbidding', 
-          {title: projects.length + " Bidding jobs", session: req.session, projects: projects})
+          res.render('homeowner/jobscreated', 
+          {title: projects.length + " jobs created", session: req.session, projects: projects})
       }
       else{
 
-         res.render('homeowner/jobsbidding', {session: req.session});
+         res.render('homeowner/jobscreated', {session: req.session});
       }
 
   });
@@ -49,7 +49,7 @@ router.get('/jobsbidding', function(req, res) {
 });
 
 
-router.delete('/biddingjobs',function(req,res){
+router.delete('/jobscreated',function(req,res){
 
   console.log(req.body.proj_id);
   models.homeowner_jobs.findByID(req.body.proj_id).on('success', function(project) {
@@ -57,14 +57,14 @@ router.delete('/biddingjobs',function(req,res){
      project.destroy().on('success', function(u) {
       if (u && u.deletedAt) {
       // successfully deleted the project
-       return res.redirect('/homeonwer/biddingjobs');
+       return res.redirect('/homeonwer/jobscreated');
     }
   })
 })
 
 });
 
-router.post('/createjob', function(req, res) {
+router.post('/newjob', function(req, res) {
   var hoID = req.session.user.id;
   var desc = req.body.proj_desc;
   var street = req.body.proj_street;
@@ -85,53 +85,53 @@ router.post('/createjob', function(req, res) {
     }).then(function(project){
 
       if(project){
-          return res.redirect('/homeowner/biddingjobs');
+          return res.redirect('/homeowner/jobsbidding');
       }
       else
-        res.render('homeowner/createjob',{title: "Error", session: req.session}) 
+        res.render('homeowner/newjob',{title: "Error", session: req.session}) 
     });
   }
   else
-    res.render('homeowner/createjob',{title: "Error", session: req.session}) 
+    res.render('homeowner/newjob',{title: "Error", session: req.session}) 
 });
 
 
-router.get('/createjob', function(req, res) {
+router.get('/newjob', function(req, res) {
 
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('homeowner/createjob', 
+  return res.render('homeowner/newjob', 
     {title: "Create a job", session: req.session}
     )
 
 });
 
 
-router.get('/joboffered', function(req, res) {
+router.get('/jobsoffered', function(req, res) {
 
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('homeowner/joboffered', 
+  return res.render('homeowner/jobsoffered', 
     {title: "Job Offered", session: req.session}
     )
 
 });
 
 
-router.get('/jobstarted', function(req, res) {
+router.get('/jobsstarted', function(req, res) {
 
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('homeowner/jobstarted', 
+  return res.render('homeowner/jobsstarted', 
     {title: "Job started", session: req.session}
     )
 
 });
 
-router.get('/completedjobs', function(req, res) {
+router.get('/jobscompleted', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('homeowner/completedjobs', 
+  return res.render('homeowner/jobscompleted', 
     {title: "completedjobs", session: req.session}
     )
 });
@@ -150,6 +150,16 @@ router.get('/message', function(req, res) {
     {title: "message", session: req.session}
     )
 });
+
+
+router.get('/points', function(req, res) {
+  if(!req.session.user)
+    return res.redirect('/login');
+  return res.render('homeowner/points', 
+    {title: "points", session: req.session}
+    )
+});
+
 
 router.get('/profile', function(req, res) {
   if(!req.session.user)
