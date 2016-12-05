@@ -5,19 +5,19 @@ div(align='center')
     div.panel-body
       h2 Contractor
       form(action='/contractor-signup', method='post')
-        div.form-group(style="margin-top:3%")
+        div.form-group.required(style="margin-top:3%")
           input.form-control(type="text", id="inputFname", name = "firstName", placeholder="First Name",)
         div.form-group(style="margin-top:3%")
           input.form-control(type="text", id="inputLname", name = "lastName", placeholder="Last Name",)
-        div.form-group
+        div.form-group.required
           input.form-control(type="text", id="inputcompanyName", name="companyName", placeholder="Company Name",)
-        div.form-group
+        div.form-group.required
           input.form-control.numeric(type="text", id="inputphoneNumber", name="phoneNumber", placeholder="Phone Number",)
-        div.form-group
+        div.form-group.required
           input.form-control.numeric(type="text", id="inputlicenseNumber", name="licenseNumber", placeholder="License Number",)
-        div.form-group
+        div.form-group.required
           input.form-control(type="text", id="inputemail", name="email", placeholder="Email",)
-        div.form-group
+        div.form-group.required
           input.form-control(type="password", id="inputpassword", name="password", placeholder="Passowrd",)
         button.btn.btn-primary.btn-block Sign Up
     div.panel-footer By clicking Sign Up, you agree to the BuildMe User Agreement, Privacy Policy, and Cookie Policy.

@@ -5,13 +5,13 @@ div(align='center')
     div.panel-body
       h2 Homeowner
       form(action='/homeowner-signup',method='post')
-        div.form-group(style="margin-top:3%")
+        div.form-group.required(style="margin-top:3%")
           input.form-control(type="text", id="inputFname", name = "firstName", placeholder="First Name",)
-        div.form-group
+        div.form-group.required
           input.form-control(type="text", id="inputLname", name="lastName", placeholder="Last Name",)
-        div.form-group
+        div.form-group.required
           input.form-control.numeric(type="text", id="inputzipcode", name="zipcode", placeholder="Zipcode",)
-        div.form-group
+        div.form-group.required
           input.form-control(type="text", id="inputEmail", name="email", placeholder="Email",)
         div.form-group
           input.form-control(type="password", id="inputpassword", name="password", placeholder="Password",)
