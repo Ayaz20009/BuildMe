@@ -3,7 +3,7 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
   form.form-horizontal.col-lg-11(action="/homeowner/newjob",method="post")
    fieldset
     legend Creat A projects 
-    div.form-group
+    div.form-group.required
       lable.col-lg-2.control-label(for="proj_desc") Project Description
       div.col-lg-10
        textarea.form-control(name="proj_desc",rows="5",placeholder="Project Description")
@@ -28,14 +28,14 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
           input.form-control#datepicker(type="text",name="days",placeholder="Choose A Date")
         div.col-lg-2.form-group 
           div.btnASAP.btn.btn-block.btn-danger(name="ASAP",value="FALSE") ASAP       
-    div.form-group
+    div.form-group.required
       lable.col-lg-2.control-label Address
       div.col-lg-10.row
         div.col-lg-6
          input.form-control(type="text",name="proj_street",placeholder="Street")
         div.col-lg-6
           input.form-control(type="text",name="proj_city",placeholder="City")
-    div.form-group
+    div.form-group.required
       lable.col-lg-2.control-label(for="proj_state") State
       div.col-lg-10.row
         div.col-lg-6
