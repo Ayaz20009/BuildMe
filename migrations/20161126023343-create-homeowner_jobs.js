@@ -23,9 +23,6 @@ module.exports = {
       zipcode: {
         type: Sequelize.INTEGER
       },
-      startDate: {
-        type: Sequelize.DATE
-      },
       numBids:{
         type: Sequelize.INTEGER
          defaultValue:0

@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     estCost: DataTypes.INTEGER,
     estDays: DataTypes.INTEGER,
     estHours: DataTypes.INTEGER,
-    startDate: DataTypes.DATE,
+    startDate: DataTypes.INTEGER,
     comment : DataTypes.TEXT,
   }, {
     classMethods: {
