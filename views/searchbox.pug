@@ -1,4 +1,4 @@
-form.col-lg-12.well(style="margin-bottom:0")
+form.col-lg-12.well(style="margin-bottom:0",method="get",action="/jobs")
 	div.form-group.col-lg-12
 		input.form-control(type="text",placeholder="Job Descprtion",name="jobDesc")
 	div.form-group.col-lg-6
@@ -8,7 +8,7 @@ form.col-lg-12.well(style="margin-bottom:0")
 	div.form-group.col-lg-6
 		input.form-control.numeric(type="text",placeholder="zipcode",name="zipcode",maxlength="6")
 	div.form-group.col-lg-6
-		input.datepicker.form-control(type="text",placeholder="Required By Date")
+		input.datepicker.form-control(type="text",placeholder="Finish By Date",name="date")
 	div.btn-group.col-lg-12
 		button.btn.col-lg-6.closeDropdown(type="reset",data-toggle="dropdown") Cancel
 		button.btn.col-lg-6.btn-info.col-lg-block Search   

@@ -7,7 +7,7 @@ div.container(style="padding-top:1%")
  - var i = 0;
  each bid in bids
    - i++;
-   div.panel.panel-warning.col-lg-6(id=bids.id,style="margin:1%;padding:1%;width:48%;height:50vh;overflow:auto")
+   div.panel.panel-warning.col-lg-6(id=bids.id,style="margin:1%;padding:1%;width:48%;height:50vh;overflow:autog;border-radius:50%")
     div.panel.body.bidInfo 
      div.row.hidden
       label.col-lg-4.control-label Bid ID
@@ -52,4 +52,4 @@ div.container(style="padding-top:1%")
       div.col-lg-8=bid.comment
      div.row
       label.col-lg-4.control-label Bid At
-      div.col-lg-8=bid.createdAt.toString().substr(0,21)
+      div.col-lg-8=bid.createdAt.toString().substr(0,24)
