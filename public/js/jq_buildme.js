@@ -102,6 +102,27 @@ $(".btnBid").click(function(){
 
 
 
+// $("#btnBid").prop('disabled', true);
+
+
+// $("#biddingForm .form-control").keyup(function(){
+
+//     var form =  $('#biddingForm');
+
+//     if ( form.find('[name=estCost]').val() > 0
+//             && 
+//         (form.find('[name=estDays]').val() > 0 || form.find('[name=estHours]').val() > 0 )
+
+//            && 
+//            isDate($('#datepicker').val())
+//         )
+//       $("#btnBid").prop('disabled', false);
+//     else
+//       $("#btnBid").prop('disabled', true);
+// });
+
+
+
 //change time value 
   $('.btnASAP').click(function(){
 
@@ -140,9 +161,7 @@ $(".btnBid").click(function(){
 
   $("#datepicker").on('change', function(){
  
-      var date  = new Date($(this).val());
-
-       if(date != "Invalid Date" && $(this).val().split("/").length == 3){
+       if(isDate($(this).val())){
           //empty other input
          $("input.time").val("");
          ASAP(false);
@@ -177,6 +196,16 @@ $(".btnBid").click(function(){
 
   };
 
+
+//verify str is valid date form MM/DD/YYYY
+  function isDate(str){  
+
+     var date  = new Date(str);
+     if(date != "Invalid Date" && $(this).val().split("/").length == 3)
+      return true;
+    else
+      return false
+  };
 
 
 });

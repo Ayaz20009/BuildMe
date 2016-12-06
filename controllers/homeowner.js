@@ -228,4 +228,30 @@ router.post('/profile', function(req, res) {
 });
 
 
+/*
+view bids on the job created
+*/
+router.get('/bids/:jobID', function(req, res) {
+
+  if(!req.session.user)
+    return res.redirect('/login');
+
+  var jobID = req.params.jobID;
+
+  console.log(jobID);
+// find bids on this job
+  models.job_bids.findAll({
+      where: {
+         jobID: jobID,
+     },
+     order: '"createdAt" DESC',
+  })
+  .then(function(bids){
+
+      if(bids)
+         res.render('homeowner/bids', {title: bids.length + ' bids', bids: bids, session: req.session});
+  });
+
+});
+
 module.exports = router;

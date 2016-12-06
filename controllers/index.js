@@ -152,7 +152,7 @@ router.get('/jobs', function(req, res) {
                      bidJobID.push(bids[i].jobID);
                 }
                   return res.render('jobs',
-                    {title: 'Jobs', projects:results, bidJobID : bidJobID, contractor: true, session: req.session}
+                    {title: results.length + ' Jobs', projects:results, bidJobID : bidJobID, contractor: true, session: req.session}
                   ); 
              });
 
@@ -234,6 +234,8 @@ router.post('/jobs',function(req,res){
                     .then(function(){
 
                         return res.redirect('/jobs');
+                       // return res.render('/jobs',{title: "Bid Success !", session: req.session});
+
                      });
                  }
                  else
@@ -243,7 +245,7 @@ router.post('/jobs',function(req,res){
           //did not find the job : e.g. delelte
           else{
             res.send("Job doesn't exist or the bidding was closed");
-            return res.redirect('/jobs');
+            // return res.redirect('/jobs');
           }
              
        });

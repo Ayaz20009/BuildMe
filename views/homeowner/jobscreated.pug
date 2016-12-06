@@ -6,8 +6,12 @@ div#biddingjobs.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
    each project in projects
     div.panel.panel-default(id=project.id)
       div.panel-heading(style="padding:0")
-       a.btn-warning.btn-sm.btn.col-lg-1(href="")=project.numBids
-        i.fa.fa-gavel.pull-left
+       if (project.numBids > 0)
+         a.btn-warning.btn-sm.btn.col-lg-1(href="/homeowner/bids/" + project.id)=project.numBids
+           i.fa.fa-gavel.pull-left
+       else
+         a.btn-warning.btn-sm.btn.col-lg-1.disabled=project.numBids
+           i.fa.fa-gavel.pull-left
        div.dropdown.pull-right
         a.btn.dropbtn
          span.caret

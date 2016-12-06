@@ -5,18 +5,18 @@ div#modal_bid.modal.fade(role="dialog")
     span
      i.fa.fa-gavel   Bid on the job:
     a.close(data-dismiss="modal") X 
-   div.modal-body.row(style="height:80vh;position:relative;overflow:auto;padding-top:2%")
+   div.modal-body.row(style="height:85vh;position:relative;overflow:auto;padding-top:2%")
     form(method="post",action="/jobs")
      div#jobInfo.col-lg-12
      div#biddingForm.col-lg-12
        div.col-lg-6.form-group.required 
         label.control-label(for="cost") Estimate Cost (Dollars) :
         input.form-control.numeric(type="text",name="estCost",placeholder="Cost ($)")
-       div.col-lg-3.form-group 
-        label(for="days") Est. Days:
+       div.col-lg-3.form-group.required
+        label.control-label(for="days") Est. Days:
         input.form-control.numeric(type="text",name="estDays",placeholder="Days (d)")
        div.col-lg-3.form-group 
-        label(for="hours") Est. Hours:
+        label.control-label(for="hours") Est. Hours:
         input.form-control.numeric(type="text",name="estHours",placeholder="Hours (h)")
        div.col-lg-6
         label.col-lg-12(style="padding-left:0") Avaliable &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Start Time In:
@@ -29,14 +29,14 @@ div#modal_bid.modal.fade(role="dialog")
         label.control-label(for="date") Date
         input.form-control#datepicker.date(type="text",name="startDate",placeholder="Choose A Date")
        div.col-lg-2.form-group
-        label(for="ASAP") ASAP 
+        label.control-label(for="ASAP") ASAP 
         input.form-control.hidden(name="ASAP",value=true)
         div.btnASAP.btn.btn-block.btn-success TRUE
        div.col-lg-12.form-group 
-        label(for="comment") Comment:
-        textarea.form-control(name="comment",rows="6",type="text",placeholder="Please explain why you are good fit for this job.")
+        label.control-label(for="comment") Comment:
+        textarea.form-control(name="comment",rows="5",type="text",placeholder="Please explain why you are good fit for this job.")
        div.col-lg-12
-        button.btn.btn-md.btn-warning.col-lg-6(style="color:black;",type="submit") Submit
+        button#btnBid.btn.btn-md.btn-warning.col-lg-6(style="color:black;",type="submit") Submit
         a.btn.btn-default.btn-md.col-lg-6(data-dismiss="modal",type="reset") Cancel
    //- div.modal-footer 
      
