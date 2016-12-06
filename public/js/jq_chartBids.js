@@ -12,23 +12,21 @@ function drawChartBids() {
 
      // 	alert(response);
 
-        var data  = [['id', 'Estimate Cost', 'Estimate Days']];
+        var data  = [['Name', 'Estimate Cost', 'Estimate Days']];
 
         for(var i in response){
+
             var row = response[i];
-            var id = parseInt(row.id);
+            var name = (parseInt(i) + 1) + " : " + row.firstName + " " + row.lastName ;
             var estCost = parseInt(row.estCost);
             var estDays = 0;
             var estHours = 0;
 
             if(row.estDays)
-                estDays = parseInt(estDays);
+               estDays = parseInt(row.estDays);
             if(row.estHours)
-               estDays  += (parseInt(row.estHours)/24.0).toFixed(1);
-
-             console.log(estDays);
-
-             data.push([id, estCost, estDays]);
+               estDays  += (parsefloat(row.estHours)/24.0).toFixed(1);
+             data.push([name, estCost, estDays]);
         }
 
       var dataTable = new google.visualization.arrayToDataTable(data);

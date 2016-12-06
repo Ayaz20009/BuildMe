@@ -234,24 +234,48 @@ view bids on the job created
 */
 router.get('/bids/:jobID', function(req, res) {
 
-  if(!req.session.user)
-    return res.redirect('/login');
+//   if(!req.session.user)
+//     return res.redirect('/login');
 
+//   var jobID = req.params.jobID;
+
+//   // console.log(jobID);
+// // find bids on this job
+//   models.job_bids.findAll({
+//       where: {
+//          jobID: jobID,
+//      },
+//      order: '"createdAt" DESC',
+//   })
+//   .then(function(bids){
+
+//       if(bids)
+//          res.render('homeowner/bids', {title: bids.length + ' bids', bids: bids, session: req.session});
+//   });
+
+  if(!req.session.user && req.session.user.usertype != "homeowner")
+    return;
   var jobID = req.params.jobID;
 
-  // console.log(jobID);
-// find bids on this job
-  models.job_bids.findAll({
-      where: {
-         jobID: jobID,
-     },
-     order: '"createdAt" DESC',
-  })
-  .then(function(bids){
+  var results = [];
+  var queryString = 'SELECT "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
+                  + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '
+                  + 'FROM "job_bids" AS "bids" '
+                  + 'JOIN "contractors" on "contractors"."id" = "bids"."coID" '
+                  + 'WHERE "bids"."jobID" =' + jobID
+                  + 'ORDER BY "bids"."createdAt" ASC';
 
-      if(bids)
-         res.render('homeowner/bids', {title: bids.length + ' bids', bids: bids, session: req.session});
+  var query = client.query(queryString);
+    // Stream results back one row at a time
+  query.on('row', (row) => {
+      results.push(row);
+    });
+  // After all data is returned, close connection and return results
+  query.on('end', () => {
+
+      return res.render('homeowner/bids', {title: results.length + ' bids', bids: results, session: req.session});
   });
+
 
 });
 
@@ -262,17 +286,23 @@ router.get('/dataBids/:jobID', function(req, res) {
     return;
   var jobID = req.params.jobID;
 
-  // console.log(jobID);
-// find bids on this job
-  models.job_bids.findAll({
-      where: {
-         jobID: jobID,
-     },
-     order: '"createdAt" DESC',
-  })
-  .then(function(bids){
-      if(bids)
-         res.send(bids);
+  var results = [];
+  var queryString = 'SELECT "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt", "bids"."updatedAt",'
+                  + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '
+                  + 'FROM "job_bids" AS "bids" '
+                  + 'JOIN "contractors" on "contractors"."id" = "bids"."coID" '
+                  + 'WHERE "jobID" =' + jobID
+                  + 'ORDER BY "bids"."createdAt" ASC';
+
+  var query = client.query(queryString);
+    // Stream results back one row at a time
+  query.on('row', (row) => {
+      results.push(row);
+    });
+  // After all data is returned, close connection and return results
+  query.on('end', () => {
+
+        res.send(results);
   });
 
 });

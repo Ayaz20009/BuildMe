@@ -3,27 +3,47 @@ include source.pug
 script(type="text/javascript",src="https://www.gstatic.com/charts/loader.js")
 script(type="text/javascript",src="/js/jq_chartBids.js")
 div.container(style="padding-top:1%")
- div#bids.col-lg-12.well(style="height:300px")
+ div#bids.col-lg-12.well(style="height:250px")
+ - var i = 0;
  each bid in bids
-   div.panel.panel-warning.col-lg-12(id=bids.id)
+   - i++;
+   div.panel.panel-warning.col-lg-6(id=bids.id,style="margin:1%;padding:1%;width:48%;height:50vh;overflow:auto")
     div.panel.body.bidInfo 
      div.row.hidden
       label.col-lg-4.control-label Bid ID
       div.col-lg-8
-       input(name="bidID",value=bid.id)
+       input(name="bidID",value=bid.bidID)
+     div.row
+       div.col-lg-9
+        div.row
+          label.col-lg-5.control-label No.
+          div.col-lg-7=i
+        div.row
+          label.col-lg-5.control-label Name
+          div.col-lg-7=bid.firstName  + "   " + bid.lastName
+        div.row
+          label.col-lg-5.control-label Company
+          div.col-lg-7=bid.companyName
+        div.row
+          label.col-lg-5.control-label License
+          div.col-lg-7=bid.licenseNumber
+        div.row
+          label.col-lg-5.control-label Phone 
+          div.col-lg-7=bid.phoneNumber
+       div.col-lg-1.btn.avatar.btn-default(style="width:5vw;height:5vw;font-size:2.5vw;padding:1%")=bid.firstName[0] + bid.lastName[0]
+       div.col-lg-1.btn
+         i.fa.fa-comments(style="font-size:3vw;")
      div.row
       label.col-lg-4.control-label Estimate Cost
       div.col-lg-8='$ ' + bid.estCost
      div.row
       label.col-lg-4.control-label Estimate Days
-      div.col-lg-8
+      - var days = 0;
         if (bid.estDays)
-          p=bid.estDays + ' Days'
-     div.row
-      label.col-lg-4.control-label Estimate Hours
-      div.col-lg-8
-        if (bid.estDays)
-         p=bid.estDays + ' Hours'
+          - days = bid.estDays
+        if (bid.estHours)
+          - days += (bid.estHours/24.0).toFixed(1)
+      div.col-lg-8=days
      div.row
       label.col-lg-4.control-label Avaible Start From
       div.col-lg-8=bid.startDate.toString().substr(0,15)
@@ -31,8 +51,5 @@ div.container(style="padding-top:1%")
       label.col-lg-4.control-label Comment
       div.col-lg-8=bid.comment
      div.row
-      label.col-lg-4.control-label Created At
-      div.col-lg-8=bid.createdAt
-     div.row
-      label.col-lg-4.control-label Updated At
-      div.col-lg-8=bid.updatedAt
+      label.col-lg-4.control-label Bid At
+      div.col-lg-8=bid.createdAt.toString().substr(0,21)
