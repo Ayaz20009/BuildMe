@@ -15,5 +15,17 @@ var path = urlSplit[3] + "/" + urlSplit[4];
 $('.sidebar a[href*="'+ path +'"]').addClass("btn-primary").siblings().removeClass("btn-primary");
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 });
 

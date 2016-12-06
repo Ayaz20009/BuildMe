@@ -139,6 +139,8 @@ router.get('/jobscompleted', function(req, res) {
 
 router.get('/overviewbids',function(req,res) {
 
+   if(!req.session.user && req.session.user.usertype != "homeowner")
+    return;
 
    models.homeowner_jobs.findAll({
       where: {
@@ -148,7 +150,6 @@ router.get('/overviewbids',function(req,res) {
   }).then(function(data){
 
       res.json(data);
-
   })
     
 });
@@ -238,7 +239,7 @@ router.get('/bids/:jobID', function(req, res) {
 
   var jobID = req.params.jobID;
 
-  console.log(jobID);
+  // console.log(jobID);
 // find bids on this job
   models.job_bids.findAll({
       where: {
@@ -250,8 +251,36 @@ router.get('/bids/:jobID', function(req, res) {
 
       if(bids)
          res.render('homeowner/bids', {title: bids.length + ' bids', bids: bids, session: req.session});
+         res.send(bids);
   });
 
 });
+
+
+router.get('/dataBids/:jobID', function(req, res) {
+
+  if(!req.session.user && req.session.user.usertype != "homeowner")
+    return;
+  var jobID = req.params.jobID;
+
+  // console.log(jobID);
+// find bids on this job
+  models.job_bids.findAll({
+      where: {
+         jobID: jobID,
+     },
+     order: '"createdAt" DESC',
+  })
+  .then(function(bids){
+      if(bids)
+         res.send(bids);
+  });
+
+});
+
+
+
+
+/**/
 
 module.exports = router;

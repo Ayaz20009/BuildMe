@@ -1,6 +1,9 @@
 include /base.pug
 include source.pug
+script(type="text/javascript",src="https://www.gstatic.com/charts/loader.js")
+script(type="text/javascript",src="/js/jq_chartBids.js")
 div.container(style="padding-top:1%")
+ div#bids.col-lg-12.well(style="height:300px")
  each bid in bids
    div.panel.panel-warning.col-lg-12(id=bids.id)
     div.panel.body.bidInfo 

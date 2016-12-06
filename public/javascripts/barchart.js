@@ -35,6 +35,7 @@ function drawChart() {
 
 
 google.charts.setOnLoadCallback(drawChartBids);
+
 function drawChartBids() {
 
 
@@ -94,6 +95,45 @@ function drawChartBids() {
       var chart = new google.visualization.ColumnChart(document.getElementById('jobbids'));
 
       chart.draw(data, options);
+
+  });
+
+};
+
+
+
+
+function drawChartJobBids() {
+
+
+     $.get('/homeowner/bids/2', function(response) {
+
+      alert(response);
+
+      //  var data = google.visualization.arrayToDataTable([
+      //   ['Bids on offering jobs',   0,            0,                     'color:#FF9900'],
+      //   ['Jobs Complete',                 0,            0,                     'color:#B82E2E'],
+      //   ['Bids on completed jobs',  0,            0,                     'color:#FF9900'],
+      // ]);
+
+      //  // console.log(JSON.stringify(data));
+
+      // var options = {
+      //   width: document.getElementById('jobbids').width ,
+      //   height:document.getElementById('jobbids').height * 0.8,
+      //   // title: 'Process of Jobs Started',
+      //   chartArea: {width: '80%'},
+      //   hAxis: {
+      //     // title: 'Job process',
+      //     minValue: 0
+      //   },
+      //   legend: { position: "none" },
+      //   // colors : ['#22AA99','#FF9900','#66AA00','#FF9900','#3366CC','#FF9900','#B82E2E','#FF9900']
+      // };
+
+      // var chart = new google.visualization.ColumnChart(document.getElementById('jobbids'));
+
+      // chart.draw(data, options);
 
   });
 
