@@ -105,13 +105,11 @@ $("#btnCancelPass").click(function(){
 
 $(".btnBid").click(function(){
 
-  var jobInfo = $(this).closest('.panel').find('.jobInfo').html();
-  $('#modal_bid').find('#jobInfo').html(jobInfo);
+  $('#modal_bid').find('input.form-control').val("");
+  var jobDesc= $(this).closest('.panel').find('.jobDesc').text();
+  $('#modal_bid').find('#jobInfo').html(jobDesc);
 });
 
-
-
-// $("#btnBid").prop('disabled', true);
 
 
 // $("#biddingForm .form-control").keyup(function(){
