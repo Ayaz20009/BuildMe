@@ -393,6 +393,10 @@ router.get("/map/:jobID",function(req, res){
    
 });
 
+
+
+
+
 /*
 get jobs by different query 
 */
@@ -410,16 +414,21 @@ function getJobs(req,res){
 
             var wordSplit = req.query[col].split(" ");
             for(var i in wordSplit){
-              // if(col == "zipcode")
-              //     searchString +=' AND \"jobs\".\"'+ col +'\" like \'%'+ wordSplit[i] + '%\' ';
-              if(col != "zipcode")
-                  searchString +=' AND \"'+ col +'\" like \'%'+ wordSplit[i] + '%\' ';
+              if(col == "zipcode")
+                  // searchString +=' AND \"jobs\".\"'+ col +'\" like \'%'+ wordSplit[i] + '%\' ';
+                 searchString += "";
+              else if(col == "date")
+                 searchString += "";  //add later
+              else
+                searchString +=' AND \"'+ col +'\" like \'%'+ wordSplit[i] + '%\' ';
+
             }
          }
       }
    }
 
-    var  queryString  = 'SELECT "jobs"."id" AS "jobID","jobs"."hoID", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
+    var  queryString  = 'SELECT "jobs"."id" AS "jobID","jobs"."hoID", "street", "city",'
+                  + '"state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
                   + '"firstName", "lastName" '
                   + 'FROM "homeowner_jobs" AS "jobs" '
                   + 'JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID" '
@@ -455,10 +464,11 @@ function getJobs(req,res){
                     attributes: ['jobID'], 
                 }).then(function(bids){
 
-                  var bidJobID = [];
-                  for(var i in bids ){
+                    var bidJobID = [];
+                    //get the id 
+                    for(var i in bids )
                        bidJobID.push(bids[i].jobID);
-                  }
+
                     return res.render('jobs',
                       {title: results.length + ' Jobs', projects:results, bidJobID : bidJobID, contractor: true, session: req.session}
                     ); 
