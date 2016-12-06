@@ -7,7 +7,7 @@ div#biddingjobs.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
     div.panel.panel-default(id=project.id)
       div.panel-heading(style="padding:0")
        if (project.numBids > 0)
-         a.btn-warning.btn-sm.btn.col-lg-1(href="/homeowner/bids/" + project.id)=project.numBids
+         a.btn-warning.btn-sm.btn.col-lg-1(onClick='window.open("/homeowner/bids/'+ project.id +'");')=project.numBids
            i.fa.fa-gavel.pull-left
        else
          a.btn-warning.btn-sm.btn.col-lg-1.disabled=project.numBids

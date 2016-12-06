@@ -224,11 +224,13 @@ $(".btnBid").click(function(){
 
 
 
+//   $('#searchDropdown').on('hide.bs.dropdown', function () {
+//     return false;
+// });
 
- $(document).on('click', '.dropdown-menu', function(e) {
-              
-             e.stopPropagation();
-        });
+
+
+
 
 });
 

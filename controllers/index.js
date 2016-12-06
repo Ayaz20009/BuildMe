@@ -353,6 +353,22 @@ router.get('/logout', function(req, res) {
   });
 });
 
+/*show address on the google map */
+router.get("/map/:jobID",function(req, res){
+
+   var jobID = req.params.jobID;
+
+   models.homeowner_jobs.findOne({
+      where: {
+         id: jobID,
+     },
+  }).then(function(job){
+    var  address = job.street + " " + job.city + " " + job.state + " " + job.zipcode;
+    return res.render('map', {title: "Map", address:  address});
+  });
+  
+   
+});
 
 /*
 get all jobs 
