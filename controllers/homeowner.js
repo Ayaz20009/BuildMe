@@ -251,7 +251,6 @@ router.get('/bids/:jobID', function(req, res) {
 
       if(bids)
          res.render('homeowner/bids', {title: bids.length + ' bids', bids: bids, session: req.session});
-         res.send(bids);
   });
 
 });

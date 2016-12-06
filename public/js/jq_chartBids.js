@@ -8,22 +8,27 @@ var jobID = url.split("/").pop();
 
 function drawChartBids() {
 
-     $.get('/homeowner/bids/' + jobID , function(response) {
+     $.get('/homeowner/dataBids/' + jobID , function(response) {
 
      // 	alert(response);
 
-        var data  = [['id', 'Estimate Cost', 'Estimate Days',{type:'string', role:'annotation'},{type:'string', role:'annotation'}]];
+        var data  = [['id', 'Estimate Cost', 'Estimate Days']];
 
         for(var i in response){
             var row = response[i];
             var id = parseInt(row.id);
             var estCost = parseInt(row.estCost);
-            var estDays = parseInt(row.estHours);
-            var estHours = parseInt(row.estHours);
-            if(estHours)
-               estDays  += (estDays/24.0).toFixed(1);
+            var estDays = 0;
+            var estHours = 0;
 
-             data.push([id, estCost, estDays, estCost, estDays]);
+            if(row.estDays)
+                estDays = parseInt(estDays);
+            if(row.estHours)
+               estDays  += (parseInt(row.estHours)/24.0).toFixed(1);
+
+             console.log(estDays);
+
+             data.push([id, estCost, estDays]);
         }
 
       var dataTable = new google.visualization.arrayToDataTable(data);
