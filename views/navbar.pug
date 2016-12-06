@@ -7,8 +7,11 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
            a(href="/howitworks") How it Works
         li
            a(href="/jobs") Jobs
-        li
-           a(href="/searchajob") Search A Job
+        li.dropdown#searchDropdown
+          a.dropdown-toggle(data-toggle="dropdown") Search A Job
+           span.caret
+          div.dropdown-menu(style="width:40vw;")
+            include searchbox.pug
         if (session)
          li
            a(href="/" + session.user.usertype + "/dashboard") Dashboard

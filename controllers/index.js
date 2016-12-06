@@ -188,12 +188,10 @@ router.post('/jobs',function(req,res){
    var comment = req.body.comment;
 
    if(estDays == "")
-        estDays = null;
+        estDays = 0;
       if(estHours == "")
-        estHours = null;
-    if(startDate == "")
-        startDate = null;
-
+        estHours = 0;
+  
    // console.log("jobID: " + jobID);
    // console.log("coID: " + coID);
    // console.log("estCost: " + estCost);
@@ -203,7 +201,8 @@ router.post('/jobs',function(req,res){
    // console.log("comment: " + comment);
 
    //valid input
-  if(jobID && coID && estCost && (startDate || ASAP )) {
+  if(jobID && coID && estCost && 
+    (estDays != 0 || estHours != 0 ) && startDate != "" ) {
 
       //find if the job still exist or open
        models.homeowner_jobs.findOne({

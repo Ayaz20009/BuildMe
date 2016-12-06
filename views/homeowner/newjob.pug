@@ -25,7 +25,7 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
         div.col-lg-2.form-group 
           input.form-control.numeric(type="text",name="days",placeholder="days")
         div.col-lg-4.form-group 
-          input.form-control#datepicker(type="text",name="days",placeholder="Choose A Date")
+          input.form-control.datepicker(type="text",name="days",placeholder="Choose A Date")
         div.col-lg-2.form-group 
           div.btnASAP.btn.btn-block.btn-danger(name="ASAP",value="FALSE") ASAP       
     div.form-group.required
@@ -41,11 +41,11 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
         div.col-lg-6
           select.bfh-select-fix.bfh-states.form-control(data-country="US",name="proj_state")
         div.col-lg-6
-          input.form-control.numeric(type="text",name="proj_zip",placeholder="Zipcode")
+          input.form-control.numeric(type="text",name="proj_zip",placeholder="zipcode",,maxlength="6")
     div.form-group
       lable.col-lg-2.control-label  Action
       div.col-lg-10
-        button.btn.btn-default.col-lg-3(type="reset") Cancel
+        button.btn.btn-default.col-lg-3(type="reset") Reset
         button.btn.btn-primary.col-lg-3(id="btnSubmit") Submit
     if error
      div.form-group

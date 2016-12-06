@@ -46,8 +46,17 @@ $('a[data-toggle=tab]').click(function(){
 
 // $('a[data-toggle="tab",href="#homeowner"]').addClass("btn-success");
 
+$(".datepicker").datepicker(
+      {
+       dateFormat    : 'mm/dd/yy',
+       minDate: 0 
 
- $( "#datepicker" ).datepicker({ minDate: 0 });
+      }).click(function(e) {
+
+         e.stopPropagation(); // <--- here
+    });
+
+
  $("#datepicker").val(currentDate);
 
 
@@ -130,8 +139,14 @@ $(".btnBid").click(function(){
        ASAP(true);
     }
     else{
-        ASAP(false);
+
+       $("input.time").val("");
+       $('#datepicker').val("");
+       alert("Please choose a date");
+
+       ASAP(false);
     }
+
   });
 
 
@@ -207,6 +222,13 @@ $(".btnBid").click(function(){
       return false
   };
 
+
+
+
+ $(document).on('click', '.dropdown-menu', function(e) {
+              
+             e.stopPropagation();
+        });
 
 });
 

@@ -1,40 +1,35 @@
 include /base.pug
 include source.pug
 div.container(style="padding-top:1%")
- if !bids
-   h1.text-center You have no bidding yet.
- else
-   each bid in bids
-    div.col-lg-12(style="height:40vh;margin:2% 0 2% 0")
-     div.panel.panel-warning(id=bids.id,style="overflow:auto")
-      div.panel.body(style="padding:0") 
-       div.bidInfo
-         div.row.hidden
-          label.col-lg-4.control-label Bid ID
-          div.col-lg-8
-           input(name="bidID",value=bid.id)
-         div.row
-          label.col-lg-4.control-label Estimate Cost
-          div.col-lg-8='$ ' + bid.estCost
-         div.row
-          label.col-lg-4.control-label Estimate Days
-          div.col-lg-8
-            if (bid.estDays)
-              p=bid.estDays + ' Days'
-         div.row
-          label.col-lg-4.control-label Estimate Hours
-          div.col-lg-8
-            if (bid.estDays)
-             p=bid.estDays + ' Hours'
-         div.row
-          label.col-lg-4.control-label Avaible Start From
-          div.col-lg-8=bid.startDate.toString().substr(0,15)
-         div.row
-          label.col-lg-4.control-label Comment
-          div.col-lg-8=bid.comment
-         div.row
-          label.col-lg-4.control-label Created At
-          div.col-lg-8=bid.createdAt
-         div.row
-          label.col-lg-4.control-label Updated At
-          div.col-lg-8=bid.updatedAt
+ each bid in bids
+   div.panel.panel-warning.col-lg-12(id=bids.id)
+    div.panel.body.bidInfo 
+     div.row.hidden
+      label.col-lg-4.control-label Bid ID
+      div.col-lg-8
+       input(name="bidID",value=bid.id)
+     div.row
+      label.col-lg-4.control-label Estimate Cost
+      div.col-lg-8='$ ' + bid.estCost
+     div.row
+      label.col-lg-4.control-label Estimate Days
+      div.col-lg-8
+        if (bid.estDays)
+          p=bid.estDays + ' Days'
+     div.row
+      label.col-lg-4.control-label Estimate Hours
+      div.col-lg-8
+        if (bid.estDays)
+         p=bid.estDays + ' Hours'
+     div.row
+      label.col-lg-4.control-label Avaible Start From
+      div.col-lg-8=bid.startDate.toString().substr(0,15)
+     div.row
+      label.col-lg-4.control-label Comment
+      div.col-lg-8=bid.comment
+     div.row
+      label.col-lg-4.control-label Created At
+      div.col-lg-8=bid.createdAt
+     div.row
+      label.col-lg-4.control-label Updated At
+      div.col-lg-8=bid.updatedAt

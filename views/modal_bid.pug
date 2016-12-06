@@ -5,19 +5,19 @@ div#modal_bid.modal.fade(role="dialog")
     span
      i.fa.fa-gavel   Bid on the job:
     a.close(data-dismiss="modal") X 
-   div.modal-body.row(style="height:85vh;position:relative;overflow:auto;padding-top:2%")
+   div.modal-body.row(style="height:80vh;padding-top:2%")
     form(method="post",action="/jobs")
      div#jobInfo.col-lg-12
-     div#biddingForm.col-lg-12
+     div#biddingForm.col-lg-12(style="height:55vh;overflow:auto;")
        div.col-lg-6.form-group.required 
         label.control-label(for="cost") Estimate Cost (Dollars) :
         input.form-control.numeric(type="text",name="estCost",placeholder="Cost ($)")
        div.col-lg-3.form-group.required
         label.control-label(for="days") Est. Days:
-        input.form-control.numeric(type="text",name="estDays",placeholder="Days (d)")
-       div.col-lg-3.form-group 
+        input.form-control.numeric(type="text",name="estDays",placeholder="0 Days (d)")
+       div.col-lg-3.form-group.required 
         label.control-label(for="hours") Est. Hours:
-        input.form-control.numeric(type="text",name="estHours",placeholder="Hours (h)")
+        input.form-control.numeric(type="text",name="estHours",placeholder="0 Hours (h)")
        div.col-lg-6
         label.col-lg-12(style="padding-left:0") Avaliable &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Start Time In:
         div.row(style="padding:0")
@@ -27,17 +27,17 @@ div#modal_bid.modal.fade(role="dialog")
             input.form-control.numeric.time(type="text",name="day",placeholder="days")
        div.col-lg-4.form-group.required
         label.control-label(for="date") Date
-        input.form-control#datepicker.date(type="text",name="startDate",placeholder="Choose A Date")
+        input.form-control#datepicker.date.datepicker(type="text",name="startDate",placeholder="Choose A Date")
        div.col-lg-2.form-group
         label.control-label(for="ASAP") ASAP 
         input.form-control.hidden(name="ASAP",value=true)
         div.btnASAP.btn.btn-block.btn-success TRUE
        div.col-lg-12.form-group 
         label.control-label(for="comment") Comment:
-        textarea.form-control(name="comment",rows="5",type="text",placeholder="Please explain why you are good fit for this job.")
-       div.col-lg-12
-        button#btnBid.btn.btn-md.btn-warning.col-lg-6(style="color:black;",type="submit") Submit
-        a.btn.btn-default.btn-md.col-lg-6(data-dismiss="modal",type="reset") Cancel
-   //- div.modal-footer 
+        textarea.form-control(name="comment",rows="8",type="text",placeholder="Please explain why you are good fit for this job.")
+     div.col-lg-12
+      button#btnBid.btn.btn-md.btn-warning.col-lg-6(style="color:black;",type="submit") Submit
+      a.btn.btn-default.btn-md.col-lg-6(data-dismiss="modal",type="reset") Cancel
+   //- div.modal-footer
      
      

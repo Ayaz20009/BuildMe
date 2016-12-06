@@ -89,3 +89,8 @@
   content:"*";
   color:red;
 }
+
+
+.datepicker{
+  position: relative; z-index: 100000;
+}

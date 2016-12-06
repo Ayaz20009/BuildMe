@@ -1,0 +1,15 @@
+form.col-lg-12.well(style="margin-bottom:0")
+	div.form-group.col-lg-12
+		input.form-control(type="text",placeholder="Job Descprtion",name="jobDesc")
+	div.form-group.col-lg-6
+		input.form-control(type="text",placeholder="City",name="city")
+	div.form-group.col-lg-6
+		select.bfh-select-fix.bfh-states.form-control(data-country="US",name="state")
+	div.form-group.col-lg-6
+		input.form-control.numeric(type="text",placeholder="zipcode",name="zipcode",maxlength="6")
+	div.form-group.col-lg-6
+		input.datepicker.form-control(type="text",placeholder="Required By Date")
+	div.btn-group.col-lg-12
+		button.btn.col-lg-6.closeDropdown(type="reset",data-toggle="dropdown") Cancel
+		button.btn.col-lg-6.btn-info.col-lg-block Search   
+			i.fa.fa-search 
