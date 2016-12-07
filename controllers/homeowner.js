@@ -12,6 +12,10 @@ client.connect();
 
 router.route('/contractor')
 
+router.get('/', function(req, res) {
+  if(!req.session.user)
+    return res.redirect('/login');
+});
 
 router.get('/dashboard', function(req, res) {
 

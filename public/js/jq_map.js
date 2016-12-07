@@ -3,11 +3,12 @@ $(document).ready(function(){
   var geocoder = new google.maps.Geocoder();
 
 
-  $("a.map").click(function(){
+  $("a.btnShowMap").click(function(){
 
 
       var jobID = $(this).attr('id').split('_')[1];
       var address = $('#addr_' + jobID).val();
+
 
       //find lat,long,if find ,draw mpa
 	geocoder.geocode( { 'address': address}, function(results, status) {
@@ -16,17 +17,22 @@ $(document).ready(function(){
 
 		    var latitude = results[0].geometry.location.lat();
 		    var longitude = results[0].geometry.location.lng();
-		    $('#map_' + jobID).html(latitude + "," + longitude);
+
+		    $('#map_' + jobID).removeClass("hidden");
 		      drawMap(latitude,longitude, 'map_' + jobID);
 	  } 
 	  else
-	  	    $('#map_' + jobID).html(
-	  		    '<i class="fa fa-exclamation-triangle"></i>Can not find the location.'
-	  		 );
-
+     	   $('#map_' + jobID).siblings('.error').removeClass("hidden");
       });
 
 }); 
+
+
+   $("button.btnHideMap").click(function(){     
+     $(this).parent().siblings('.map').addClass("hidden");
+   });
+
+
 	function drawMap(lat,long,selector) {
 
 	  var mapCanvas = document.getElementById(selector);

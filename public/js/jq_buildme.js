@@ -22,6 +22,8 @@ $(".ui-dialog").dialog({
 
 $('.dropdown-toggle').dropdown();
 
+$('[role="tooltip"]').tooltip();
+
 $(".ui-dialog-titlebar").hide();
 
 

@@ -10,11 +10,16 @@ const client = new pg.Client(connectionString);
 client.connect();
 
 
-router.route('/contractor')
+router.route('/contractor');
+
+router.get('/', function(req, res) {
+  if(!req.session.user)
+    return res.redirect('/login');
+});
 
 router.get('/dashboard', function(req, res) {
   if(!req.session.user)
-    return res.status(401).send();
+    return res.redirect('/login');
   return res.render('contractor/dashboard', {title: "Contractor's dashboard", session:req.session})
 });
 

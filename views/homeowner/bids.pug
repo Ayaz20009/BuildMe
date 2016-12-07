@@ -2,54 +2,70 @@ include /base.pug
 include source.pug
 script(type="text/javascript",src="https://www.gstatic.com/charts/loader.js")
 script(type="text/javascript",src="/js/jq_chartBids.js")
-div.container(style="padding-top:1%")
- div#bids.col-lg-12.well(style="height:250px")
- - var i = 0;
- each bid in bids
-   - i++;
-   div.panel.panel-warning.col-lg-6(id="bidID_"+bids.id,style="margin:1%;padding:1%;width:48%;height:50vh;overflow:auto;")
-    div.panel.body.bidInfo 
-     div.row.hidden
-      label.col-lg-4.control-label Bid ID
-      div.col-lg-8
-       input(name="bidID",value=bid.bidID)
-     div.row
-       div.col-lg-9
-        div.row
-          label.col-lg-5.control-label No.
-          div.col-lg-7=i
-        div.row
-          label.col-lg-5.control-label Name
-          div.col-lg-7=bid.firstName  + "   " + bid.lastName
-        div.row
-          label.col-lg-5.control-label Company
-          div.col-lg-7=bid.companyName
-        div.row
-          label.col-lg-5.control-label License
-          div.col-lg-7=bid.licenseNumber
-        div.row
-          label.col-lg-5.control-label Phone 
-          div.col-lg-7=bid.phoneNumber
-       div.col-lg-1.btn.avatar.btn-default(style="width:5vw;height:5vw;font-size:2.5vw;padding:1%")=bid.firstName[0] + bid.lastName[0]
-       div.col-lg-1.btn
-         i.fa.fa-comments(style="font-size:3vw;")
-     div.row
-      label.col-lg-4.control-label Estimate Cost
-      div.col-lg-8='$ ' + bid.estCost
-     div.row
-      label.col-lg-4.control-label Estimate Days
-      - var days = 0;
-        if (bid.estDays)
-          - days = bid.estDays
-        if (bid.estHours)
-          - days += (bid.estHours/24.0).toFixed(1)
-      div.col-lg-8=days
-     div.row
-      label.col-lg-4.control-label Avaible Start From
-      div.col-lg-8=bid.startDate.toString().substr(0,15)
-     div.row
-      label.col-lg-4.control-label Comment
-      div.col-lg-8=bid.comment
-     div.row
-      label.col-lg-4.control-label Bid At
-      div.col-lg-8=bid.createdAt.toString().substr(0,24)
+div.container(style="padding-top:1%;width:80%")
+   - var width = bids.length * 550;
+   div#bids.col-lg-12.well(style="height:200px;width:"+ width +"px;min-width:100%;")
+   div.col-lg-12.well(style="width:"+ width+"px;overflow-x:auto;min-width:100%;")
+     - var i = 0;
+     each bid in bids
+       - i++;
+       div.panel.panel-warning.bidInfo(id="bidID_"+bid.bidID,style="padding:0;margin:5px;width:500px;display:inline-block;overflow-y:auto;")
+          div.panel-heading(style="height:160px;overflow:auto;font-size:1.3vw;padding:auto 5px auto 5px")
+            input.hidden(name="bidID",value=bid.bidID)
+            input.hidden(name="cosID",value=bid.coID)
+            div.col-lg-2.text-center   
+              span.div(style="height:4vw;font-size:1.6vw")
+                i.fa.fa-gavel='  ' + i
+              button.btn.btn-success(style="margin-top:20px;padding:0;")
+                img(src="/img/offerBid.png" style="width:80px;height:80px")
+            div.col-lg-8
+              - var Name = bid.firstName  + "   " + bid.lastName;
+              div.col-lg-12
+                label.col-lg-2.control-label
+                  i.fa.fa-user
+                div.col-lg-10=Name
+              div.col-lg-12
+                label.col-lg-2.control-label
+                  i.fa.fa-building-o
+                div.col-lg-10=bid.companyName
+              div.col-lg-12
+                label.col-lg-2.control-label
+                  i.fa.fa-id-card
+                div.col-lg-10=bid.licenseNumber
+              div.col-lg-12
+                label.col-lg-2.control-label
+                  i.fa.fa-phone
+                div.col-lg-10=bid.phoneNumber
+              div.col-lg-12
+                label.col-lg-2.control-label
+                   i.fa.fa-star
+                div.col-lg-10
+            div.col-lg-2
+              button.btn.avatar(role="tooltip",title="View Profile", data-placement="left",style="height:4vw;width:4vw;font-size:20px")=bid.firstName[0] + bid.lastName[0]
+              a.btn.text-primary(role="tooltip",title="Send Message To " + Name, data-placement="left", style="margin-top:10%;padding:0")
+                 i.fa.fa-comments(style="font-size:4vw")
+          div.panel-body(style="padding:2%")
+            div.col-lg-12
+              label.col-lg-4.control-label Estimate Cost
+              div.col-lg-8='$ ' + bid.estCost
+            div.col-lg-12
+              label.col-lg-4.control-label Estimate Time
+              - var days = 0;
+                if (bid.estDays)
+                  - days = bid.estDays;
+                if (bid.estHours)
+                  - days += (bid.estHours/24.0).toFixed(1);
+              div.col-lg-8=days + "  days"
+            div.col-lg-12
+              label.col-lg-4.control-label Avaible From
+              div.col-lg-8=bid.startDate.toString().substr(0,15)
+            div.col-lg-12
+              label.col-lg-4.control-label Comment
+              div.col-lg-8=bid.comment
+            div.col-lg-12
+               label.col-lg-12.control-label Proposal
+               div.col-lg-12
+                 div.panel.panel-warning(style="height:50vh")
+          div.pane-footer
+            label.col-lg-4.control-label Bid At
+            div.col-lg-8=bid.createdAt.toString().substr(0,24)

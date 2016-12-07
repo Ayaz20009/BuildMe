@@ -7,13 +7,21 @@ if (projects.length == 0)
   h1.text-center There is no job yet.
 else
   each project in projects
-   div.panel.panel-success(id=project.jobID,style="width:90%;margin:2% 5% 2% 5%;min-height:240px")
-     if (!contractor && session)
-      if (project.hoID == session.user.id )
-       div.panel-heading.text-center(style="padding:0") You created this job
-     div.panel-body(style="padding:1%")
-        div.col-lg-1.avatar.btn.btn-default=project.firstName[0] + project.lastName[0]
-        div.col-lg-6(style="overflow-y:auto;")
+   div.panel.panel-success(id=project.jobID,style="width:70%;margin:auto")
+     div.panel-body(style="padding:1%;position:relative")
+        - var name = project.firstName[0] + project.lastName[0];
+        if (session)
+         if (!contractor && project.hoID == session.user.id )
+          div.col-lg-1.bg-success.text-center(style="position:absolute;height:88%;padding:0;")
+            div.avatar.btn.btn-default=name
+            div You created this job.
+         else if (!contractor)
+          div.col-lg-1(style="position:absolute;height:85%")
+            div.avatar.btn.btn-default=name
+         else
+          div.col-lg-1(style="position:absolute;height:85%")
+            div.avatar.btn.btn-default=name
+        div.col-lg-10.col-lg-offset-1(style="overflow-y:auto;")
            div.row.jobInfo
              div.col-lg-12.hidden
                 label.col-lg-2 JobID
@@ -23,26 +31,38 @@ else
                 div.col-lg-10.jobDesc=project.jobDesc
              div.col-lg-12
                 label.col-lg-2 Location:
-                div.col-lg-10
-                  - var cityAddr = project.city + " " + project.state + " " + project.zipcode;
-                  - var strAddr = project.street + " " + cityAddr;
-                  input.address(id="addr_" + project.jobID ,value=strAddr).hidden
-                  a.map(id="link_" + project.jobID)=cityAddr
+                - var cityAddr = project.city + " " + project.state + " " + project.zipcode;
+                div.col-lg-10=cityAddr
+             div.col-lg-12
+                label.col-lg-2 Picutres:
+                div.col-lg-10 Picutures
              div.col-lg-12
                 label.col-lg-2 CreatedAt:
-                div.col-lg-10=project.createdAt
+                div.col-lg-10=project.createdAt.toString().substring(0,25)
+             //- div.col-lg-12
+             //-    label.col-lg-2 UpdatedAt:
+             //-    div.col-lg-10=project.updatedAt
              div.col-lg-12
-                label.col-lg-2 UpdatedAt:
-                div.col-lg-10=project.updatedAt
-        div.col-lg-4.text-center.text-danger.h2(id="map_" + project.jobID,style="height:240px;width:33%")
+                label.col-lg-2 
+                  a.btnShowMap.btn.btn-success.btn-sm(id="link_" + project.jobID) Map
+                  button.btnHideMap.btn.btn-sm   X
+                - var strAddr = project.street + " " + cityAddr;
+                  input.address(id="addr_" + project.jobID,value=strAddr).hidden
+                div.error.col-lg-10.text-danger.hidden Can't find the location 
+                   i.fa.fa-exclamation-triangle 
+                div.map.col-lg-10.text-center.hidden(id="map_" + project.jobID,style="height:200px;width:60%")
         if (contractor)
           if (bidJobID.indexOf(project.jobID) != -1)
            div.col-lg-1.pull-right
-              button.btnBid.btn.btn-warning.disabled(style="white-space:normal")
-               i.fa.fa-gavel  You bid this job.
+              button.btnBid.btn.btn-warning.btn-block.disabled(style="white-space:normal") 
+               i.fa.fa-ban  You bid this job.
           else
            div.col-lg-1.pull-right
-              button.btnBid.btn.btn-warning(data-toggle="modal",data-target="#modal_bid")
-               i.fa.fa-gavel  Bid
+              button.btnBid.btn.btn-warning.btn-block(role="tooltip",title="Bid",data-toggle="modal",data-target="#modal_bid")
+               i.fa.fa-gavel
+              button.btn.btn-primary.btn-block(role="tooltip",title="Bookmark",style="margin-top:10%;")
+                i.fa.fa-bookmark 
+              button.btn.btn-default.btn-block.disabled(role="tooltip",title="Unbookmark",style="margin-top:10%;")
+                i.fa.fa-bookmark-o
 
 include modal_bid.pug
