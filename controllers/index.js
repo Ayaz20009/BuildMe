@@ -118,6 +118,8 @@ router.post('/homeowner-signup',function(req,res,next){
 router.get('/jobs', getJobs);
 
 
+/*bid on the job ,contractor only
+*/
 router.post('/jobs',function(req,res){
 
   if(!req.session.user)
@@ -176,9 +178,9 @@ router.post('/jobs',function(req,res){
                     })
                     .then(function(){  
 
-                        // getJobs(req,res);
+                        getJobs(req,res);
                         // return res.redirect('/jobs');
-                       return res.render('/jobs',{title: "Bid Success !", session: req.session});
+                       // return res.render('/contractor-jobs',{title: "Bid Success !", session: req.session});
                     });
                  }
                 });

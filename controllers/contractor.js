@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
 router.get('/dashboard', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('contractor/dashboard', {title: "Contractor's dashboard", session:req.session})
+  return res.render('contractor/dashboard', {title: req.session.user.firstName + "'s dashboard", session:req.session})
 });
 
 
@@ -87,6 +87,14 @@ router.get('/bidswon', function(req,res){
   if(!req.session.user)
     return res.redirect('/login');
   return res.render('contractor/bidswon', {title: "Bids Won", session:req.session});
+});
+
+
+router.get('/jobsbookmark', function(req,res){
+
+    if(!req.session.user)
+     return res.redirect('/login');
+   return res.render('contractor/jobsbookmark', {title: "Bookmark Jobs", session:req.session});
 });
 
 router.get('/jobsstarted', function(req,res){
