@@ -14168,21 +14168,21 @@ var BFHTimezonesList = {
       var country,
           countries;
 
-      if (this.options.available) {
-        if (typeof this.options.available === 'string') {
+      if (this.options.availabel) {
+        if (typeof this.options.availabel === 'string') {
           countries = [];
   
-          this.options.available = this.options.available.split(',');
+          this.options.availabel = this.options.availabel.split(',');
   
           for (country in BFHCountriesList) {
             if (BFHCountriesList.hasOwnProperty(country)) {
-              if ($.inArray(country, this.options.available) >= 0) {
+              if ($.inArray(country, this.options.availabel) >= 0) {
                 countries[country] = BFHCountriesList[country];
               }
             }
           }
         } else {
-          countries = this.options.available;
+          countries = this.options.availabel;
         }
 
         return countries;
@@ -14290,7 +14290,7 @@ var BFHTimezonesList = {
 
   $.fn.bfhcountries.defaults = {
     country: '',
-    available: '',
+    availabel: '',
     flags: false,
     blank: true
   };
@@ -14375,14 +14375,14 @@ var BFHTimezonesList = {
       var currency,
           currencies;
 
-      if (this.options.available) {
+      if (this.options.availabel) {
         currencies = [];
 
-        this.options.available = this.options.available.split(',');
+        this.options.availabel = this.options.availabel.split(',');
 
         for (currency in BFHCurrenciesList) {
           if (BFHCurrenciesList.hasOwnProperty(currency)) {
-            if ($.inArray(currency, this.options.available) >= 0) {
+            if ($.inArray(currency, this.options.availabel) >= 0) {
               currencies[currency] = BFHCurrenciesList[currency];
             }
           }
@@ -14506,7 +14506,7 @@ var BFHTimezonesList = {
 
   $.fn.bfhcurrencies.defaults = {
     currency: '',
-    available: '',
+    availabel: '',
     flags: false,
     blank: true
   };
@@ -15174,14 +15174,14 @@ var BFHTimezonesList = {
       var font,
           fonts;
 
-      if (this.options.available) {
+      if (this.options.availabel) {
         fonts = [];
 
-        this.options.available = this.options.available.split(',');
+        this.options.availabel = this.options.availabel.split(',');
 
         for (font in BFHFontsList) {
           if (BFHFontsList.hasOwnProperty(font)) {
-            if ($.inArray(font, this.options.available) >= 0) {
+            if ($.inArray(font, this.options.availabel) >= 0) {
               fonts[font] = BFHFontsList[font];
             }
           }
@@ -15276,7 +15276,7 @@ var BFHTimezonesList = {
 
   $.fn.bfhfonts.defaults = {
     font: '',
-    available: '',
+    availabel: '',
     blank: true
   };
 
@@ -15357,14 +15357,14 @@ var BFHTimezonesList = {
       var fontsize,
           fontsizes;
 
-      if (this.options.available) {
+      if (this.options.availabel) {
         fontsizes = [];
 
-        this.options.available = this.options.available.split(',');
+        this.options.availabel = this.options.availabel.split(',');
 
         for (fontsize in BFHFontSizesList) {
           if (BFHFontSizesList.hasOwnProperty(fontsize)) {
-            if ($.inArray(fontsize, this.options.available) >= 0) {
+            if ($.inArray(fontsize, this.options.availabel) >= 0) {
               fontsizes[fontsize] = BFHFontSizesList[fontsize];
             }
           }
@@ -15459,7 +15459,7 @@ var BFHTimezonesList = {
 
   $.fn.bfhfontsizes.defaults = {
     fontsize: '',
-    available: '',
+    availabel: '',
     blank: true
   };
 
@@ -15553,12 +15553,12 @@ var BFHTimezonesList = {
             }
           }
         }
-      } else if (this.options.available) {
-        this.options.available = this.options.available.split(',');
+      } else if (this.options.availabel) {
+        this.options.availabel = this.options.availabel.split(',');
 
         for (font in BFHGoogleFontsList.items) {
           if (BFHGoogleFontsList.items.hasOwnProperty(font)) {
-            if ($.inArray(BFHGoogleFontsList.items[font].family, this.options.available) >= 0) {
+            if ($.inArray(BFHGoogleFontsList.items[font].family, this.options.availabel) >= 0) {
               fonts[BFHGoogleFontsList.items[font].family] = {
                 'info': BFHGoogleFontsList.items[font],
                 'index': parseInt(font, 10)
@@ -15663,7 +15663,7 @@ var BFHTimezonesList = {
 
   $.fn.bfhgooglefonts.defaults = {
     font: '',
-    available: '',
+    availabel: '',
     subset: '',
     blank: true
   };
@@ -15750,18 +15750,18 @@ var BFHTimezonesList = {
           language,
           languages;
 
-      if (this.options.available) {
+      if (this.options.availabel) {
         languages = [];
 
-        this.options.available = this.options.available.split(',');
+        this.options.availabel = this.options.availabel.split(',');
 
-        for (language in this.options.available) {
-          if (this.options.available.hasOwnProperty(language)) {
-            if (this.options.available[language].indexOf('_') !== -1) {
-              split = this.options.available[language].split('_');
+        for (language in this.options.availabel) {
+          if (this.options.availabel.hasOwnProperty(language)) {
+            if (this.options.availabel[language].indexOf('_') !== -1) {
+              split = this.options.availabel[language].split('_');
               languages[split[0]] = {name: BFHLanguagesList[split[0]], country: split[1]};
             } else {
-              languages[this.options.available[language]] = BFHLanguagesList[this.options.available[language]];
+              languages[this.options.availabel[language]] = BFHLanguagesList[this.options.availabel[language]];
             }
           }
         }
@@ -15886,7 +15886,7 @@ var BFHTimezonesList = {
 
   $.fn.bfhlanguages.defaults = {
     language: '',
-    available: '',
+    availabel: '',
     flags: false,
     blank: true
   };

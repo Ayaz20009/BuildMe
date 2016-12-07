@@ -14,7 +14,10 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
             include searchbox.pug
         if (session)
          li
-           a(href="/" + session.user.usertype + "/dashboard") Dashboard
+           if (session.user.usertype == "homeonwer")
+               a(href="/homeonwer/dashboard") Dashboard
+           else
+               a(href="/contractor/dashboard") Dashboard
      if !session
       ul.nav.navbar-nav.navbar-right
           li

@@ -212,15 +212,6 @@ router.get('/howitworks', function(req, res) {
 
 
 
-router.get('/*/dashboard', (req, res) => {
-
-   if(!req.session.user)
-     return res.render('index',{title: "Build Me"});
-   else
-     return res.redirect('/login');;
-});
-
-
 
 router.get('/login', function(req, res) {
   if(!req.session.user)

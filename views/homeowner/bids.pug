@@ -3,7 +3,7 @@ include source.pug
 script(type="text/javascript",src="https://www.gstatic.com/charts/loader.js")
 script(type="text/javascript",src="/js/jq_chartBids.js")
 div.container(style="padding-top:1%;width:80%")
-   - var width = bids.length * 560;
+   - var width = bids.length * 520 + 100;
    div#bids.col-lg-12.well(style="height:300px;width:"+ width +"px;min-width:100%;")
    div.col-lg-12.well(style="width:"+ width+"px;overflow-x:auto;min-width:100%;")
      - var i = 0;

@@ -94,3 +94,10 @@
 .datepicker{
   position: relative; z-index: 100000;
 }
+
+
+.panel-job{
+
+  margin:1% auto 0 auto;
+  width:75%;
+}

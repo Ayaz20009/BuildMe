@@ -7,7 +7,7 @@ if (projects.length == 0)
   h1.text-center There is no job yet.
 else
   each project in projects
-   div.panel.panel-success(id=project.jobID,style="width:80%;margin:auto")
+   div.panel.panel-success.panel-job(id=project.jobID)
      div.panel-body(style="padding:1%;position:relative")
         - var name = project.firstName[0] + project.lastName[0];
         div.col-lg-1(style="")

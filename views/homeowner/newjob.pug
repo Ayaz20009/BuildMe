@@ -4,49 +4,43 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
    fieldset
     legend Creat A projects 
     div.form-group.required
-      lable.col-lg-2.control-label(for="proj_desc") Project Description
+      label.col-lg-2.control-label(for="proj_desc") Project Description
       div.col-lg-10
        textarea.form-control(name="proj_desc",rows="5",placeholder="Project Description")
     div.form-group
-      lable.col-lg-2.control-label(for="proj_img") Upload Images
+      label.col-lg-2.control-label(for="proj_img") Upload Images
       div.col-lg-10
         input.form-control(type="file",name="proj_img")
     div.form-group
-      lable.col-lg-2.control-label(for="proj_vd") Upload Video
+      label.col-lg-2.control-label(for="proj_vd") Upload Video
       div.col-lg-10
         input.form-control(type="file",name="proj_vd")
     div.form-group
       label.col-lg-2.control-label(for="days") When needed
       div.col-lg-10
-        div.col-lg-2.form-group 
-          input.form-control.numeric(type="text",name="months",placeholder="months")
-        div.col-lg-2.form-group 
-          input.form-control.numeric(type="text",name="weeks",placeholder="weeks")
-        div.col-lg-2.form-group 
-          input.form-control.numeric(type="text",name="days",placeholder="days")
-        div.col-lg-4.form-group 
-          input.form-control.datepicker(type="text",name="days",placeholder="Choose A Date")
-        div.col-lg-2.form-group 
-          div.btnASAP.btn.btn-block.btn-danger(name="ASAP",value="FALSE") ASAP       
+        div.col-lg-6.form-group 
+          input.form-control.datepicker(type="text",name="days",placeholder="Choose A Date")    
     div.form-group.required
-      lable.col-lg-2.control-label Address
-      div.col-lg-10.row
-        div.col-lg-6
-         input.form-control(type="text",name="proj_street",placeholder="Street")
-        div.col-lg-6
-          input.form-control(type="text",name="proj_city",placeholder="City")
+      label.col-lg-2.control-label Street
+      div.col-lg-4
+        input.form-control(type="text",name="proj_street",placeholder="Street")
+      label.col-lg-2.control-label City
+      div.col-lg-4
+        input.form-control(type="text",name="proj_city",placeholder="City")
     div.form-group.required
-      lable.col-lg-2.control-label(for="proj_state") State
-      div.col-lg-10.row
-        div.col-lg-6
-          select.bfh-select-fix.bfh-states.form-control(data-country="US",name="proj_state")
-        div.col-lg-6
-          input.form-control.numeric(type="text",name="proj_zip",placeholder="zipcode",maxlength="6")
+      label.col-lg-2.control-label(for="proj_state")  State
+      div.col-lg-4
+        select.bfh-select-fix.bfh-states.form-control(data-country="US",name="proj_state")
+      label.col-lg-2.control-label(for="proj_state") Zipcode
+      div.col-lg-4
+        input.form-control.numeric(type="text",name="proj_zip",placeholder="zipcode",maxlength="6")
     div.form-group
-      lable.col-lg-2.control-label  Action
+      label.col-lg-2.control-label
       div.col-lg-10
         button.btn.btn-default.col-lg-3(type="reset") Reset
-        button.btn.btn-primary.col-lg-3(id="btnSubmit") Submit
+        button.btn.btn-success.col-lg-3(id="btnSubmit")
+          i.fa.fa-plus-square
+          span Create
     if error
      div.form-group
-       lable.col-lg-offset-2.col-lg-8.control-label Job Description and address required
+       label.col-lg-offset-2.col-lg-8.control-label Job Description and address required

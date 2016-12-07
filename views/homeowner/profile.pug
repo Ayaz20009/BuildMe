@@ -9,22 +9,22 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
        div.avatar.btn.btn-default=session.user.firstName[0] + session.user.lastName[0]
        input.form-control.hidden(type="file",name="avatar")
     div.form-group.required
-      lable.col-lg-2.control-label(for="Fname") First Name
+      label.col-lg-2.control-label(for="Fname") First Name
       div.col-lg-10
        div.list-group-item=session.user.firstName
        input.form-control.hidden(name="Fname",value=session.user.firstName)
     div.form-group.required
-      lable.col-lg-2.control-label(for="Lname") Last Name
+      label.col-lg-2.control-label(for="Lname") Last Name
       div.col-lg-10
        div.list-group-item=session.user.lastName
        input.form-control.hidden(name="Lname",value=session.user.lastName)
     div.form-group.required
-      lable.col-lg-2.control-label(for="email") Email
+      label.col-lg-2.control-label(for="email") Email
       div.col-lg-10
        div.list-group-item=session.user.email
        input.form-control.hidden(name="email",value=session.user.email)
     div.form-group.required
-      lable.col-lg-2.control-label(for="zip") Zipcode
+      label.col-lg-2.control-label(for="zip") Zipcode
       div.col-lg-10
        div.list-group-item=session.user.zipcode
        input.form-control.numeric.hidden(name="zip",value=session.user.zipcode)
@@ -40,15 +40,15 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
         div.btn.btn-warning.col-lg-3#btnPass Change Password
     div#formPass.row.hidden
       div.form-group
-        lable.col-lg-2.control-label Old Password
+        label.col-lg-2.control-label Old Password
         div.col-lg-10
           input.form-control(type="Password",name="old_pass")
       div.form-group
-        lable.col-lg-2.control-label New Password
+        label.col-lg-2.control-label New Password
         div.col-lg-10
           input.form-control(type="Password",name="new_pass")
       div.form-group
-        lable.col-lg-2.control-label Type Again
+        label.col-lg-2.control-label Type Again
         div.col-lg-10
           input.form-control(type="Password",name="new_pass_2")
       div.form-group
