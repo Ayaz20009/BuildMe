@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('homeowner_jobs_new', {
+    return queryInterface.createTable('homeowner_jobs', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -25,16 +25,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       zipcode: {
-        type: Sequelize.INTEGER
-      },
-      startDate: {
-        type: Sequelize.DATE
-      },
-      numBids:{
-        type: Sequelize.INTEGER,
-        defaultValue:0
-      },
-      bidID:{
         type: Sequelize.INTEGER
       },
       createdAt: {       
