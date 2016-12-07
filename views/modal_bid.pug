@@ -10,34 +10,24 @@ div#modal_bid.modal.fade(role="dialog")
      div#jobInfo.col-lg-12
      div#biddingForm.col-lg-12(style="height:55vh;overflow:auto;")
        div.col-lg-6.form-group.required 
-        label.control-label(for="cost") Estimate Cost (Dollars) :
-        input.form-control.numeric(type="text",name="estCost",placeholder="Cost ($)")
-       div.col-lg-3.form-group.required
-        label.control-label(for="days") Est. Days:
-        input.form-control.numeric(type="text",name="estDays",placeholder="0 Days (d)")
-       div.col-lg-3.form-group.required 
-        label.control-label(for="hours") Est. Hours:
-        input.form-control.numeric(type="text",name="estHours",placeholder="0 Hours (h)")
-       div.col-lg-6
-        label.col-lg-12(style="padding-left:0") Avaliable &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Start Time In:
-        div.row(style="padding:0")
-          div.col-lg-6.form-group 
-            input.form-control.numeric.time(type="text",name="week",placeholder="weeks")
-          div.col-lg-6.form-group 
-            input.form-control.numeric.time(type="text",name="day",placeholder="days")
-       div.col-lg-4.form-group.required
-        label.control-label(for="date") Date
-        input.form-control#datepicker.date.datepicker(type="text",name="startDate",placeholder="Choose A Date")
-       div.col-lg-2.form-group 
-        label.control-label(for="ASAP") ASAP 
-        input.form-control.hidden(name="ASAP",value=true)
-        div.btnASAP.btn.btn-block.btn-success TRUE
-       div.col-lg-12.form-group
-        label.control-label(for="file") Proposal 
-        input.form-control(name="proposal",type="file",)
+          label.control-label(for="cost") Estimate Cost (Dollars) :
+          input.form-control.numeric(type="text",name="estCost",placeholder="Cost ($)",)
+       div.col-lg-6.form-group.required
+          label.control-label(for="days") Est. Days:
+          input.form-control.numeric(type="text",name="estDays",placeholder="0 Days (d)")
+
+       div.col-lg-6.form-group.required 
+          label.control-label(for="hours") Est. Hours:
+          input.form-control.numeric(type="text",name="estHours",placeholder="0 Hours (h)")
+       div.col-lg-6.form-group.required 
+          label.control-label(for="date") Avaliable Start Date:
+          input.form-control#datepicker.date.datepicker(type="text",name="startDate",placeholder="Choose A Date")
        div.col-lg-12.form-group 
         label.control-label(for="comment") Comment:
         textarea.form-control(name="comment",rows="4",type="text",placeholder="Please explain why you are good fit for this job.")
+       div.col-lg-12.form-group
+        label.control-label(for="file") Proposal 
+        input.form-control(name="proposal",type="file",)
 
      div.col-lg-12
       button#btnBid.btn.btn-md.btn-warning.col-lg-6(style="color:black;",type="submit") Submit

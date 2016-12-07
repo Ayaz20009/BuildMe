@@ -107,10 +107,23 @@ $("#btnCancelPass").click(function(){
 
 $(".btnBid").click(function(){
 
+  
+  //reset input
   $('#modal_bid').find('input.form-control').val("");
-  var jobDesc= $(this).closest('.panel').find('.jobDesc').text();
-  $('#modal_bid').find('#jobInfo').html(jobDesc);
+  $('#modal_bid').find(".datepicker").val(currentDate);
+  // ASAP(true);
+
+  var jobInfo = $(this).closest('.panel').find('.jobInfo').html();
+  $('#modal_bid').find('#jobInfo').html(jobInfo);
 });
+
+
+
+  $(".btnJobDetail").click(function(){
+
+    $(this).parent().siblings(".pictures").slideToggle();
+
+  });
 
 
 
@@ -133,44 +146,44 @@ $(".btnBid").click(function(){
 
 
 //change time value 
-  $('.btnASAP').click(function(){
+  // $('.btnASAP').click(function(){
 
-    if($(this).hasClass("btn-danger")){
-       ASAP(true);
-    }
-    else{
+  //   if($(this).hasClass("btn-danger")){
+  //      ASAP(true);
+  //   }
+  //   else{
 
-       $("input.time").val("");
-       $('#datepicker').val("");
-       alert("Please choose a date");
+  //      $("input.time").val("");
+  //      $('#datepicker').val("");
+  //      alert("Please choose a date");
 
-       ASAP(false);
-    }
+  //      ASAP(false);
+  //   }
 
-  });
+  // });
 
 
 //if has a date, make ASAP false
-  $("input.time").keyup(function(){
+  // $("input.time").keyup(function(){
 
-     if($(this).val() > 0)
-         ASAP(false);
+  //    if($(this).val() > 0)
+  //        ASAP(false);
 
-     var week = parseInt($.trim($('input.time[name=week]').val()));
-     var day = parseInt($.trim($('input.time[name=day]').val()));
+  //    var week = parseInt($.trim($('input.time[name=week]').val()));
+  //    var day = parseInt($.trim($('input.time[name=day]').val()));
 
-     if(!week)
-       week = 0;
-     if(!day)
-       day = 0;
+  //    if(!week)
+  //      week = 0;
+  //    if(!day)
+  //      day = 0;
 
-     var total = 7*week + day;
-     var d = new Date();
-     d.setDate(d.getDate() + total);
-     var dateFormat =  d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
-     $('#datepicker').val(dateFormat);
+  //    var total = 7*week + day;
+  //    var d = new Date();
+  //    d.setDate(d.getDate() + total);
+  //    var dateFormat =  d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
+  //    $('#datepicker').val(dateFormat);
 
-  });
+  // });
 
 
 
@@ -178,8 +191,8 @@ $(".btnBid").click(function(){
  
        if(isDate($(this).val())){
           //empty other input
-         $("input.time").val("");
-         ASAP(false);
+         // $("input.time").val("");
+         // ASAP(false);
        }
        else{
           alert("Invalid Date");
@@ -192,24 +205,24 @@ $(".btnBid").click(function(){
 /*@arg TRUE OR FALSE, def. FALSE
  make button .btnASAP show TRUE OR FALSE
 */
-  function ASAP(arg){
+  // function ASAP(arg){
 
-      if(arg == true){
-         //change false to true
-        $(".btnASAP").removeClass("btn-danger").addClass("btn-success").text("TRUE");
-        $(".btnASAP").siblings('input[name=ASAP]').val(true);
-        //remove value of .date
-        $("input.time").val("");
-        $("#datepicker").val(currentDate);
-      }
-      else{
-        //change true to false
-        $(".btnASAP").addClass("btn-danger").removeClass("btn-success").text("FALSE");
-        $(".btnASAP").siblings('input[name=ASAP]').val(false);
-      }
+  //     if(arg == true){
+  //        //change false to true
+  //       $(".btnASAP").removeClass("btn-danger").addClass("btn-success").text("TRUE");
+  //       $(".btnASAP").siblings('input[name=ASAP]').val(true);
+  //       //remove value of .date
+  //       $("input.time").val("");
+  //       $("#datepicker").val(currentDate);
+  //     }
+  //     else{
+  //       //change true to false
+  //       $(".btnASAP").addClass("btn-danger").removeClass("btn-success").text("FALSE");
+  //       $(".btnASAP").siblings('input[name=ASAP]').val(false);
+  //     }
 
 
-  };
+  // };
 
 
 //verify str is valid date form MM/DD/YYYY

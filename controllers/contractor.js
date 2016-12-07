@@ -36,7 +36,7 @@ router.get('/bidding', function(req,res){
   // Grab data from http request
   // Get a Postgres client from the connection pool
   var queryString = 'SELECT "bids"."id", "jobID", "estCost", "estDays","estHours", "startDate","comment", "bids"."updatedAt" AS "bidUpdatedAt",'
-                  + '"bidID", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."updatedAt" AS "jobUpdatedAt", "bidID",'
+                  + '"bidID", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt" AS "jobCreatedAt", "bidID",'
                   + '"firstName", "lastName"'
                   + 'FROM "job_bids" AS "bids"'
                   + 'JOIN "homeowner_jobs" AS "jobs"'
@@ -44,7 +44,7 @@ router.get('/bidding', function(req,res){
                   + ' JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID"'
                   + 'WHERE "coID" = '+ req.session.user.id
                   // + 'AND "bidID" IS NOT null '
-                  + 'ORDER BY "jobUpdatedAt" DESC, "bidUpdatedAt" DESC';
+                  + 'ORDER BY "jobCreatedAt" DESC, "bidUpdatedAt" DESC';
 
   query = client.query(queryString);
     // Stream results back one row at a time
@@ -55,9 +55,9 @@ router.get('/bidding', function(req,res){
   query.on('end', () => {
       // return res.json(results);
       if(results.length == 0)
-         return res.render('contractor/bidding', {title: "Open Bids", session:req.session});
+         return res.render('contractor/bidding', {title: results.length + " Bids", session:req.session});
 
-      return res.render('contractor/bidding', {title: "Open Bids", session:req.session, bids: results});
+      return res.render('contractor/bidding', {title: results.length + " Bids", session:req.session, bids: results});
   });
 
   

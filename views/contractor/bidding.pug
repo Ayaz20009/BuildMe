@@ -1,61 +1,74 @@
 include dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
+div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="overflow-x:auto")
  if !bids
    h1.text-center You have no bidding yet.
  else
-   each bid in bids
-    div.col-lg-6(style="height:40vh;margin:2% 0 2% 0")
-     div.panel.panel-warning(id=bids.id,style="overflow:auto")
-      div(style="padding:0") 
-        if(bids.bidID)
-          span.text-danger This job bidding is closed.
-        //- //- button.btn-danger.btn.btn-sm(data-toggle="modal",data-target="#modal_withdraw") X
-        div.dropdown.pull-right 
-          a.btn.dropbtn
-           span.caret
-          div.dropdown-content
-           if (!bids.bidID)
-            button.btnUpdate.btn.btn-sm.btn-warning.btn-block Edit
-           button.btnDeleteBid.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_bid") X
-      div.panel-body.row(style="padding:2%")
-       //- div.col-lg-1.avatar.btn.btn-default=bid.jobID
-       div.col-lg-11.bidInfo
-         div.row.hidden
-          label.col-lg-4.control-label Bid ID
-          div.col-lg-8
-           input(name="bidID",value=bid.id)
-         div.row
-          label.col-lg-4.control-label Job Created By
-          div.col-lg-8.avatar.btn.btn-default=bid.firstName[0] + bid.lastName[0]
-         div.row
-          label.col-lg-4.control-label Description
-          div.col-lg-8=bid.jobDesc
-         div.row
-          label.col-lg-4.control-label Location
-          div.col-lg-8=bid.city + "  " + bid.state + "  " + bid.zipcode
-         div.row
-          label.col-lg-4.control-label Job Updated At
-          div.col-lg-8=bid.jobUpdatedAt
-         div.row
-          label.col-lg-4.control-label Estimate Cost
-          div.col-lg-8='$ ' + bid.estCost
-         div.row
-          label.col-lg-4.control-label Estimate Days
-          div.col-lg-8
-            if (bid.estDays)
-              p=bid.estDays + ' Days'
-         div.row
-          label.col-lg-4.control-label Estimate Hours
-          div.col-lg-8
-            if (bid.estDays)
-             p=bid.estDays + ' Hours'
-         div.row
-          label.col-lg-4.control-label Avaible Start From
-          div.col-lg-8=bid.startDate.toString().substr(0,15)
-         div.row
-          label.col-lg-4.control-label Comment
-          div.col-lg-8=bid.comment
-         div.row
-          label.col-lg-4.control-label Bid Updated At
-          div.col-lg-8=bid.bidUpdatedAt
+   - var width = bids.length * 550;
+   div.col-lg-12(style="width:"+ width+"px;overflow-x:auto;min-width:100%;min-height:80%;")
+     each bid in bids
+       div.panel.panel-warning.bidInfo(id="bidID_"+bid.bidID,style="padding:0;margin:5px; display:inline-block;width:500px;")
+          div.panel-heading(style="padding:1%") 
+            if (bids.bidID)
+              span.text-danger This job bidding is closed.
+            else
+              span.text-success This job is still Open
+            //- //- button.btn-danger.btn.btn-sm(data-toggle="modal",data-target="#modal_withdraw") X
+            div.dropdown.pull-right 
+              a.btn.dropbtn
+               span.caret
+              div.dropdown-content
+               if (!bids.bidID)
+                 button.btnUpdate.btn.btn-sm.btn-primary.btn-block Edit
+               button.btnDeleteBid.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_bid") X
+          div.panel-body.row(style="padding:2%")
+             //- div.col-lg-1.avatar.btn.btn-default=bid.jobID
+             div.col-lg-12.bidInfo
+               div.row.hidden
+                label.col-lg-4.control-label Bid ID
+                div.col-lg-8
+                 input(name="bidID",value=bid.id)
+               //- div.row
+               //-  label.col-lg-4.control-label Job Created By
+               //-  div.col-lg-8.avatar.btn.btn-default=bid.firstName[0] + bid.lastName[0]
+               div.col-lg-12
+                label.col-lg-4.control-label Job Description
+                div.col-lg-8=bid.jobDesc
+               div.col-lg-12
+                label.col-lg-4.control-label Location
+                input.hidden(id="addr_" + bid.jobID,value=bid.street+ " " + bid.city + "  " + bid.state + "  " + bid.zipcode)
+                div.col-lg-8=bid.city + "  " + bid.state + "  " + bid.zipcode
+                  //- a.btnShowMap(id="link_" + bid.jobID)=bid.city + "  " + bid.state + "  " + bid.zipcode
+                div.col-lg-8.error.col-lg-10.text-danger.hidden Can't find the location. 
+                 i.fa.fa-exclamation-triangle 
+                div.hidden.col-lg-8(id="map_" + bid.jobID, style="width:100%;height:200px")
+               div.col-lg-12
+                label.col-lg-4.control-label Created At
+                div.col-lg-8=bid.jobCreatedAt.toString().substr(0,24)
+               div.divider
+               div.col-lg-12
+                label.col-lg-4.control-label Estimate Cost
+                div.col-lg-8='$ ' + bid.estCost
+               div.col-lg-12
+                label.col-lg-4.control-label Estimate Days
+                div.col-lg-8
+                  if (bid.estDays)
+                    p=bid.estDays + ' Days'
+               div.col-lg-12
+                label.col-lg-4.control-label Estimate Hours
+                div.col-lg-8
+                  if (bid.estDays)
+                   p=bid.estDays + ' Hours'
+               div.col-lg-12
+                label.col-lg-4.control-label Avaible Start Date
+                div.col-lg-8=bid.startDate.toString().substr(0,15)
+               div.col-lg-12
+                label.col-lg-4.control-label Comment
+                div.col-lg-8=bid.comment
+               div.col-lg-12
+                label.col-lg-12.control-label.text-center Proposal
+                div.col-lg-12
+                  div.panel.panel-warning(style="height:40vh")
+               div.col-lg-12
+                label.col-lg-4.control-label Updated At
+                div.col-lg-8=bid.bidUpdatedAt.toString().substr(0,24)
 include modal_delete_bid.pug

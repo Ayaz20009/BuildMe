@@ -7,7 +7,7 @@ if (projects.length == 0)
   h1.text-center There is no job yet.
 else
   each project in projects
-   div.panel.panel-success(id=project.jobID,style="width:70%;margin:auto")
+   div.panel.panel-success(id=project.jobID,style="width:80%;margin:auto")
      div.panel-body(style="padding:1%;position:relative")
         - var name = project.firstName[0] + project.lastName[0];
         if (session)
@@ -22,35 +22,47 @@ else
           div.col-lg-1(style="position:absolute;height:85%")
             div.avatar.btn.btn-default=name
         div.col-lg-10.col-lg-offset-1(style="overflow-y:auto;")
-           div.row.jobInfo
+           div.col-lg-12
+              label.col-lg-2 CreatedAt:
+              div.col-lg-10=project.createdAt.toString().substring(0,25)
+           div.jobInfo
              div.col-lg-12.hidden
                 label.col-lg-2 JobID
                 input(name="jobID",value=project.jobID)
              div.col-lg-12
                 label.col-lg-2  Description:
                 div.col-lg-10.jobDesc=project.jobDesc
+
              div.col-lg-12
                 label.col-lg-2 Location:
                 - var cityAddr = project.city + " " + project.state + " " + project.zipcode;
                 div.col-lg-10=cityAddr
-             div.col-lg-12
-                label.col-lg-2 Picutres:
-                div.col-lg-10 Picutures
-             div.col-lg-12
-                label.col-lg-2 CreatedAt:
-                div.col-lg-10=project.createdAt.toString().substring(0,25)
+           div.col-lg-12
+              label.col-lg-2 
+                a.btnShowMap.btn.btn-info.btn-sm(id="link_" + project.jobID) Map
+                button.btnHideMap.btn.btn-sm   X
+              - var strAddr = project.street + " " + cityAddr;
+                input.address(id="addr_" + project.jobID,value=strAddr).hidden
+              div.error.col-lg-10.text-danger.hidden Can't find the location 
+                 i.fa.fa-exclamation-triangle 
+              div.map.col-lg-10.text-center.hidden(id="map_" + project.jobID,style="height:300px;width:80%")
+           div.col-lg-12
+              label.col-lg-12.text-center
+                if (session)
+                  a.btnJobDetail.text-center More Detail
+              div.col-lg-12.pictures.collapse
+                each i in [0,1,2,3,4,5,6,7,8]
+                  div.col-lg-4.panel.panel-success.text-center(style="height:10vw") Will load Picture Or Video Here
+           //- div.col-lg-12
+           //-  if (!session)
+                //- label.col-lg-2
+                  //- a.btnJobDetail More Detail
+              //- div.col-lg-10.pictures.collapse
+                    //- each i in [0,1,2,3,4,5,6,7,8]
+                     //- div.col-lg-4.panel.panel-success(style="height:10vw")
              //- div.col-lg-12
              //-    label.col-lg-2 UpdatedAt:
              //-    div.col-lg-10=project.updatedAt
-             div.col-lg-12
-                label.col-lg-2 
-                  a.btnShowMap.btn.btn-success.btn-sm(id="link_" + project.jobID) Map
-                  button.btnHideMap.btn.btn-sm   X
-                - var strAddr = project.street + " " + cityAddr;
-                  input.address(id="addr_" + project.jobID,value=strAddr).hidden
-                div.error.col-lg-10.text-danger.hidden Can't find the location 
-                   i.fa.fa-exclamation-triangle 
-                div.map.col-lg-10.text-center.hidden(id="map_" + project.jobID,style="height:200px;width:60%")
         if (contractor)
           if (bidJobID.indexOf(project.jobID) != -1)
            div.col-lg-1.pull-right
