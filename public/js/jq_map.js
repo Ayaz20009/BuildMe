@@ -5,7 +5,6 @@ $(document).ready(function(){
 
   $("a.btnShowMap").click(function(){
 
-
       var jobID = $(this).attr('id').split('_')[1];
       var address = $('#addr_' + jobID).val();
 
@@ -18,7 +17,7 @@ $(document).ready(function(){
 		    var latitude = results[0].geometry.location.lat();
 		    var longitude = results[0].geometry.location.lng();
 
-		    $('#map_' + jobID).removeClass("hidden");
+		    $('#map_' + jobID).removeClass("hidden").siblings('button.btnHideMap').removeClass("hidden");
 		      drawMap(latitude,longitude, 'map_' + jobID);
 	  } 
 	  else
@@ -27,9 +26,9 @@ $(document).ready(function(){
 
 }); 
 
+   $("button.btnHideMap").click(function(){    
 
-   $("button.btnHideMap").click(function(){     
-     $(this).parent().siblings('.map').addClass("hidden");
+     $(this).addClass("hidden").closest('.panel').find('.map').addClass("hidden");
    });
 
 

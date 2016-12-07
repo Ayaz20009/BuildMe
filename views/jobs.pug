@@ -36,17 +36,16 @@ else
              div.col-lg-12
                 label.col-lg-2 Location:
                 - var cityAddr = project.city + " " + project.state + " " + project.zipcode;
-                div.col-lg-10=cityAddr
-           div.col-lg-12
-              label.col-lg-2 
-                a.btnShowMap.btn.btn-info.btn-sm(id="link_" + project.jobID) Map
-                button.btnHideMap.btn.btn-sm   X
-              - var strAddr = project.street + " " + cityAddr;
+                - var strAddr = project.street + " " + cityAddr;
                 input.address(id="addr_" + project.jobID,value=strAddr).hidden
-              div.error.col-lg-10.text-danger.hidden Can't find the location 
-                 i.fa.fa-exclamation-triangle 
-              div.map.col-lg-10.text-center.hidden(id="map_" + project.jobID,style="height:300px;width:80%")
-           div.col-lg-12
+                div.col-lg-10
+                  a.col-lg-12.btnShowMap(id="link_" + project.jobID)=cityAddr
+             div.col-lg-12
+                div.error.col-lg-12.text-danger.hidden Can't find the location 
+                    i.fa.fa-exclamation-triangle    
+                button.btnHideMap.btn.btn-sm.hidden   X
+                div.col-lg-12.map.text-center.hidden(id="map_" + project.jobID,style="height:200px;width:95%")
+             div.col-lg-12
               label.col-lg-12.text-center
                 if (session)
                   a.btnJobDetail.text-center More Detail
