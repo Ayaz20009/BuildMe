@@ -33,7 +33,6 @@ router.get('/', (req, res) => {
 
 
 
-
 router.get('/contractor-signup',function(req,res){
    if(!req.session.user)
     return res.render('contractor-signup', {title: 'Contractor Sign Up'});
@@ -364,12 +363,12 @@ function getJobs(req,res){
     query.on('end', () => {
         // return res.json(results);
         if(!req.session.user)
-            return res.render('jobs', {title: 'Jobs', projects:results, contractor: false});
+            return res.render('jobs', {title: 'Jobs', projects:results});
         else{
 
             if(req.session.user && req.session.user.usertype == "homeowner"){
 
-                return res.render('jobs', {title: 'Jobs', projects:results, contractor: false, session: req.session}); 
+                return res.render('homeonwer-jobs', {title: 'Jobs', projects:results, session: req.session}); 
             }
             else{
                  //if contractor , first get the job that alreday bidden by the contractor
@@ -385,8 +384,8 @@ function getJobs(req,res){
                     for(var i in bids )
                        bidJobID.push(bids[i].jobID);
 
-                    return res.render('jobs',
-                      {title: results.length + ' Jobs', projects:results, bidJobID : bidJobID, contractor: true, session: req.session}
+                    return res.render('contractor-jobs',
+                      {title: results.length + ' Jobs', projects:results, bidJobID : bidJobID, session: req.session}
                     ); 
                });
             }
