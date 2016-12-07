@@ -3,8 +3,8 @@ include source.pug
 script(type="text/javascript",src="https://www.gstatic.com/charts/loader.js")
 script(type="text/javascript",src="/js/jq_chartBids.js")
 div.container(style="padding-top:1%;width:80%")
-   - var width = bids.length * 550;
-   div#bids.col-lg-12.well(style="height:200px;width:"+ width +"px;min-width:100%;")
+   - var width = bids.length * 560;
+   div#bids.col-lg-12.well(style="height:300px;width:"+ width +"px;min-width:100%;")
    div.col-lg-12.well(style="width:"+ width+"px;overflow-x:auto;min-width:100%;")
      - var i = 0;
      each bid in bids
@@ -39,7 +39,7 @@ div.container(style="padding-top:1%;width:80%")
               div.col-lg-12
                 label.col-lg-2.control-label
                    i.fa.fa-star
-                div.col-lg-10
+                div.col-lg-10(name="points")
             div.col-lg-2
               button.btn.avatar(role="tooltip",title="View Profile", data-placement="left",style="height:4vw;width:4vw;font-size:20px")=bid.firstName[0] + bid.lastName[0]
               a.btn.text-primary(role="tooltip",title="Send Message To " + Name, data-placement="left", style="margin-top:10%;padding:0")
