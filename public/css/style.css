@@ -101,3 +101,19 @@
   margin:1% auto 0 auto;
   width:75%;
 }
+
+#sidebar i {
+
+   float: left;
+
+}
+
+#sidebar .badge{
+    float:right;
+}
+
+.container{
+
+   width: 80%;
+
+}

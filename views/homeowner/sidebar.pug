@@ -1,29 +1,34 @@
 div.col-sm-3.col-md-2#sidebar
   ul.nav.nav-sidebar.list-group.table-of-contents
     li.list-group-item
-      a.btn(href="/homeowner/newjob")
-       i.fa.fa-plus-square-o &nbsp;&nbsp; Create a New Job
+      a.btn(href="/homeowner/newjob") Create a New Job
+       i.fa.fa-plus-square-o 
     li.list-group-item
-      a.btn(href="/homeowner/jobscreated")
-       i.fa.fa-gavel &nbsp;&nbsp; Jobs Created
+      a.btn(href="/homeowner/jobscreated") Jobs Created
+       i.fa.fa-suitcase
+       span.badge=session.user.numCreated
     li.list-group-item
-      a.btn(href="/homeowner/jobsoffered")
-       i.fa.fa-wrench  &nbsp;&nbsp; Jobs Offered
+      a.btn(href="/homeowner/jobsoffering") Jobs Offering
+       img(src="/img/offer.png", style="float:left;width:25px;height:25px;",)
+       span.badge=session.user.numOffers
     li.list-group-item
-      a.btn(href="/homeowner/jobsstarted")
-       i.fa.fa-tasks &nbsp;&nbsp; Jobs Started 
+      a.btn(href="/homeowner/jobsstarted") Jobs Started
+       i.fa.fa-tasks 
+       span.badge=session.user.numStarted
     li.list-group-item
-      a.btn(href="/homeowner/jobscompleted")
-       i.fa.fa-check-circle &nbsp;&nbsp; Jobs Completed 
+      a.btn(href="/homeowner/jobscompleted") Jobs Finished
+       i.fa.fa-check-circle
     li.list-group-item
-      a.btn(href="/homeowner/overview")
-       i.fa.fa-bar-chart &nbsp;&nbsp; Overview
+      a.btn(href="/homeowner/overview") Overview
+       i.fa.fa-bar-chart 
     li.list-group-item
-      a.btn(href="/homeowner/message") 
-       i.fa.fa-envelope &nbsp;&nbsp; Message
+      a.btn(href="/homeowner/message") Message 
+       i.fa.fa-envelope 
+       span.badge=session.user.newMessage
     li.list-group-item
-      a.btn(href="/homeowner/points") 
-       i.fa.fa-star &nbsp;&nbsp; Points
+      a.btn(href="/homeowner/points")=session.user.points + "  Points"
+       i.fa.fa-star
+       span.badge
     li.list-group-item
-      a.btn(href="/homeowner/profile") 
-       i.fa.fa-address-card-o &nbsp;&nbsp; Profile
+      a.btn(href="/homeowner/profile") Profile
+       i.fa.fa-address-card-o
