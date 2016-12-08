@@ -1,0 +1,44 @@
+div#modal_offer.modal.fade(role="dialog")
+ div.modal-dialog 
+  div.modal-content
+   div.modal-header.bg-success
+    span
+     i.fa.fa-gavel   Choose this bid:
+    a.close(data-dismiss="modal") X 
+   div.modal-body.row(style="padding-top:2%")
+    form(method="post",action="/jobs")
+     div.col-lg-12.form-group.required
+       label.control-label.col-lg-4(for="cost") Final Cost ($) :
+       div.col-lg-6
+         p.form-control.numeric(name="estCost")
+       div#btnChangeCost.col-lg-2.btn.btn-primary.btn-md
+        i.fa.fa-pencil
+     div.col-lg-12.form-group.required.finalCost.hidden
+       label.control-label.col-lg-4(for="cost") Negotiated Cost ($) :
+       div.col-lg-6
+        input.form-control.numeric(type="text",name="finalCost",placeholder="Final Cost ($)",)
+       div#btnCancelChange.col-lg-2.btn.btn-default.btn-md X
+     div.col-lg-12.form-group.required
+       label.control-label.col-lg-4(for="date") Start From:
+       div.col-lg-8
+        input.form-control#datepicker.date.datepicker(type="text",name="startDate",placeholder="Choose A Date")
+     div.col-lg-12.form-group 
+        label.control-label.col-lg-4(for="note") Note:
+        div.col-lg-8
+         textarea.form-control(name="note",rows="4",type="text",placeholder="Additional Note")
+     div.col-lg-12.panel.panel-success(style="height:25vh")
+      div.panel-body
+        p Agreement
+        p Agreement 
+        p Agreement
+     div.col-lg-12.form-group.required
+       label.control-label.col-lg-4(for="cost") Deposit Payment:
+         i.fa.fa-credit-card.pull-left(style="font-size:1.5vw")
+       div.col-lg-8
+        input.form-control
+     div.col-lg-12
+      button#btnBid.btn.btn-md.btn-success.col-lg-6(type="submit") Offer
+      a.btn.btn-default.btn-md.col-lg-6(data-dismiss="modal",type="reset") Cancel
+   //- div.modal-footer
+     
+     

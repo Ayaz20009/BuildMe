@@ -1,36 +1,37 @@
 include dashboard.pug
 div#biddingjobs.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
- if (projects.length == 0)
-   h1 You have no project yet.
- else
-   each project in projects
-    div.panel.panel-default(id=project.id)
-      div.panel-heading(style="padding:0")
-       if (project.numBids > 0)
-         a.btn-warning.btn-sm.btn.col-lg-1(onClick='window.open("/homeowner/bids/'+ project.id +'");')=project.numBids
-           i.fa.fa-gavel.pull-left
-       else
-         a.btn-warning.btn-sm.btn.col-lg-1.disabled=project.numBids
-           i.fa.fa-gavel.pull-left
-       div.dropdown.pull-right
-        a.btn.dropbtn
-         span.caret
-        div.dropdown-content
-         button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
-         button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
-      div.panel-body.jobInfo
-       div.row.hidden
-        input(name="jobID",value=project.id)
-       div.row
-        label.col-lg-2.control-label Descrption
-        div.col-lg-10=project.jobDesc
-       div.row
-        label.col-lg-2.control-label Address
-        div.col-lg-10=project.street + "," + project.city + " " + project.state + " " + project.zipcode
-       div.row
-        label.col-lg-2.control-label Created At
-        div.col-lg-10=project.createdAt
-       div.row
-        label.col-lg-2.control-label Updated At
-        div.col-lg-10=project.updatedAt
+  div.col-lg-11
+   if (projects.length == 0)
+     h1 You have no project yet.
+   else
+     each project in projects
+      div.panel.panel-default(id=project.id)
+        div.panel-heading(style="padding:0")
+         if (project.numBids > 0)
+           a.btn-warning.btn-sm.btn.col-lg-1(onClick='window.open("/homeowner/bids/'+ project.id +'");')=project.numBids
+             i.fa.fa-gavel.pull-left
+         else
+           a.btn-warning.btn-sm.btn.col-lg-1.disabled=project.numBids
+             i.fa.fa-gavel.pull-left
+         div.dropdown.pull-right
+          a.btn.dropbtn
+           span.caret
+          div.dropdown-content
+           button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
+           button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
+        div.panel-body.jobInfo
+         div.row.hidden
+          input(name="jobID",value=project.id)
+         div.row
+          label.col-lg-2.control-label Descrption
+          div.col-lg-10=project.jobDesc
+         div.row
+          label.col-lg-2.control-label Address
+          div.col-lg-10=project.street + "," + project.city + " " + project.state + " " + project.zipcode
+         div.row
+          label.col-lg-2.control-label Created At
+          div.col-lg-10=project.createdAt
+         div.row
+          label.col-lg-2.control-label Updated At
+          div.col-lg-10=project.updatedAt
 include modal_delete_job.pug

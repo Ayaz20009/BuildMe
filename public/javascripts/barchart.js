@@ -5,10 +5,10 @@ function drawChart() {
 
 	   var data = google.visualization.arrayToDataTable([
         ['Job', 'Percentage',],
-        ['Job 1 by contract 1', 90],
-        ['Job 2 by contract 2', 80],
-        ['Job 3 by contract 3', 75],
-        ['Job 3 by contract 3', 40],
+        ['Job 1 by contract 1', Math.random()*100],
+        ['Job 2 by contract 2', Math.random()*100],
+        ['Job 3 by contract 3', Math.random()*100],
+        ['Job 3 by contract 3', Math.random()*100],
       ]);
 
       var options = {

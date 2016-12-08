@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
     email: DataTypes.STRING,
     // password: DataTypes.STRING,
     numBids:DataTypes.INTEGER,
-    numDelined:DataTypes.INTEGER,
+    // numDelined:DataTypes.INTEGER,
     numStarted:DataTypes.INTEGER,
     numFinished:DataTypes.INTEGER,
     points:DataTypes.INTEGER,

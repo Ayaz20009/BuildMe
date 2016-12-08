@@ -68,6 +68,12 @@
     padding-left:0;
     padding-right:0;
 }
+
+.sidebar .list-group-item{
+    font-size:1.5vw;
+}
+
+ 
 .content{
     /*margin-left:20%;*/
 }

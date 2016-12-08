@@ -12,7 +12,7 @@ function drawChartBids() {
 
      // 	alert(response);
 
-        var data  = [['Name', 'Estimate Cost', 'Estimate Days', 'points']];
+        var data  = [['Estimate Cost vs Estimate Days vs Points', 'Estimate Cost', 'Estimate Days', 'Points']];
 
         for(var i in response){
 
@@ -31,7 +31,8 @@ function drawChartBids() {
              var points = parseInt(Math.random() * 10000);
 
              $('[id=bidID_'+ row.bidID+']').find('[name=points]').text(points);
-             data.push([name, estCost, estDays, points ]);
+            var label = name + ': $' + estCost + '/' + estDays + ' days/' + points + ' points';
+             data.push([label, estCost, estDays, points ]);
         }
 
       var dataTable = new google.visualization.arrayToDataTable(data);
@@ -39,9 +40,10 @@ function drawChartBids() {
         var options = {
           width: document.getElementById('bids').width*0.8,
           chart: {
-            title: 'Compare Estimate Cost and Estimate Days',
-            subtitle: 'Estimate Cost on the left, Estimate Days on the right'
+            // title: 'Compare Estimate Cost and Estimate Days',
+            // subtitle: 'Estimate Cost on the left, Estimate Days on the right'
           },
+
           series: {
             0: { axis: 'Estimate Cost' }, // Bind series 0 to an axis named 'Estimate Cost'.
             1: { axis: 'Estimate Days' },
@@ -53,7 +55,18 @@ function drawChartBids() {
               "Estimate Days" : {side: 'right', label: 'Estimate Days'},
               "Points": {label: 'Points'}// Right y-axis.
             }
-          }
+          },
+          vAxis :{
+            maxValue:100
+          },
+          // hAixs :{
+          //   textStyle :{
+          //     fontSize: 20,
+          //     bold: true,
+          //     italic: true,
+          //   },
+          // },
+          // chartArea :{top:0;},
         };
 
       var chart = new google.charts.Bar(document.getElementById('bids'));

@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
 router.get('/dashboard', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('contractor/dashboard', {title: req.session.user.firstName + "'s dashboard", session:req.session})
+  return res.render('contractor/overview', {title: req.session.user.firstName + "'s dashboard", session:req.session})
 });
 
 

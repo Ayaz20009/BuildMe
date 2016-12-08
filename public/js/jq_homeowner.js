@@ -10,12 +10,38 @@ $(document).ready(function(){
 
 
  //add class btn-default to current option 
-var url      = window.location.href;
-var urlSplit = url.split("/");
-var path = urlSplit[3] + "/" + urlSplit[4];
-$('.sidebar a[href*="'+ path +'"]').addClass("btn-success").siblings().removeClass("btn-success");
+	var url   = window.location.href;
+	var option = url.split("homeowner/")[1].split("/")[0];
+	$('#sidebar a[href*="'+ option  +'"]').addClass("btn-success");
 
 
+    $(".btnChooseBid").click(function(){
+    
+        var panelBid = $(this).closest('.panel-bid');
+        var estCost = panelBid.find("[name=estCost]").text();
+        var startDate = new Date(panelBid.find("[name=startDate]").text());
+        var startDateString = (startDate.getMonth() + 1 ) + "/" + startDate.getDate() + "/" + startDate.getFullYear(); 
+        var modal = $('#modal_offer');
+        modal.find('[name=estCost]').text(estCost);
+        modal.find('.finalCost').addClass("hidden");
+        modal.find('input[name=finalCost]').val(estCost);
+        modal.find('input[name=startDate]').val(startDateString);
+   });
+
+
+    $("#btnChangeCost").click(function(){
+
+        $('#modal_offer .finalCost').removeClass("hidden");
+    });
+
+
+    $("#btnCancelChange").click(function(){
+
+        $(this).parent().addClass("hidden");
+        var estCost = $('#modal_offer [name=estCost]').text();
+        $('#modal_offer input[name=finalCost]').val();
+
+    });
 
 });
 

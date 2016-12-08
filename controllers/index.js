@@ -238,7 +238,7 @@ router.post('/homeowner/dashboard', function(req, res) {
 
           req.session.user = user.dataValues;
           req.session.user.usertype = "homeowner";
-          res.render('./homeowner/dashboard', 
+          res.render('./homeowner/overview', 
             {title: user.dataValues.firstName + " " + user.dataValues.lastName, session: req.session})
       }
       else
@@ -265,7 +265,7 @@ router.post('/contractor/dashboard', function(req, res) {
           req.session.user.usertype = "contractor";
           console.log(req.session.user.usertype);
 
-          res.render('./contractor/dashboard', {title: user.dataValues.firstName, session: req.session})
+          res.render('./contractor/overview', {title: user.dataValues.firstName, session: req.session})
       }
       else
         return res.render('login', {error: true, title: 'Error'})

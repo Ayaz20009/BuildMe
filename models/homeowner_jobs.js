@@ -9,6 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     zipcode: DataTypes.INTEGER,
     numBids:DataTypes.INTEGER,
     bidID: DataTypes.INTEGER,
+    // byDate: DataTypes.DATE,
   }, {
     classMethods: {
       associate: function(models) {
