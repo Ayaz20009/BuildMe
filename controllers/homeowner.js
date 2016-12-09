@@ -90,7 +90,26 @@ router.post('/newjob', function(req, res) {
 
       if(project){
         //update numCreated of homeowners 
-          return res.redirect('/homeowner/jobscreated');
+        models.homeowners.findOne({
+            where: {
+               id: req.session.user.id,
+           }
+        })
+        .then(function(user){
+
+            if(user){
+                user.updateAttributes({
+                  numCreated : user.numCreated + 1 
+
+                }).then(function(){
+
+                   return res.redirect('/homeowner/jobscreated');
+                });
+            }
+            else
+               res.send("user not exists");
+        });
+
       }
       else
         res.render('homeowner/newjob',{title: "Error", session: req.session}) 
