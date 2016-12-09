@@ -8,11 +8,13 @@ module.exports = function(sequelize, DataTypes) {
     hoID: DataTypes.INTEGER,
     coID: DataTypes.INTEGER,
     bidID : DataTypes.INTEGER,
+    // estCost: DataTypes.INTEGER,
     finalCost: DataTypes.INTEGER,
     estDays: DataTypes.INTEGER,
     // estHours: DataTypes.INTEGER,
     startDate: DataTypes.INTEGER,
     comment : DataTypes.TEXT,
+    accepted: DataTypes.BOOLEAN,
   }, {
     classMethods: {
       associate: function(models) {

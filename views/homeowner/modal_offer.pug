@@ -6,7 +6,8 @@ div#modal_offer.modal.fade(role="dialog")
      i.fa.fa-gavel   Choose this bid:
     a.close(data-dismiss="modal") X 
    div.modal-body.row(style="padding-top:2%")
-    form(method="post",action="/jobs")
+    form(method="post",action="/homeowner/jobsoffering")
+     div#bidInfo
      div.col-lg-12.form-group.required
        label.control-label.col-lg-4(for="cost") Final Cost ($) :
        div.col-lg-6
@@ -16,14 +17,14 @@ div#modal_offer.modal.fade(role="dialog")
      div.col-lg-12.form-group.required.finalCost.hidden
        label.control-label.col-lg-4(for="cost") Negotiated Cost ($) :
        div.col-lg-6
-        input.form-control.numeric(type="text",name="finalCost",placeholder="Final Cost ($)",)
+        input.form-control.numeric(type="text",name="finalCost",placeholder="Final Cost ($)")
        div#btnCancelChange.col-lg-2.btn.btn-default.btn-md X
      div.col-lg-12.form-group.required
        label.control-label.col-lg-4(for="date") Start From:
        div.col-lg-8
         input.form-control#datepicker.date.datepicker(type="text",name="startDate",placeholder="Choose A Date")
      div.col-lg-12.form-group 
-        label.control-label.col-lg-4(for="note") Note:
+        label.control-label.col-lg-4(for="comment") comment:
         div.col-lg-8
          textarea.form-control(name="note",rows="4",type="text",placeholder="Additional Note")
      div.col-lg-12.panel.panel-success(style="height:25vh")
@@ -37,7 +38,7 @@ div#modal_offer.modal.fade(role="dialog")
        div.col-lg-8
         input.form-control
      div.col-lg-12
-      button#btnBid.btn.btn-md.btn-success.col-lg-6(type="submit") Offer
+      button#btnOffer.btn.btn-md.btn-success.col-lg-6(type="submit") Offer
       a.btn.btn-default.btn-md.col-lg-6(data-dismiss="modal",type="reset") Cancel
    //- div.modal-footer
      

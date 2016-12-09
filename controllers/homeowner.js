@@ -89,6 +89,7 @@ router.post('/newjob', function(req, res) {
     }).then(function(project){
 
       if(project){
+        //update numCreated of homeowners 
           return res.redirect('/homeowner/jobscreated');
       }
       else
@@ -111,13 +112,87 @@ router.get('/newjob', function(req, res) {
 });
 
 
-router.get('/jobsoffered', function(req, res) {
+router.get('/jobsoffering', function(req, res) {
 
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('homeowner/jobsoffered', 
-    {title: "Job Offered", session: req.session}
-    )
+  
+  models.job_offers.findAll({
+
+    where : {
+      hoID : req.session.user.id,
+      accepted : null,
+    }
+
+  }).then(function(offers){
+
+     // console.log(offers);
+     // return res.send(offers);
+
+    return res.render("homeowner/jobsoffering", {title: offers.length + "job offers", offers: offers, session: req.session});
+
+  });
+
+});
+
+
+router.post('/jobsoffering', function(req, res) {
+
+  var jobID = req.body.jobID;
+  var hoID = req.session.user.id;
+  var bidID = req.body.bidID;
+  var coID = req.body.coID;
+  var finalCost = req.body.finalCost;
+  var estDays = req.body.estDays;
+  var startDate = req.body.startDate;
+  var comment = req.body.comment ;
+
+  console.log("jobID: " + jobID );
+  console.log("hoID: " + hoID );
+  console.log("bidID: " + bidID );
+  console.log("coID: " + coID );
+  console.log("finalCost: " + finalCost);
+  console.log("estDays: " + estDays);
+  console.log("startDate: " + startDate);
+  console.log("comment: " + comment);
+
+  if(jobID && hoID  && bidID && coID && finalCost && startDate){
+
+    models.job_offers.create({
+       jobID:jobID, 
+       hoID: hoID,
+       bidID: bidID,
+       coID : coID,
+       finalCost: finalCost,
+       estDays: estDays,
+       startDate: startDate,
+    }).then(function(offer,err){
+
+      if(offer){
+
+          //update numOffers in homeowner
+          models.homeowners.findOne({
+              where: {
+                 id: req.session.user.id,
+             }
+          }).then(function(user){
+
+              user.updateAttributes({
+                numOffers : user.numOffers + 1
+              });
+
+              return res.redirect("/homeowner/jobsoffering");
+          });
+      }
+      else
+        res.send(err);
+
+    })
+
+  }
+  else
+    return res.send("required field missing")
+
 
 });
 
@@ -277,7 +352,7 @@ router.get('/bids/:jobID', function(req, res) {
   // After all data is returned, close connection and return results
   query.on('end', () => {
 
-      return res.render('homeowner/bids', {title: results.length + ' bids', bids: results, session: req.session});
+      return res.render('homeowner/bids', {title: results.length + ' bids', bids: results, session: req.session, jobID : jobID});
   });
 
 

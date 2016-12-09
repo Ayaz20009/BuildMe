@@ -17,7 +17,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-
       coID: {
         allowNull: false,
         type: Sequelize.INTEGER
@@ -26,6 +25,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      estCost : {
+        type: Sequelize.INTEGER
+      }
       finalCost: {
          type: Sequelize.INTEGER
       },

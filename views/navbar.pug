@@ -11,7 +11,7 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
          li
            if (session.user.usertype == "homeowner")
                a(href="/homeowner/dashboard") Dashboard
-           else 
+           if (session.user.usertype == "contractor")
                a(href="/contractor/dashboard") Dashboard
      if !session
       ul.nav.navbar-nav.navbar-right

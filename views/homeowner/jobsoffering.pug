@@ -1,4 +1,40 @@
 include dashboard.pug
 div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-  if (!projects)
-   h1.text-center You have no offering job yet.
+ div.col-lg-11
+  if (!offers)
+   h1.text-center You have no job offering yet.
+  else
+   each offer in offers
+      div.panel.panel-default.panel-offer(id=offer.id)
+        div.panel-heading(style="padding:0")
+         div.dropdown.pull-right
+          a.btn.dropbtn
+           span.caret
+          div.dropdown-content
+           button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
+           button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_offer") Delete
+        div.panel-body
+         div.row
+          label.col-lg-2.control-label jobID
+          div.col-lg-10=offer.jobID
+         div.row
+          label.col-lg-2.control-label BID
+          div.col-lg-10=offer.bidID
+         div.row
+          label.col-lg-2.control-label coID
+          div.col-lg-10=offer.coID
+         div.row
+          label.col-lg-2.control-label Estimate Cost
+          div.col-lg-10=offer.estCost
+         div.row
+          label.col-lg-2.control-label Final Cost
+          div.col-lg-10=offer.finalCost
+         div.row
+          label.col-lg-2.control-label Estimate Days
+          div.col-lg-10=offer.estDays
+         div.row
+          label.col-lg-2.control-label startDate
+          div.col-lg-10=offer.startDate
+         div.row
+          label.col-lg-2.control-label Comment
+          div.col-lg-10=offer.comment

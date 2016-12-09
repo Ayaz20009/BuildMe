@@ -11,7 +11,12 @@ div.col-lg-12.well.text-center(style="width:"+ W +"vw;overflow-x:auto;min-width:
      - i++;
      div.panel.panel-warning.panel-bid(id="bidID_"+bid.bidID,style="padding:0;margin:5px;width:"+ w +"vw;display:inline-block;overflow-y:auto;")
         div.panel-heading(style="height:18vh;overflow:auto;font-size:1.1vw;padding:auto 5px auto 5px")
-          div.col-lg-2.text-center   
+          div.bidInfo
+            input.hidden(name="jobID",value=jobID)
+            input.hidden(name="bidID",value=bid.bidID)
+            input.hidden(name="coID",value=bid.coID)
+            input.hidden(name="estDays",value=bid.estDays)
+          div.col-lg-2.text-center=bid.jobID
             button.btn.btn-success.btnChooseBid(style="margin-top:3%;padding:0;",role="tooltip",title="Choose this bid.",data-toggle="modal",data-target="#modal_offer",data-placement="right")
               img(src="/img/offerBid.png" style="width:70px;height:70px")
             div
@@ -44,21 +49,20 @@ div.col-lg-12.well.text-center(style="width:"+ W +"vw;overflow-x:auto;min-width:
             a.btn.text-primary(role="tooltip",title="Send Message To " + Name, data-placement="left", style="margin-top:10%;padding:0")
                i.fa.fa-comments(style="font-size:3.5vw")
         div.panel-body(style="padding:1%;height:65vh;overflow:auto")
-          div.bidInfo
-            div.col-lg-12
-              label.col-lg-4.control-label Estimate Cost ($)
-              div.col-lg-8(name="estCost")=bid.estCost
-            div.col-lg-12
-              label.col-lg-4.control-label Estimate Time
-              - var days = 0;
-                if (bid.estDays)
-                  - days = bid.estDays;
-                if (bid.estHours)
-                  - days += (bid.estHours/24.0).toFixed(1);
-              div.col-lg-8=days + "  days"
-            div.col-lg-12
-              label.col-lg-4.control-label Avaible From
-              div.col-lg-8(name="startDate")=bid.startDate.toString().substr(0,15)
+          div.col-lg-12
+            label.col-lg-4.control-label Estimate Cost ($)
+            div.col-lg-8(name="estCost")=bid.estCost
+          div.col-lg-12
+            label.col-lg-4.control-label Estimate Time
+            - var days = 0;
+              if (bid.estDays)
+                - days = bid.estDays;
+              if (bid.estHours)
+                - days += (bid.estHours/24.0).toFixed(1);
+            div.col-lg-8=days + "  days"
+          div.col-lg-12
+            label.col-lg-4.control-label Avaible From
+            div.col-lg-8(name="startDate")=bid.startDate.toString().substr(0,15)
           div.col-lg-12
             label.col-lg-4.control-label Comment
             div.col-lg-8=bid.comment

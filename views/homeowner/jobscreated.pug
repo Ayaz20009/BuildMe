@@ -5,7 +5,7 @@ div#biddingjobs.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
      h1 You have no project yet.
    else
      each project in projects
-      div.panel.panel-default(id=project.id)
+      div.panel.panel-success(id=project.id)
         div.panel-heading(style="padding:0")
          if (project.numBids > 0)
            a.btn-warning.btn-sm.btn.col-lg-1(onClick='window.open("/homeowner/bids/'+ project.id +'");')=project.numBids

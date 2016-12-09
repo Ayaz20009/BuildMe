@@ -22,6 +22,7 @@ $(document).ready(function(){
         var startDate = new Date(panelBid.find("[name=startDate]").text());
         var startDateString = (startDate.getMonth() + 1 ) + "/" + startDate.getDate() + "/" + startDate.getFullYear(); 
         var modal = $('#modal_offer');
+        modal.find("#bidInfo").html(panelBid.find('.bidInfo').html());
         modal.find('[name=estCost]').text(estCost);
         modal.find('.finalCost').addClass("hidden");
         modal.find('input[name=finalCost]').val(estCost);
@@ -39,7 +40,21 @@ $(document).ready(function(){
 
         $(this).parent().addClass("hidden");
         var estCost = $('#modal_offer [name=estCost]').text();
-        $('#modal_offer input[name=finalCost]').val();
+        $('#modal_offer input[name=finalCost]').val(estCost);
+
+    });
+
+    // $("input[name=finalCost]").(function(){
+
+
+    // });
+
+    $("#btnOffer").click(function(){
+
+        var finalCost = $('#modal_offer [name=finalCost]').val();
+        var startDate = $('#modal_offer [name=startDate]').val();
+
+        // alert("finalCost : "+ finalCost + "startDate" + startDate);
 
     });
 
