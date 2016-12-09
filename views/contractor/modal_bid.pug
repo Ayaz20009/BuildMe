@@ -5,10 +5,10 @@ div#modal_bid.modal.fade(role="dialog")
     span
      i.fa.fa-gavel   Bid on the job:
     a.close(data-dismiss="modal") X 
-   div.modal-body.row(style="height:80vh;padding-top:2%")
+   div.modal-body.row(style="padding-top:2%")
     form(method="post",action="/jobs")
      div#jobInfo.col-lg-12
-     div#biddingForm.col-lg-12(style="height:55vh;overflow:auto;")
+     div#biddingForm.col-lg-12
        div.col-lg-6.form-group.required 
           label.control-label(for="cost") Estimate Cost (Dollars) :
           input.form-control.numeric(type="text",name="estCost",placeholder="Cost ($)",)

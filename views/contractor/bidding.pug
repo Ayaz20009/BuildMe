@@ -20,7 +20,7 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="overflow-x:auto")
                if (!bids.bidID)
                  button.btnUpdate.btn.btn-sm.btn-primary.btn-block Edit
                button.btnDeleteBid.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_bid") X
-          div.panel-body.row(style="padding:2%")
+          div.panel-body.row(style="padding:2%;height:80vh;overflow:auto")
              //- div.col-lg-1.avatar.btn.btn-default=bid.jobID
              div.col-lg-12.bidInfo
                div.row.hidden
@@ -56,8 +56,8 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="overflow-x:auto")
                div.col-lg-12
                 label.col-lg-4.control-label Estimate Hours
                 div.col-lg-8
-                  if (bid.estDays)
-                   p=bid.estDays + ' Hours'
+                  if (bid.estHours)
+                   p=bid.estHours + ' Hours'
                div.col-lg-12
                 label.col-lg-4.control-label Avaible Start Date
                 div.col-lg-8=bid.startDate.toString().substr(0,15)
@@ -67,7 +67,7 @@ div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2(style="overflow-x:auto")
                div.col-lg-12
                 label.col-lg-12.control-label.text-center Proposal
                 div.col-lg-12
-                  div.panel.panel-warning(style="height:40vh")
+                  div.panel.panel-warning(style="height:38vh")
                div.col-lg-12
                 label.col-lg-4.control-label Updated At
                 div.col-lg-8=bid.bidUpdatedAt.toString().substr(0,24)

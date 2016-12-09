@@ -109,13 +109,87 @@ router.post('/homeowner-signup',function(req,res,next){
 
 
 
-/*get all jobs created by all users
+/*get all jobs 
 */
-// router.get('/jobs', function(req, res) {
-     
-//   getJobs("all", req,res);
+router.get('/jobs', function(req,res){
 
-router.get('/jobs', getJobs);
+  //generate search query condition
+
+   var searchString = "";
+
+   if(req.query){
+
+      for(var col in req.query){
+
+         if(req.query[col]){
+
+            var wordSplit = req.query[col].split(" ");
+            for(var i in wordSplit){
+
+              if(col == "zipcode")
+                  // searchString +=' AND \"jobs\".\"'+ col +'\" like \'%'+ wordSplit[i] + '%\' ';
+                 searchString += "";
+              else if(col == "date")
+                 searchString += "";  //add later
+              else
+                searchString +=' AND \"'+ col +'\" like \'%'+ wordSplit[i] + '%\' ';
+
+            }
+         }
+      }
+   }
+
+    var  queryString  = 'SELECT "jobs"."id" AS "jobID","jobs"."hoID", "street", "city",'
+                  + '"state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID"'
+                  // + '"firstName", "lastName" '
+                  + 'FROM "homeowner_jobs" AS "jobs" '
+                  // + 'JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID" '
+                  + 'WHERE "bidID" IS null ' + searchString
+                  + ' ORDER BY "jobs"."createdAt" DESC';
+
+    console.log(queryString);
+
+    var results = [];
+
+    var query = client.query(queryString);
+      // Stream results back one row at a time
+    query.on('row', (row) => {
+        results.push(row);
+      });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+        // return res.json(results);
+        if(!req.session.user)
+            return res.render('jobs', {title: 'Jobs', projects:results, });
+        else{
+
+            if(req.session.user && req.session.user.usertype == "homeowner"){
+
+                return res.render('jobs', {title: 'Jobs', projects:results, session: req.session}); 
+            }
+            else{
+                 //if contractor , first get the job that alreday bidden by the contractor
+                models.job_bids.findAll({
+                    where: {
+                       coID: req.session.user.id,
+                   },
+                    attributes: ['jobID'], 
+                }).then(function(bids){
+
+                    var bidJobID = [];
+                    //get the id 
+                    for(var i in bids )
+                       bidJobID.push(bids[i].jobID);
+
+                    return res.render('jobs',
+                      {title: results.length + ' Jobs', projects:results, bidJobID : bidJobID, session: req.session}
+                    ); 
+               });
+            }
+        }
+    });
+
+});
 
 
 /*bid on the job ,contractor only
@@ -175,14 +249,18 @@ router.post('/jobs',function(req,res){
                       //update value of numBids at homeowner_jobs;
                        job.updateAttributes({                      
                          numBids : job.numBids + 1,
-                    })
-                    .then(function(){  
-
-                        getJobs(req,res);
-                        // return res.redirect('/jobs');
-                       // return res.render('/contractor-jobs',{title: "Bid Success !", session: req.session});
                     });
-                 }
+                      //update numBids
+                      models.contractors.findOne({ where: { id: req.session.user.id } })
+                      .then(function(user){
+
+                          user.updateAttributes({                      
+                           numBids : user.numBids + 1,
+                         });
+                      });
+                     
+                    return res.redirect('/jobs');
+                  }
                 });
 
            }
@@ -237,7 +315,7 @@ router.post('/homeowner/dashboard', function(req, res) {
       if(user){
 
           req.session.user = user.dataValues;
-          req.session.user.usertype = "homeowner";
+          req.session.usertype = "homeowner";
           res.render('./homeowner/overview', 
             {title: user.dataValues.firstName + " " + user.dataValues.lastName, session: req.session})
       }
@@ -262,7 +340,7 @@ router.post('/contractor/dashboard', function(req, res) {
 
       if(user){
           req.session.user = user;
-          req.session.user.usertype = "contractor";
+          req.session.usertype = "contractor";
           console.log(req.session.user.usertype);
 
           res.render('./contractor/overview', {title: user.dataValues.firstName, session: req.session})
@@ -304,87 +382,6 @@ router.get("/map/:jobID",function(req, res){
 
 
 
-/*
-get jobs by different query 
-*/
-function getJobs(req,res){
-
-//generate search query condition
-
-   var searchString = "";
-
-   if(req.query){
-
-      for(var col in req.query){
-
-         if(req.query[col]){
-
-            var wordSplit = req.query[col].split(" ");
-            for(var i in wordSplit){
-
-              if(col == "zipcode")
-                  // searchString +=' AND \"jobs\".\"'+ col +'\" like \'%'+ wordSplit[i] + '%\' ';
-                 searchString += "";
-              else if(col == "date")
-                 searchString += "";  //add later
-              else
-                searchString +=' AND \"'+ col +'\" like \'%'+ wordSplit[i] + '%\' ';
-
-            }
-         }
-      }
-   }
-
-    var  queryString  = 'SELECT "jobs"."id" AS "jobID","jobs"."hoID", "street", "city",'
-                  + '"state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt", "jobs"."updatedAt", "bidID",'
-                  + '"firstName", "lastName" '
-                  + 'FROM "homeowner_jobs" AS "jobs" '
-                  + 'JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID" '
-                  + 'WHERE "bidID" IS null ' + searchString
-                  + ' ORDER BY "jobs"."createdAt" DESC';
-
-    console.log(queryString);
-
-    var results = [];
-
-    var query = client.query(queryString);
-      // Stream results back one row at a time
-    query.on('row', (row) => {
-        results.push(row);
-      });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
-        // return res.json(results);
-        if(!req.session.user)
-            return res.render('jobs', {title: 'Jobs', projects:results});
-        else{
-
-            if(req.session.user && req.session.user.usertype == "homeowner"){
-
-                return res.render('homeonwer-jobs', {title: 'Jobs', projects:results, session: req.session}); 
-            }
-            else{
-                 //if contractor , first get the job that alreday bidden by the contractor
-                models.job_bids.findAll({
-                    where: {
-                       coID: req.session.user.id,
-                   },
-                    attributes: ['jobID'], 
-                }).then(function(bids){
-
-                    var bidJobID = [];
-                    //get the id 
-                    for(var i in bids )
-                       bidJobID.push(bids[i].jobID);
-
-                    return res.render('contractor-jobs',
-                      {title: results.length + ' Jobs', projects:results, bidJobID : bidJobID, session: req.session}
-                    ); 
-               });
-            }
-        }
-      });
-};
 
 
 module.exports = router;

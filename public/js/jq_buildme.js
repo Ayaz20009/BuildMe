@@ -6,6 +6,7 @@ var currentDate = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
 
 // $('.nav-tabs').tab();
 
+
 $(".ui-dialog").dialog({
    autoOpen: false,
    buttons: [
