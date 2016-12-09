@@ -161,8 +161,11 @@ router.post('/jobsoffering', function(req, res) {
   var hoID = req.session.user.id;
   var bidID = req.body.bidID;
   var coID = req.body.coID;
+  var estCost = req.body.estCost;
   var finalCost = req.body.finalCost;
   var estDays = req.body.estDays;
+  if (estDays == "")
+     estDays = null;
   var startDate = req.body.startDate;
   var comment = req.body.comment ;
 
@@ -170,6 +173,7 @@ router.post('/jobsoffering', function(req, res) {
   console.log("hoID: " + hoID );
   console.log("bidID: " + bidID );
   console.log("coID: " + coID );
+  console.log("estCost: " + estCost);
   console.log("finalCost: " + finalCost);
   console.log("estDays: " + estDays);
   console.log("startDate: " + startDate);
@@ -182,6 +186,7 @@ router.post('/jobsoffering', function(req, res) {
        hoID: hoID,
        bidID: bidID,
        coID : coID,
+       estCost: estCost,
        finalCost: finalCost,
        estDays: estDays,
        startDate: startDate,

@@ -23,7 +23,7 @@ $(document).ready(function(){
         var startDateString = (startDate.getMonth() + 1 ) + "/" + startDate.getDate() + "/" + startDate.getFullYear(); 
         var modal = $('#modal_offer');
         modal.find("#bidInfo").html(panelBid.find('.bidInfo').html());
-        modal.find('[name=estCost]').text(estCost);
+        modal.find('#estCost').text(estCost);
         modal.find('.finalCost').addClass("hidden");
         modal.find('input[name=finalCost]').val(estCost);
         modal.find('input[name=startDate]').val(startDateString);

@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     hoID: DataTypes.INTEGER,
     coID: DataTypes.INTEGER,
     bidID : DataTypes.INTEGER,
-    // estCost: DataTypes.INTEGER,
+    estCost: DataTypes.INTEGER,
     finalCost: DataTypes.INTEGER,
     estDays: DataTypes.INTEGER,
     // estHours: DataTypes.INTEGER,

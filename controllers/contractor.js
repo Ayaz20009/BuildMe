@@ -86,7 +86,19 @@ router.get('/bidswon', function(req,res){
 
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('contractor/bidswon', {title: "Bids Won", session:req.session});
+
+  models.job_offers.findAll({
+
+     where :{
+       coID : req.session.user.id
+     }
+  })
+  .then(function(offers){
+
+    // return res.send(offers);
+    return res.render('contractor/bidswon', {title: "Bids Won", offers: offers,  session:req.session});
+
+  });
 });
 
 

@@ -15,6 +15,7 @@ div.col-lg-12.well.text-center(style="width:"+ W +"vw;overflow-x:auto;min-width:
             input.hidden(name="jobID",value=jobID)
             input.hidden(name="bidID",value=bid.bidID)
             input.hidden(name="coID",value=bid.coID)
+            input.hidden(name="estCost",value=bid.estCost)
             input.hidden(name="estDays",value=bid.estDays)
           div.col-lg-2.text-center=bid.jobID
             button.btn.btn-success.btnChooseBid(style="margin-top:3%;padding:0;",role="tooltip",title="Choose this bid.",data-toggle="modal",data-target="#modal_offer",data-placement="right")
