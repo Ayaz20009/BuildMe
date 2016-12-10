@@ -11,12 +11,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
 //Making connection with the Database
-var sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
-var sql = new Sequelize('buildme_development', 'pg_user', 'pg_pass', {
-    host: 'localhost',
-    port: 5432,
-    dialect: 'postgres'
-});
+// var sequelize = new Sequelize("postgres://buildme_user:buildme_pass@localhost:5432/buildme_development");
+// var sql = new Sequelize('buildme_development', 'buildme_user', 'buildme_pass', {
+//     host: 'localhost',
+//     port: 5432,
+//     dialect: 'postgres'
+// });
 
 //Making connection with the Database
 // const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
@@ -32,14 +32,14 @@ var sql = new Sequelize('buildme_development', 'pg_user', 'pg_pass', {
 // client.connect();
 
 //Testing the database connection
-var test = sql.authenticate()
-    .then(function () {
-        console.log("CONNECTED! ");
-    })
-    .catch(function (err) {
-        console.log("SOMETHING DONE GOOFED");
-    })
-    .done();
+// var test = sql.authenticate()
+//     .then(function () {
+//         console.log("CONNECTED! ");
+//     })
+//     .catch(function (err) {
+//         console.log("SOMETHING DONE GOOFED");
+//     })
+//     .done();
     
 // Use session for tracking logins
 app.use(session({
