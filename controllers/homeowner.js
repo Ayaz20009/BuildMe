@@ -8,6 +8,9 @@ const pg = require('pg');
 const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
 const client = new pg.Client(connectionString);
 client.connect();
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
+
 
 
 router.route('/contractor')
@@ -71,7 +74,7 @@ router.delete('/jobscreated',function(req,res){
 router.post('/newjob', function(req, res) {
   var hoID = req.session.user.id;
   var desc = req.body.proj_desc;
-  var street = req.body.proj_street;
+  var street = req.body.proj_street.trim();
   var city = req.body.proj_city;
   var state = req.body.proj_state;
   var zipcode = req.body.proj_zip;
@@ -337,76 +340,62 @@ view bids on the job created
 */
 router.get('/bids/:jobID', function(req, res) {
 
-//   if(!req.session.user)
-//     return res.redirect('/login');
-
-//   var jobID = req.params.jobID;
-
-//   // console.log(jobID);
-// // find bids on this job
-//   models.job_bids.findAll({
-//       where: {
-//          jobID: jobID,
-//      },
-//      order: '"createdAt" DESC',
-//   })
-//   .then(function(bids){
-
-//       if(bids)
-//          res.render('homeowner/bids', {title: bids.length + ' bids', bids: bids, session: req.session});
-//   });
-
   if(!req.session.user && req.session.user.usertype != "homeowner")
     return;
   var jobID = req.params.jobID;
 
   var results = [];
-  var queryString = 'SELECT "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
+  var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "city", "state", "zipcode", "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
                   + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '
                   + 'FROM "job_bids" AS "bids" '
                   + 'JOIN "contractors" on "contractors"."id" = "bids"."coID" '
+                  + 'JOIN "homeowner_jobs" AS "job" on "job"."id" = "bids"."jobID"' 
                   + 'WHERE "bids"."jobID" =' + jobID
                   + 'ORDER BY "bids"."createdAt" ASC';
 
-  var query = client.query(queryString);
-    // Stream results back one row at a time
-  query.on('row', (row) => {
-      results.push(row);
-    });
-  // After all data is returned, close connection and return results
-  query.on('end', () => {
+  sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
+ 
+  .then(function(results) {
 
-      return res.render('homeowner/bids', {title: results.length + ' bids', bids: results, session: req.session, jobID : jobID});
+    var queryMax = 'SELECT MAX("estCost") AS "estCost",MAX("estDays") AS "estDays","jobID"' 
+                    + 'FROM contractors JOIN job_bids on contractors.id = job_bids."coID"'
+                    + 'WHERE "jobID" = ' + jobID
+                    + 'GROUP BY "jobID"';
+
+    //get max 
+    sequelize.query(queryMax, { type: sequelize.QueryTypes.SELECT}).
+    then(function(max){
+      console.log(max);
+
+     return res.render('homeowner/bids',
+      {title: results.length + ' bids', bids: results, max: max[0], session: req.session});
+     }) ;   
   });
-
 
 });
 
 
 router.get('/dataBids/:jobID', function(req, res) {
 
-  if(!req.session.user && req.session.user.usertype != "homeowner")
-    return;
+  // if(!req.session.user && req.session.user.usertype != "homeowner")
+  //   return;
   var jobID = req.params.jobID;
 
   var results = [];
-  var queryString = 'SELECT "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt", "bids"."updatedAt",'
+  var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "state", "zipcode", "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
                   + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '
                   + 'FROM "job_bids" AS "bids" '
                   + 'JOIN "contractors" on "contractors"."id" = "bids"."coID" '
-                  + 'WHERE "jobID" =' + jobID
+                  + 'JOIN "homeowner_jobs" AS "job" on "job"."id" = "bids"."jobID"' 
+                  + 'WHERE "bids"."jobID" =' + jobID
                   + 'ORDER BY "bids"."createdAt" ASC';
 
-  var query = client.query(queryString);
-    // Stream results back one row at a time
-  query.on('row', (row) => {
-      results.push(row);
-    });
-  // After all data is returned, close connection and return results
-  query.on('end', () => {
+ sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
 
-        res.send(results);
-  });
+ .then(function(results) {
+     res.send(results);
+ });
+
 
 });
 
