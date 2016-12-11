@@ -1,8 +1,10 @@
 extends dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
- div.col-lg-11
-  if (!offers)
-   h1.text-center You have no job offeredyet.
+block title
+  title=offers.length + " job offers"
+block right
+ div
+  if (offers.length == 0)
+   h1.text-center You have no job offered yet.
   else
    each offer in offers
       div.panel.panel-default.panel-offer(id=offer.id)

@@ -1,4 +1,6 @@
 extends dashboard.pug
+block title
+  title="Offering " + offers.length+ " jobs"
 block right 
  div
   if (!offers)

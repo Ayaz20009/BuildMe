@@ -1,35 +1,34 @@
-div.col-sm-3.col-md-2
-  ul#sidebar.sidebar.nav.nav-sidebar.list-group.table-of-contents
-    li.list-group-item
-      a.btn(href="/contractor/bidding",style="") Jobs Bidding
-       i.fa.fa-gavel 
-       span.badge=session.user.numBids
-    li.list-group-item
-      a.btn(href="/contractor/bidswon") Bids Won
-       i.fa.fa-trophy
-       span.badge=session.user.numStarted
-    li.list-group-item
-      a.btn(href="/contractor/jobsbookmark") Jobs Saved
-       i.fa.fa-bookmark
-       span.badge 0
-    li.list-group-item
-      a.btn(href="/contractor/jobsstarted") Jobs Started
-       i.fa.fa-tasks
-       span.badge=session.user.numStarted
-    li.list-group-item
-      a.btn(href="/contractor/jobscompleted") Jobs Completed
-       i.fa.fa-check-circle
-       span.badge=session.user.numFinished
-    li.list-group-item
-      a.btn(href="/contractor/overview") Overview
-       i.fa.fa-bar-chart
-    li.list-group-item
-      a.btn(href="/contractor/message") Message
-       i.fa.fa-envelope
-    li.list-group-item
-      a.btn(href="/contractor/points") Points
-       i.fa.fa-star
-       span.badge=session.user.points
-    li.list-group-item
-      a.btn(href="/contractor/profile") Profile
-       i.fa.fa-address-card-o
+ul#sidebar.nav.nav-sidebar.list-group.table-of-contents
+  li.list-group-item
+    a.btn(href="/contractor/bidding",style="") Jobs Bidding
+     i.fa.fa-gavel 
+     span.badge=user.numBids
+  li.list-group-item
+    a.btn(href="/contractor/bidswon") Bids Won
+     i.fa.fa-trophy
+     span.badge=user.numStarted
+  li.list-group-item
+    a.btn(href="/contractor/bookmark") Jobs Saved
+     i.fa.fa-bookmark
+     span.badge 0
+  li.list-group-item
+    a.btn(href="/contractor/started") Jobs Started
+     i.fa.fa-tasks
+     span.badge=user.numStarted
+  li.list-group-item
+    a.btn(href="/contractor/completed") Jobs Completed
+     i.fa.fa-check-circle
+     span.badge=user.numFinished
+  li.list-group-item
+    a.btn(href="/contractor/overview") Overview
+     i.fa.fa-bar-chart
+  li.list-group-item
+    a.btn(href="/contractor/message") Message
+     i.fa.fa-envelope
+  li.list-group-item
+    a.btn(href="/contractor/points") Points
+     i.fa.fa-star
+     span.badge=user.points
+  li.list-group-item
+    a.btn(href="/contractor/profile") Profile
+     i.fa.fa-address-card-o

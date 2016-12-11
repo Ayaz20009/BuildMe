@@ -1,5 +1,7 @@
 extends dashboard.pug
+block title
+	title=jobs.length+ " jobs started"
 block right 
 	div
-		if (!jobs)
+		if (jobs.length == 0)
 			h1.text-center You have no started project yet.

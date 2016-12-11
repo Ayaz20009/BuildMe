@@ -1,13 +1,14 @@
 extends /layout.pug
+block title
+	title=user.firstName + "'s dashboard"
 block append scripts
 	script(src="/js/jq_homeowner.js")
 	script(type="text/javascript",src="https://www.gstatic.com/charts/loader.js")
 block content
-	input.hidden(name="usertype",value="homeowner")
 	div.content.container
-		div.col-lg-3.pull-left
+		div.col-lg-3
 			block left
 				include sidebar.pug
-		div.col-lg-9.pull-right
+		div.col-lg-9
 			block right
 

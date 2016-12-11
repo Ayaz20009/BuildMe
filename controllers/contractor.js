@@ -4,23 +4,36 @@ const express = require('express');
 const models = require('../models');
 const router = express.Router();
 var contractor = require('../controllers/contractor');
-const pg = require('pg');
-const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
-const client = new pg.Client(connectionString);
-client.connect();
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
+// const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
 
 
 router.route('/contractor');
+
+
 
 router.get('/', function(req, res) {
   if(!req.session.userID)
     return res.redirect('/login');
 });
 
+
+
 router.get('/dashboard', function(req, res) {
-  if(!req.session.userID)
+  
+    if(!req.session.userID)
     return res.redirect('/login');
-  return res.render('contractor/overview', {title: req.session.user.firstName + "'s dashboard", user : user})
+
+    models.contractors.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+     if(user)
+       return res.render('contractor/dashboard', {user : user, usertype : "contractor"});
+     else
+       return res.send("Contractor user does not exists.");
+
+   });
+
 });
 
 
@@ -29,38 +42,40 @@ router.get('/dashboard', function(req, res) {
 */
 router.get('/bidding', function(req,res){
 
-   if(!req.session.userID)
+  if(!req.session.userID)
       return res.redirect('/login');
 
-  var results = [];
-  // Grab data from http request
-  // Get a Postgres client from the connection pool
-  var queryString = 'SELECT "bids"."id", "jobID", "estCost", "estDays","estHours", "startDate","comment", "bids"."updatedAt" AS "bidUpdatedAt",'
-                  + '"bidID", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt" AS "jobCreatedAt", "bidID",'
-                  + '"firstName", "lastName"'
-                  + 'FROM "job_bids" AS "bids"'
-                  + 'JOIN "homeowner_jobs" AS "jobs"'
-                  + 'ON "bids"."jobID" = "jobs"."id"'
-                  + ' JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID"'
-                  + 'WHERE "coID" = '+ req.session.userID
-                  // + 'AND "bidID" IS NOT null '
-                  + 'ORDER BY "jobCreatedAt" DESC, "bidUpdatedAt" DESC';
+  models.contractors.findOne({where: {id: req.session.userID,}})
 
-  query = client.query(queryString);
-    // Stream results back one row at a time
-    query.on('row', (row) => {
-      results.push(row);
-    });
-  // After all data is returned, close connection and return results
-  query.on('end', () => {
-      // return res.json(results);
-      if(results.length == 0)
-         return res.render('contractor/bidding', {title: results.length + " Bids", user : user});
+  .then(function(user){
 
-      return res.render('contractor/bidding', {title: results.length + " Bids", user : user, bids: results});
+      if(user){
+
+        // Grab data from http request
+        // Get a Postgres client from the connection pool
+        var queryString = 'SELECT "bids"."id", "jobID", "estCost", "estDays","estHours", "startDate","comment", "bids"."updatedAt" AS "bidUpdatedAt",'
+                        + '"bidID", "street", "city", "state", "jobs"."zipcode", "jobDesc", "jobs"."createdAt" AS "jobCreatedAt", "bidID",'
+                        + '"firstName", "lastName"'
+                        + 'FROM "job_bids" AS "bids"'
+                        + 'JOIN "homeowner_jobs" AS "jobs"'
+                        + 'ON "bids"."jobID" = "jobs"."id"'
+                        + ' JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID"'
+                        + 'WHERE "coID" = '+ req.session.userID
+                        // + 'AND "bidID" IS NOT null '
+                        + 'ORDER BY "jobCreatedAt" DESC, "bidUpdatedAt" DESC';
+
+         sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
+
+         .then(function(results) {
+
+            return res.render('contractor/bidding', {user : user, bids: results, usertype: "contractor"});
+         });
+
+      }
+      else
+        return res.send("Contractor user does not exists.");
+
   });
-
-  
 
   //find bids;
     // models.job_bids.findAll({
@@ -71,11 +86,11 @@ router.get('/bidding', function(req,res){
     // })
     // .then(function(bids){
 
-       // return res.render('contractor/openbids', {title: "Open Bids", user : user, bids: results});
+       // return res.render('contractor/openbids', {user : user, bids: results});
 
     // });
 
-  // return res.render('contractor/openbids', {title: "Open Bids", user : user, bids: GetConBids(req.session.userID) });
+  // return res.render('contractor/openbids', { user : user, bids: GetConBids(req.session.userID) });
 
 });
 
@@ -87,62 +102,133 @@ router.get('/bidswon', function(req,res){
   if(!req.session.userID)
     return res.redirect('/login');
 
-  models.job_offers.findAll({
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
 
-     where :{
-       coID : req.session.userID
-     }
-  })
-  .then(function(offers){
+    if(user)
 
-    // return res.send(offers);
-    return res.render('contractor/bidswon', {title: "Bids Won", offers: offers,  user : user});
+      models.job_offers.findAll({where :{coID : req.session.userID}}).then(function(offers){
+        // return res.send(offers);
+        return res.render('contractor/bidswon', {offers: offers,  user : user, usertype: req.session.usertype});
+      });
+    else
+       return res.send("Contractor user does not exists.");
 
   });
+
 });
 
 
-router.get('/jobsbookmark', function(req,res){
+/*bookmark*/
 
-    if(!req.session.userID)
-     return res.redirect('/login');
-   return res.render('contractor/jobsbookmark', {title: "Bookmark Jobs", user : user});
+router.get('/bookmark', function(req,res){
+
+  if(!req.session.userID)
+    return res.redirect('/login');
+
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+    if (user)
+      return res.render('contractor/bookmark', {jobs : [], user : user, usertype: req.session.usertype});
+    else
+       return res.send("Contractor user does not exists.");
+  });
+
 });
 
-router.get('/jobsstarted', function(req,res){
 
-    if(!req.session.userID)
-     return res.redirect('/login');
-   return res.render('contractor/jobsstarted', {title: "Jobs Started", user : user});
+
+router.get('/started', function(req,res){
+
+  if(!req.session.userID)
+    return res.redirect('/login');
+
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+    if (user)
+       return res.render('contractor/started', {jobs : [],user : user, usertype: req.session.usertype});
+    else
+      return res.send("Contractor user does not exists.");
+  });
+
 });
 
-router.get('/jobscompleted', function(req,res){
+
+/*
+  get completed jobs
+*/
+router.get('/completed', function(req,res){
 
   if(!req.session.userID)
      return res.redirect('/login');
-  return res.render('contractor/jobscompleted', {title: "Jobs Completed", user : user});
+
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+    if (user)
+      return res.render('contractor/completed', {jobs : [], user : user, usertype: req.session.usertype});
+    else
+      return res.send("Contractor user does not exists.");
+  });
+
 });
+
+/*
+  get overview data visualization
+*/
+
 
 router.get('/overview', function(req,res){
 
-   if(!req.session.userID)
-     return res.redirect('/login');
-   return res.render('contractor/overview', {title: "Overview", user : user});
+  if(!req.session.userID)
+    return res.redirect('/login');
+
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+    if (user)
+     return res.render('contractor/overview', { user : user, usertype: req.session.usertype});
+    else
+      return res.send("Contractor user does not exists.");
+  });
+
 });
 
+
+
+/*
+  get message
+*/
 router.get('/message', function(req,res){
 
    if(!req.session.userID)
      return res.redirect('/login');
-   return res.render('contractor/message', {title: "Message", user : user});
+
+   models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+    if (user)
+      return res.render('contractor/message', {user : user, usertype: req.session.usertype});
+    else
+      return res.send("Contractor user does not exists.");
+  });
+
+
 });
 
+/*
+  get points
+*/
 
 router.get('/points', function(req,res){
 
-   if(!req.session.userID)
-     return res.redirect('/login');
-   return res.render('contractor/points', {title: "Message", user : user});
+  if(!req.session.userID)
+    return res.redirect('/login');
+
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+      if (user)
+        return res.render('contractor/points', {user : user , usertype : req.session.usertype});
+      else
+        return res.send("Contractor user does not exists.");
+  });
+
 });
 
 router.get('/profile',function(req,res){
@@ -150,15 +236,16 @@ router.get('/profile',function(req,res){
   if(!req.session.userID)
      return res.redirect('/login');
 
- models.contractors.findOne({
-      where: {
-         id: req.session.userID,
-     }
-  }).then(function(user){
-    
-    res.render('contractor/profile', {title:"profile", user:user, user : user});
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+    if (user)
+      return res.render('contractor/profile', {user:user, usertype : req.session.usertype});
+    else
+      return res.send("Contractor user does not exists.");
   });
+
 });
+
 
 
 
@@ -168,11 +255,8 @@ router.post('/profile',function(req,res){
   if(!req.session.userID)
      return res.redirect('/login');
 
-  models.contractors.findOne({
-      where: {
-         id: req.session.userID,
-     }
-  }).then(function(user){
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
       if(user){
           user.updateAttributes({
             firstName :    req.body.Fname,
@@ -182,13 +266,12 @@ router.post('/profile',function(req,res){
             phoneNumber:   req.body.phoneNumber,
             licenseNumber: req.body.licenseNumber
             
-          })
-          .then(function(user){
-
-            req.session.user = user;
-            res.render('contractor/profile', {title:"profile", user : user});
+          }).then(function(user){
+            return res.redirect("profile");
           });
       }
+      else
+         return res.send("Contractor user does not exists.");
     });
 
 });

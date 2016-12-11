@@ -1,4 +1,6 @@
 extends dashboard.pug
+block title
+  title=jobs.length+ " jobs"
 block right
   include modal_delete_job.pug
   div#biddingjobs
@@ -28,7 +30,7 @@ block right
             div.col-lg-12
               label.col-lg-2.control-label Address
               div.col-lg-10=job.street + "  " + job.city + " " + job.state + " " + job.zipcode
-          div.panel-footer="Created At: " + job.createdAt.toString().substr(0,25)
+          div.panel-footer.time="Created At: " + job.createdAt.toString().substr(0,25)
             //- div.col-lg-6
             //-   label.col-lg-2.control-label Updated At
             //-   div.col-lg-10=job.updatedAt

@@ -1,43 +1,45 @@
 extends dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-  form.form-horizontal.col-lg-11(action="/contractor/profile",method="post")
+block title
+  title=user.firstName + "'s Profile"
+block right
+  form.form-horizontal.well(action="/contractor/profile",method="post")
    fieldset
     legend 
     div.form-group
       label.col-lg-2.control-label(for="avatar") Avatar
       div.col-lg-10
-        div.avatar.btn.btn-default=session.user.firstName[0] + session.user.lastName[0]
+        div.avatar.btn.btn-default=user.firstName[0] + user.lastName[0]
         input.form-control.hidden(type="file",name="avatar")
     div.form-group.required
       label.col-lg-2.control-label(for="Fname") First Name
       div.col-lg-10
-       div.list-group-item=session.user.firstName
-       input.form-control.hidden(name="Fname",value=session.user.firstName)
+       div.list-group-item=user.firstName
+       input.form-control.hidden(name="Fname",value=user.firstName)
     div.form-group.required
       label.col-lg-2.control-label(for="Lname") Last Name
       div.col-lg-10
-       div.list-group-item=session.user.lastName
-       input.form-control.hidden(name="Lname",value=session.user.lastName)
+       div.list-group-item=user.lastName
+       input.form-control.hidden(name="Lname",value=user.lastName)
     div.form-group.required
       label.col-lg-2.control-label(for="email") Company Name
       div.col-lg-10
-       div.list-group-item=session.user.companyName
-       input.form-control.hidden(name="companyName",value=session.user.companyName)
+       div.list-group-item=user.companyName
+       input.form-control.hidden(name="companyName",value=user.companyName)
     div.form-group.required
       label.col-lg-2.control-label(for="phoneNumber") Phone Number
       div.col-lg-10
-       div.list-group-item=session.user.phoneNumber
-       input.form-control.hidden.numeric(name="phoneNumber",value=session.user.phoneNumber)
+       div.list-group-item=user.phoneNumber
+       input.form-control.hidden.numeric(name="phoneNumber",value=user.phoneNumber)
     div.form-group.required
       label.col-lg-2.control-label.numeric(for="licenseNumber") License Number
       div.col-lg-10
-       div.list-group-item=session.user.licenseNumber
-       input.form-control.hidden.numeric(name="licenseNumber",value=session.user.licenseNumber)
+       div.list-group-item=user.licenseNumber
+       input.form-control.hidden.numeric(name="licenseNumber",value=user.licenseNumber)
     div.form-group.required
       label.col-lg-2.control-label(for="email") Email
       div.col-lg-10
-       div.list-group-item=session.user.email
-       input.form-control.numeric.hidden(name="email",value=session.user.email)
+       div.list-group-item=user.email
+       input.form-control.numeric.hidden(name="email",value=user.email)
     div.form-group
       div.col-lg-10.col-lg-offset-2
         div#btnEditProfile.btn.btn-primary.col-lg-3 Edit

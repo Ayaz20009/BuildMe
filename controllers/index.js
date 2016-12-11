@@ -25,22 +25,44 @@ const sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/build
 router.use('/homeowner', require('./homeowner'));
 router.use('/contractor', require('./contractor'));
 
+/*main page*/
+
 router.get('/', (req, res) => {
 
    if(!req.session.userID)
-     return res.render('index',{title: "Build Me"});
-   else
-     return res.render('index',{title: "Build Me", user : user});
+     return res.render('index');
+   else{
+
+     if(req.session.usertype == "homeowner")
+        models.homeowners.findOne({ where: { id: req.session.userID } }).then(function(user){
+
+           if(user)
+             return res.render('index', {user:user , usertype: req.session.usertype});
+           else
+             return res.render('index');
+
+        });
+
+     if(req.session.usertype == "contractor")
+         models.contractors.findOne({ where: { id: req.session.userID } }).then(function(user){
+           if(user)
+             return res.render('index', {user:user , usertype: req.session.usertype});
+           else
+             return res.render('index');
+        });
+   }
 
 });
 
 
 
 router.get('/contractor-signup',function(req,res){
+
    if(!req.session.userID)
-    return res.render('contractor-signup', {title: 'Contractor Sign Up'});
+    return res.render('contractor-signup');
    else
-     return res.render('contractor-signup', {title: 'Contractor Sign Up', user : user});
+    return res.redirect("logout");
+
 });
 
 router.post('/contractor-signup',function(req,res,next){
@@ -75,12 +97,11 @@ router.post('/contractor-signup',function(req,res,next){
 });
 
 router.get('/homeowner-signup',function(req,res){
+
   if(!req.session.userID)
-   return res.render('homeowner-signup',{title: "Homeowner Sign Up"});
- else
-   return res.render('homeowner-signup',{title: "Homeowner Sign Up", user : user});
-
-
+   return res.render('homeowner-signup');
+  else
+    return res.redirect("logout");
 });
 
 router.post('/homeowner-signup',function(req,res,next){
@@ -159,50 +180,81 @@ router.get('/jobs', function(req,res){
  
     .then(function(results) {
 
-        // return res.json(results);
+        // // return res.json(results);
+        // console.log(req.session.usertype );
+
+        // if(req.session.userID && req.session.usertype == "homeowner")
+
+        //     models.homeowners.findOne({where: { id : req.session.userID} })
+        //     .then(function(user) {
+        //        if(user)
+        //          return res.render('jobs', {jobs:results, keywords : keywords, user : user, usertype : req.session.usertype}); 
+        //        else
+        //          return res.render('jobs', {jobs:results, keywords : keywords}); 
+        //     });
+
+
+        // if(req.session.userID && req.session.usertype == "contractor")
+
+        //     models.contractors.findOne({where: { id : req.session.userID} })
+        //     .then(function(user) {
+
+        //       if(user)
+
+        //          models.job_bids.findAll({ where: {coID: req.session.userID,}, attributes: ['jobID'],})
+        //          .then(function(bids){
+
+        //              if(bids){
+
+        //               var bidJobID = [];
+        //               for(var i in bids)
+        //                  bidJobID.push(bids[i].jobID);
+        //                  return res.render('jobs', { jobs:results, bidJobID: bidJobID, keywords : keywords, user : user, usertype : req.session.usertype}); 
+        //              
+        //              else
+        //                 return res.render('jobs', {jobs:results, keywords : keywords,user : user, usertype : req.session.usertype}); 
+        //          });
+        //       else
+        //          return res.render('jobs', { jobs:results, keywords : keywords, }); 
+        //     });
+
+        // return res.render('jobs', {jobs:results, keywords : keywords}); 
+
+         // return res.json(results);
         if(!req.session.userID)
-            return res.render('jobs', {title: 'Jobs', jobs:results, keywords : keywords,});
-        else{
+            return res.render('jobs', {jobs:results, keywords : keywords,});
 
-            console.log(req.session.usertype);
-            if(req.session.userID && req.session.usertype == "homeowner"){
+        else if(req.session.userID && req.session.usertype == "homeowner"){
 
-                
-                models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+            models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
 
-                 return res.render('jobs', {title: 'Jobs', jobs:results, keywords : keywords, user : user, usertype : "homeowner"}); 
-                 
-                });
-
-        
-            }
-            else{
-                 //if contractor , first get the job that alreday bidden by the contractor
-                models.job_bids.findAll({ where: {coID: req.session.userID,},attributes: ['jobID'],})
-
-                .then(function(bids){
-
-                    var bidJobID = [];
-                    //get the id 
-                    for(var i in bids)
-                       bidJobID.push(bids[i].jobID);
-
-                    models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
-
-                      return res.render('jobs',
-
-                            {title: results.length + ' Jobs', job:results, keywords : keywords,
-                            bidJobID : bidJobID, user : user, usertype : "contractor"}
-                        ); 
-                 
-                    });
-
-                   
-               });
-            }
+              return res.render('jobs', { jobs:results, keywords : keywords, user : user, usertype : "homeowner"}); 
+            });
         }
-    });
+        else{
+                 //if contractor , first get the job that alreday bidden by the contractor
+            models.job_bids.findAll({ where: {coID: req.session.userID,},attributes: ['jobID'],})
 
+            .then(function(bids){
+
+               var bidJobID;
+
+               if(bids){
+                 bidJobID = [];
+                 //get the id 
+                 for(var i in bids)
+                   bidJobID.push(bids[i].jobID);
+                }
+
+                 models.contractors.findOne({where: { id : req.session.userID} }).then(function(user) {
+                 return res.render('jobs', { jobs:results, bidJobID :bidJobID, keywords : keywords, user : user, usertype : "contractor"}); 
+                
+                });
+           });
+
+        }
+    
+    });
 });
 
 
@@ -295,10 +347,32 @@ router.post('/jobs',function(req,res){
 });
 
 router.get('/howitworks', function(req, res) {
-   if(!req.session.userID)
-     return res.render('HowitWorks', {title: 'How it Works'}) 
-   else
-     return res.render('HowitWorks', {title: 'How it Works',user : user})
+
+  if(!req.session.userID)
+     return res.render('HowitWorks');
+   else{
+
+     if(req.session.usertype == "homeowner")
+        
+        models.homeowners.findOne({ where: { id: req.session.userID } }).then(function(user){
+
+           if(user)
+             return res.render('HowitWorks', {user:user , usertype: req.session.usertype});
+           else
+             return res.render('HowitWorks');
+
+        });
+
+     if(req.session.usertype == "contractor")
+        
+        models.contractors.findOne({ where: { id: req.session.userID } }).then(function(user){
+           if(user)
+             return res.render('HowitWorks', {user:user , usertype: req.session.usertype});
+           else
+             return res.render('HowitWorks');
+        });
+   }
+
 });
 
 
@@ -306,16 +380,16 @@ router.get('/howitworks', function(req, res) {
 
 
 router.get('/login', function(req, res) {
-  // if(!req.session.userID)
-   return res.render('login', {title: 'Login'})
+  if(!req.session.userID)
+   return res.render('login');
 
-  // else{
-  //   if(req.session.usertype == "homeowner")
-  //      res.redirect("/homeowner/dashboard");
+  else{
+    if(req.session.usertype == "homeowner")
+       res.redirect("/homeowner/dashboard");
 
-  //   if(req.session.usertype == "contractor")
-  //      res.redirect("/contractor/dashboard");
-  // }
+    if(req.session.usertype == "contractor")
+       res.redirect("/contractor/dashboard");
+  }
 
 });
 
@@ -344,7 +418,7 @@ router.post('/login', function(req, res) {
               return res.redirect('/homeowner/dashboard');
           }
           else
-            return res.render('login', {error: true, title: 'Error'})
+            return res.render('login', {error: true})
       });
   }
 
@@ -360,10 +434,10 @@ router.post('/login', function(req, res) {
         if(user){
             req.session.userID = user.id;
             req.session.usertype = "contractor";
-            // res.redirect('/contractor/dashboard');
+            res.redirect('/contractor/dashboard');
         }
         else
-          return res.render('login', {error: true, title: 'Error'})
+          return res.render('login', {error: true})
     });
 
   }
@@ -372,7 +446,7 @@ router.post('/login', function(req, res) {
 
 
 router.get('/logout', function(req, res) {
-  req.session.user = null;
+  req.session.userID = null;
   req.session.destroy(function(err) {
   if(err) {
     console.log(err);
@@ -393,7 +467,7 @@ router.get("/map/:jobID",function(req, res){
      },
   }).then(function(job){
     var  address = job.street + " " + job.city + " " + job.state + " " + job.zipcode;
-    return res.render('map', {title: "Map", address:  address});
+    return res.render('map', {address:  address});
   });
   
    

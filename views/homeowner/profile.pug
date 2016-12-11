@@ -1,7 +1,9 @@
 extends dashboard.pug
+block title
+  title=user.firstName + "'s Profile"
 block right 
   div
-    form.form-horizontal.col-lg-11(action="/homeowner/profile",method="post")
+    form.form-horizontal.well(action="/homeowner/profile",method="post")
      fieldset
       legend
       div.form-group

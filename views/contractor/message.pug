@@ -1,4 +1,6 @@
 extends dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
+block title
+  title message
+block right
   if (!messages)
-   h1.text-center You have no message yet.
+   h1.text-center You have no new message yet.

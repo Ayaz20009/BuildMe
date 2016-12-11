@@ -1,0 +1,6 @@
+extends dashboard.pug
+block title
+  title=jobs.length + " jobs started"
+block right
+ if (jobs.length == 0)
+   h1.text-center You have no jobs started yet.

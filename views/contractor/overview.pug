@@ -1,14 +1,16 @@
 extends dashboard.pug
-div#overview.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
- div.col-lg-6 
-  div.panel.panel-info(style="height:40vh;")  
-   div.h2.text-center Jobs Bidding
- div.col-lg-6 
-  div.panel.panel-info(style="height:40vh")
-   div.h2.text-center Bids Won
- div.col-lg-6 
-  div.panel.panel-info(style="height:40vh")
-   div.h2.text-center Jobs Started
- div.col-lg-6 
-  div.panel.panel-info(style="height:40vh") 
-   div.h2.text-center Jobs Completed
+block title
+	title overview
+block right
+	div.col-lg-6 
+		div.panel.panel-info(style="height:40vh;")  
+			div.h2.text-center Jobs Bidding
+	div.col-lg-6 
+		div.panel.panel-info(style="height:40vh")
+			div.h2.text-center Bids Won
+	div.col-lg-6 
+		div.panel.panel-info(style="height:40vh")
+			div.h2.text-center Jobs Started
+	div.col-lg-6 
+		div.panel.panel-info(style="height:40vh") 
+			div.h2.text-center Jobs Completed

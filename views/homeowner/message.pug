@@ -1,5 +1,6 @@
 extends dashboard.pug
-block right 
-	div
-		if (!messages)
-			h1.text-center You have no message yet.
+block title
+  title message
+block right
+  if (!messages)
+   h1.text-center You have no new message yet.

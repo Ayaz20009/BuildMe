@@ -27,7 +27,7 @@ module.exports = {
       },
       estCost : {
         type: Sequelize.INTEGER
-      }
+      },
       finalCost: {
          type: Sequelize.INTEGER
       },

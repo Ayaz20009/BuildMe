@@ -1,8 +1,9 @@
 extends  dashboard.pug
+block title
+  title Create A Job
 block right
   form.form-horizontal.col-lg-11.well(action="/homeowner/newjob",method="post")
    fieldset
-    legend Creat A projects 
     div.form-group.required
       label.col-lg-2.control-label(for="jobDesc") Project Description
       div.col-lg-10
