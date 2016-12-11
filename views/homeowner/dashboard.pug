@@ -3,7 +3,8 @@ block append scripts
 	script(src="/js/jq_homeowner.js")
 	script(type="text/javascript",src="https://www.gstatic.com/charts/loader.js")
 block content
-	div.content.container.text-center
+	input.hidden(name="usertype",value="homeowner")
+	div.content.container
 		div.col-lg-3.pull-left
 			block left
 				include sidebar.pug

@@ -4,10 +4,10 @@ const express = require('express');
 const models = require('../models');
 const router = express.Router();
 var homeowner = require('../controllers/homeowner');
-const pg = require('pg');
-
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
+const sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
+
+// const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
 
 
 router.route('/homeowner');
@@ -16,6 +16,7 @@ router.get('/', function(req, res) {
   if(!req.session.userID)
     return res.redirect('/login');
 });
+
 
 
 
@@ -36,7 +37,7 @@ router.get('/dashboard', function(req, res) {
 });
 
 
-router.get('/jobscreated', function(req, res) {
+router.get('/jobsbidding', function(req, res) {
 
   if(!req.session.userID)
     return res.redirect('/login');
@@ -53,7 +54,7 @@ router.get('/jobscreated', function(req, res) {
           order: '"createdAt" DESC',
        }).then(function(jobs){
 
-          return res.render('homeowner/jobscreated', {title: jobs.length + " jobs created", user: user, jobs: jobs})
+          return res.render('homeowner/jobsbidding', {title: jobs.length + " jobs created", user: user, jobs: jobs})
        });
 
     }
@@ -66,7 +67,7 @@ router.get('/jobscreated', function(req, res) {
 });
 
 
-router.delete('/jobscreated',function(req,res){
+router.delete('/jobsbidding',function(req,res){
 
 
   models.homeowner_jobs.findByID(req.body.id).on('success', function(project) {
@@ -74,7 +75,7 @@ router.delete('/jobscreated',function(req,res){
      project.destroy().on('success', function(u) {
       if (u && u.deletedAt) {
       // successfully deleted the project
-       return res.redirect('/homeonwer/jobscreated');
+       return res.redirect('/homeonwer/jobsbidding');
     }
   })
 })
@@ -88,50 +89,48 @@ router.post('/newjob', function(req, res) {
   var street = req.body.street.trim();
   var city = req.body.city;
   var state = req.body.state;
-  var zipcode = req.body.zip;
+  var zipcode = req.body.zipcode;
 
-  if(hoID && desc && street && city && state){
+  if(hoID && jobDesc && street && city && state){
 
-    models.homeowner_jobs.create({
-       hoID: hoID,
-       jobDesc: jobDesc,
-       street: street,
-       city: city,
-       state: state,
-       zipcode: zipcode, 
 
-    }).then(function(project){
+    models.homeowners.findOne({where: {id: req.session.userID, }})
 
-      if(project){
-        //update numCreated of homeowners 
-        models.homeowners.findOne({
-            where: {
-               id: req.session.userID,
-           }
+    .then(function(user){
+
+      if(user){
+
+        models.homeowner_jobs.create({
+           hoID: hoID,
+           jobDesc: jobDesc,
+           street: street,
+           city: city,
+           state: state,
+           zipcode: zipcode, 
+
         })
-        .then(function(user){
+        .then(function(job){
 
-            if(user){
-                user.updateAttributes({
-                  numCreated : user.numCreated + 1 
-
-                }).then(function(){
-
-                   return res.redirect('/homeowner/jobscreated');
-                });
-            }
-            else
-               res.send("user not exists");
+          if(job){
+            //update numCreated of homeowners 
+              user.updateAttributes({numCreated : user.numCreated + 1})
+              .then(function(){return res.redirect('jobscreated');});
+          }
+          else
+            res.render('homeowner/newjob',{title: "Error", user : user, usertype : "homeowner"}) 
         });
-
-      }
-      else
-        res.render('homeowner/newjob',{title: "Error", user : user, usertype : "homeowner"}) 
+     }
+     else
+          return res.send("user not exists");
     });
   }
   else
     res.render('homeowner/newjob',{title: "Error",error: "Required Fields missing", user : user, usertype : "homeowner"}) 
+
 });
+
+
+
 
 
 router.get('/newjob', function(req, res) {

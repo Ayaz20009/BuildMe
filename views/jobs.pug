@@ -1,12 +1,18 @@
 extends layout.pug
+block append scripts
+  script(src="https://maps.googleapis.com/maps/api/js?callback=myMap")
+  script(src="http://maps.google.com/maps/api/js?sensor=false")
+  script(src="/js/jq_map.js")
 block content
-  div.content.container.text-center
-    div
-      if (search)
-        h1.bg-success search 
-    div.well
-      if (jobs.length == 0)
-        h1.row='There is no new job yet.'
+  div.content.container
+    div.text-center
+      if (keywords)
+        h1.bg-success=keywords 
+    div.well.text-center
+      if (jobs.length == 0 && keywords)
+        h1.row There is no such a job found.
+      else if (jobs.length == 0 )
+        h1.row 'There is no new job yet.'
       else if (jobs.length == 1)
         h1.row='There is ' + jobs.length + ' job.'
       else
@@ -14,4 +20,55 @@ block content
     hr
     div.col-lg-3.well.pull-right(style="")
       include searchbox.pug
-    div.col-lg-9
+    div.col-lg-9.pull-left
+      each job in jobs
+       div.panel.panel-success.panel-job(id=job.jobID)
+         div.panel-body(style="padding:1%;position:relative")
+            div.col-lg-1.text-center(style="padding:0")
+              if (user && usertype == "homeowner" && job.hoID == user.id)
+                div.bg-success You created this job.
+              else
+                span.h3.text-success
+                  i.fa.fa-home
+                  i.fa.fa-wrench
+            div.col-lg-10(style="overflow-y:auto;")
+               div.jobInfo
+                 div.col-lg-12.hidden
+                    label.col-lg-2 JobID
+                    input(name="jobID",value=job.jobID)
+                 div.col-lg-12
+                    label.col-lg-2  Description:
+                    div.col-lg-10.jobDesc=job.jobDesc
+               div.col-lg-12
+                  label.col-lg-2 Location:
+                  - var cityAddr = job.city + " " + job.state + " " + job.zipcode;
+                  div.col-lg-10
+                    if (!user)
+                      a(role="tooltip",title="Login to View location in map",data-placement="right")=cityAddr
+                    else
+                      a.btnShowMap(id="link_"+ job.jobID, role="tooltip",title="View location in map",data-placement="right")=cityAddr
+               div.col-lg-12
+                 if (user)
+                  input.hidden.address(id="addr_"+ job.jobID,value=job.street + " " + cityAddr)
+                  p.error.col-lg-12.text-danger.hidden Can't find the location 
+                    i.fa.fa-exclamation-triangle
+                  button.btnHideMap.btn.btn-sm.hidden.pull-right X
+                  div.col-lg-12.map.text-center.hidden(id="map_" + job.jobID,style="height:200px;width:90%")
+                  div.col-lg-12
+                    label.col-lg-12.text-center
+                        a.btnJobDetail.text-center More Detail
+                    div.col-lg-12.pictures.collapse
+                      each i in [0,1,2,3,4,5,6,7,8]
+                        div.col-lg-4.panel.panel-success.text-center(style="height:10vw") Will load Picture Or Video Here
+            div.col-lg-1
+              if (user && usertype == "contractor")
+                if (bidJobID.indexOf(job.jobID) != -1)
+                  button.btnBid.btn.btn-warning.disabled(style="white-space:normal;padding:0") 
+                    i.fa.fa-ban  You bid this job.
+                else
+                  button.btnBid.btn.btn-warning.btn-block(role="tooltip",title="Bid",data-toggle="modal",data-target="#modal_bid")
+                   i.fa.fa-gavel
+                  button.btn.btn-info.btn-block(role="tooltip",title="Bookmark",style="margin-top:10%;")
+                    i.fa.fa-bookmark
+       div.panel-footer="CreatedAt: " + job.createdAt.toString().substring(0,25) 
+  include ./contractor/modal_bid.pug

@@ -4,11 +4,14 @@ const path = require('path');
 const models = require('../models');
 const router = express.Router();
 //const basename = path.basename(module.filename);
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
+// const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
 
-const pg = require('pg');
-const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
-const client = new pg.Client(connectionString);
-client.connect();
+// const pg = require('pg');
+// const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
+// const client = new pg.Client(connectionString);
+// client.connect();
 
 // fs
 //   .readdirSync(__dirname)
@@ -114,14 +117,18 @@ router.post('/homeowner-signup',function(req,res,next){
 router.get('/jobs', function(req,res){
 
   //generate search query condition
-
    var searchString = "";
+   var keywords;
 
    if(req.query){
+
+      keywords = "";
 
       for(var col in req.query){
 
          if(req.query[col]){
+
+            keywords += " " + req.query[col];
 
             var wordSplit = req.query[col].split(" ");
             for(var i in wordSplit){
@@ -147,43 +154,50 @@ router.get('/jobs', function(req,res){
                   + 'WHERE "bidID" IS null ' + searchString
                   + ' ORDER BY "jobs"."createdAt" DESC';
 
-    console.log(queryString);
 
-    var results = [];
+    sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
+ 
+    .then(function(results) {
 
-    var query = client.query(queryString);
-      // Stream results back one row at a time
-    query.on('row', (row) => {
-        results.push(row);
-      });
-    // After all data is returned, close connection and return results
-    query.on('end', () => {
         // return res.json(results);
         if(!req.session.userID)
-            return res.render('jobs', {title: 'Jobs', jobs:results, });
+            return res.render('jobs', {title: 'Jobs', jobs:results, keywords : keywords,});
         else{
 
-            if(req.session.user && req.session.user.usertype == "homeowner"){
+            console.log(req.session.usertype);
+            if(req.session.userID && req.session.usertype == "homeowner"){
 
-                return res.render('jobs', {title: 'Jobs', jobs:results, user : user}); 
+                
+                models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+                 return res.render('jobs', {title: 'Jobs', jobs:results, keywords : keywords, user : user, usertype : "homeowner"}); 
+                 
+                });
+
+        
             }
             else{
                  //if contractor , first get the job that alreday bidden by the contractor
-                models.job_bids.findAll({
-                    where: {
-                       coID: req.session.userID,
-                   },
-                    attributes: ['jobID'], 
-                }).then(function(bids){
+                models.job_bids.findAll({ where: {coID: req.session.userID,},attributes: ['jobID'],})
+
+                .then(function(bids){
 
                     var bidJobID = [];
                     //get the id 
-                    for(var i in bids )
+                    for(var i in bids)
                        bidJobID.push(bids[i].jobID);
 
-                    return res.render('jobs',
-                      {title: results.length + ' Jobs', job:results, bidJobID : bidJobID, user : user}
-                    ); 
+                    models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+                      return res.render('jobs',
+
+                            {title: results.length + ' Jobs', job:results, keywords : keywords,
+                            bidJobID : bidJobID, user : user, usertype : "contractor"}
+                        ); 
+                 
+                    });
+
+                   
                });
             }
         }
@@ -292,16 +306,16 @@ router.get('/howitworks', function(req, res) {
 
 
 router.get('/login', function(req, res) {
-  if(!req.session.userID)
+  // if(!req.session.userID)
    return res.render('login', {title: 'Login'})
 
-  else{
-    if(req.session.usertype == "homeowner")
-       res.redirect("/homeowner/dashboard");
+  // else{
+  //   if(req.session.usertype == "homeowner")
+  //      res.redirect("/homeowner/dashboard");
 
-    if(req.session.usertype == "contractor")
-       res.redirect("/contractor/dashboard");
-  }
+  //   if(req.session.usertype == "contractor")
+  //      res.redirect("/contractor/dashboard");
+  // }
 
 });
 
@@ -325,7 +339,8 @@ router.post('/login', function(req, res) {
 
           if(user){
               req.session.userID = user.id;
-              req.session.usertype == "homeowner";
+              req.session.usertype = "homeowner";
+              // console.log(req.session.usertype);
               return res.redirect('/homeowner/dashboard');
           }
           else
@@ -344,9 +359,8 @@ router.post('/login', function(req, res) {
 
         if(user){
             req.session.userID = user.id;
-            req.session.usertype == "contractor";
-
-            res.redirect('/contractor/dashboard');
+            req.session.usertype = "contractor";
+            // res.redirect('/contractor/dashboard');
         }
         else
           return res.render('login', {error: true, title: 'Error'})
