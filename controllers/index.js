@@ -446,13 +446,17 @@ router.post('/login', function(req, res) {
 
 
 router.get('/logout', function(req, res) {
-  req.session.userID = null;
-  req.session.destroy(function(err) {
-  if(err) {
-    console.log(err);
-  } else {
-    res.redirect('/');
-  }
+
+    req.session.userID = null;
+    req.session.usertype = null;
+
+    req.session.destroy(function(err) {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log("Log out successully");
+        res.redirect('/');
+      }
   });
 });
 

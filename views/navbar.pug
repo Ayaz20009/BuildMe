@@ -50,9 +50,9 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
            span.glyphicon.glyphicon-user
             span=user.firstName + "  "
             span=user.lastName
-          form(action="/logout",methoud="get")  
+          form(action="/logout",methoud="delete")  
            div.dropdown-content(style="width:15vw")
-             button.btn.btn-success.btn-block Logout
+             button.btn.btn-success.btn-block(type="submit") Logout
 
 
 

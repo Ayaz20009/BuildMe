@@ -5,8 +5,8 @@ const models = require('../models');
 const router = express.Router();
 var homeowner = require('../controllers/homeowner');
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
-// const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
+// const sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
+const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
 
 
 router.route('/homeowner');
