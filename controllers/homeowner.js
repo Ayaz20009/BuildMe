@@ -13,53 +13,68 @@ const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/b
 
 
 
-router.route('/contractor')
+router.route('/homeowner');
 
 router.get('/', function(req, res) {
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
 });
 
+
+
+
 router.get('/dashboard', function(req, res) {
 
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
-  return res.render('homeowner/overview', {title: req.session.user.firstName + "'s dashboard",session: req.session})
+
+   models.homeowners.findByID(req.session.userID).on('success', function(user) {
+     console.log("find user");
+     console.log(user);
+     if(user)
+      return res.render('homeowner/dashboard', {title: user.firstName + "'s dashboard", user : user, usertype : "homeowner"});
+     else
+      return res.send("Homeowner user does not exists.");
+
+   });
+
 });
 
 
 router.get('/jobscreated', function(req, res) {
 
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
 
-// find projects that were created by this user
-  models.homeowner_jobs.findAll({
-      where: {
-         hoID: req.session.user.id,
-     },
-     order: '"createdAt" DESC',
-  }).then(function(projects){
+// find jobs that were created by this user
+  models.homeowners.findByID(req.session.userID).on('success', function(user) {
+ 
+    if(user){
 
-      if(projects){
-          // console.log(projects);
-          res.render('homeowner/jobscreated', 
-          {title: projects.length + " jobs created", session: req.session, projects: projects})
-      }
-      else{
+        models.homeowner_jobs.findAll({
+          where: {
+             hoID: user.id,
+         },
+          order: '"createdAt" DESC',
+       }).then(function(jobs){
 
-         res.render('homeowner/jobscreated', {session: req.session});
-      }
+          return res.render('homeowner/jobscreated', {title: jobs.length + " jobs created", user: user, jobs: jobs})
+       });
+
+    }
+    else
+      res.send("Homeowner user does not exists.")
 
   });
+  
 
 });
 
 
 router.delete('/jobscreated',function(req,res){
 
-  console.log(req.body.proj_id);
-  models.homeowner_jobs.findByID(req.body.proj_id).on('success', function(project) {
+  console.log(req.body.id);
+  models.homeowner_jobs.findByID(req.body.id).on('success', function(project) {
 
      project.destroy().on('success', function(u) {
       if (u && u.deletedAt) {
@@ -72,18 +87,19 @@ router.delete('/jobscreated',function(req,res){
 });
 
 router.post('/newjob', function(req, res) {
-  var hoID = req.session.user.id;
-  var desc = req.body.proj_desc;
-  var street = req.body.proj_street.trim();
-  var city = req.body.proj_city;
-  var state = req.body.proj_state;
-  var zipcode = req.body.proj_zip;
+  
+  var hoID = req.session.userID;
+  var jobDesc = req.body.jobDesc;
+  var street = req.body.street.trim();
+  var city = req.body.city;
+  var state = req.body.state;
+  var zipcode = req.body.zip;
 
   if(hoID && desc && street && city && state){
 
     models.homeowner_jobs.create({
        hoID: hoID,
-       jobDesc: desc,
+       jobDesc: jobDesc,
        street: street,
        city: city,
        state: state,
@@ -95,7 +111,7 @@ router.post('/newjob', function(req, res) {
         //update numCreated of homeowners 
         models.homeowners.findOne({
             where: {
-               id: req.session.user.id,
+               id: req.session.userID,
            }
         })
         .then(function(user){
@@ -115,21 +131,27 @@ router.post('/newjob', function(req, res) {
 
       }
       else
-        res.render('homeowner/newjob',{title: "Error", session: req.session}) 
+        res.render('homeowner/newjob',{title: "Error", user : user}) 
     });
   }
   else
-    res.render('homeowner/newjob',{title: "Error",error: "Required Fields missing", session: req.session}) 
+    res.render('homeowner/newjob',{title: "Error",error: "Required Fields missing", user : user}) 
 });
 
 
 router.get('/newjob', function(req, res) {
 
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
-  return res.render('homeowner/newjob', 
-    {title: "Create a job", session: req.session}
-    )
+
+  models.homeowners.findByID(req.session.userID).on('success', function(user) {
+
+     if(user)
+       return res.render('homeowner/newjob', {title: "Create a job", user : user})
+     else
+      return res.send("Homeowner user does not exists.");
+  });
+
 
 });
 
@@ -142,7 +164,7 @@ router.get('/jobsoffering', function(req, res) {
   models.job_offers.findAll({
 
     where : {
-      hoID : req.session.user.id,
+      hoID : req.session.userID,
       accepted : null,
     }
 
@@ -151,7 +173,7 @@ router.get('/jobsoffering', function(req, res) {
      // console.log(offers);
      // return res.send(offers);
 
-    return res.render("homeowner/jobsoffering", {title: offers.length + "job offers", offers: offers, session: req.session});
+    return res.render("homeowner/jobsoffering", {title: offers.length + "job offers", offers: offers, user : user});
 
   });
 
@@ -161,7 +183,7 @@ router.get('/jobsoffering', function(req, res) {
 router.post('/jobsoffering', function(req, res) {
 
   var jobID = req.body.jobID;
-  var hoID = req.session.user.id;
+  var hoID = req.session.userID;
   var bidID = req.body.bidID;
   var coID = req.body.coID;
   var estCost = req.body.estCost;
@@ -200,7 +222,7 @@ router.post('/jobsoffering', function(req, res) {
           //update numOffers in homeowner
           models.homeowners.findOne({
               where: {
-                 id: req.session.user.id,
+                 id: req.session.userID,
              }
           }).then(function(user){
 
@@ -229,7 +251,7 @@ router.get('/jobsstarted', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
   return res.render('homeowner/jobsstarted', 
-    {title: "Job started", session: req.session}
+    {title: "Job started", user : user}
     )
 
 });
@@ -238,7 +260,7 @@ router.get('/jobscompleted', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
   return res.render('homeowner/jobscompleted', 
-    {title: "completedjobs", session: req.session}
+    {title: "completedjobs", user : user}
     )
 });
 
@@ -250,7 +272,7 @@ router.get('/overviewbids',function(req,res) {
 
    models.homeowner_jobs.findAll({
       where: {
-         hoID: req.session.user.id,
+         hoID: req.session.userID,
      },
      order: '"createdAt" DESC',
   }).then(function(data){
@@ -266,7 +288,7 @@ router.get('/overview', function(req, res) {
     return res.redirect('/login');
 
   return res.render('homeowner/overview', 
-    {title: "overview",session: req.session})
+    {title: "overview",user : user})
 });
 
 
@@ -277,7 +299,7 @@ router.get('/message', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
   return res.render('homeowner/message', 
-    {title: "message", session: req.session}
+    {title: "message", user : user}
     )
 });
 
@@ -286,7 +308,7 @@ router.get('/points', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
   return res.render('homeowner/points', 
-    {title: "points", session: req.session}
+    {title: "points", user : user}
     )
 });
 
@@ -297,11 +319,11 @@ router.get('/profile', function(req, res) {
 
   models.homeowners.findOne({
       where: {
-         id: req.session.user.id,
+         id: req.session.userID,
      }
   }).then(function(user){
     
-    res.render('homeowner/profile', {title:"profile", user:user, session:req.session});
+    res.render('homeowner/profile', {title:"profile", user:user, user : user});
   });
 
 });
@@ -313,7 +335,7 @@ router.post('/profile', function(req, res) {
 
   models.homeowners.findOne({
       where: {
-         id: req.session.user.id,
+         id: req.session.userID,
      }
   }).then(function(user){
       if(user){
@@ -328,7 +350,7 @@ router.post('/profile', function(req, res) {
 
             req.session.user = user;
             
-            res.render('homeowner/profile', {title:"profile", session:req.session});
+            res.render('homeowner/profile', {title:"profile", user : user});
           });
       }
     });
@@ -368,7 +390,7 @@ router.get('/bids/:jobID', function(req, res) {
       console.log(max);
 
      return res.render('homeowner/bids',
-      {title: results.length + ' bids', bids: results, max: max[0], session: req.session});
+      {title: results.length + ' bids', bids: results, max: max[0], user : user});
      }) ;   
   });
 

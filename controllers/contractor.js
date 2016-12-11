@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
 router.get('/dashboard', function(req, res) {
   if(!req.session.user)
     return res.redirect('/login');
-  return res.render('contractor/overview', {title: req.session.user.firstName + "'s dashboard", session:req.session})
+  return res.render('contractor/overview', {title: req.session.user.firstName + "'s dashboard", user : user})
 });
 
 
@@ -42,7 +42,7 @@ router.get('/bidding', function(req,res){
                   + 'JOIN "homeowner_jobs" AS "jobs"'
                   + 'ON "bids"."jobID" = "jobs"."id"'
                   + ' JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID"'
-                  + 'WHERE "coID" = '+ req.session.user.id
+                  + 'WHERE "coID" = '+ req.session.userID
                   // + 'AND "bidID" IS NOT null '
                   + 'ORDER BY "jobCreatedAt" DESC, "bidUpdatedAt" DESC';
 
@@ -55,9 +55,9 @@ router.get('/bidding', function(req,res){
   query.on('end', () => {
       // return res.json(results);
       if(results.length == 0)
-         return res.render('contractor/bidding', {title: results.length + " Bids", session:req.session});
+         return res.render('contractor/bidding', {title: results.length + " Bids", user : user});
 
-      return res.render('contractor/bidding', {title: results.length + " Bids", session:req.session, bids: results});
+      return res.render('contractor/bidding', {title: results.length + " Bids", user : user, bids: results});
   });
 
   
@@ -65,17 +65,17 @@ router.get('/bidding', function(req,res){
   //find bids;
     // models.job_bids.findAll({
     //  where: {
-    //  coID: req.session.user.id,
+    //  coID: req.session.userID,
     //  },
     //  order: '"createdAt" DESC',
     // })
     // .then(function(bids){
 
-       // return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: results});
+       // return res.render('contractor/openbids', {title: "Open Bids", user : user, bids: results});
 
     // });
 
-  // return res.render('contractor/openbids', {title: "Open Bids", session:req.session, bids: GetConBids(req.session.user.id) });
+  // return res.render('contractor/openbids', {title: "Open Bids", user : user, bids: GetConBids(req.session.userID) });
 
 });
 
@@ -90,13 +90,13 @@ router.get('/bidswon', function(req,res){
   models.job_offers.findAll({
 
      where :{
-       coID : req.session.user.id
+       coID : req.session.userID
      }
   })
   .then(function(offers){
 
     // return res.send(offers);
-    return res.render('contractor/bidswon', {title: "Bids Won", offers: offers,  session:req.session});
+    return res.render('contractor/bidswon', {title: "Bids Won", offers: offers,  user : user});
 
   });
 });
@@ -106,35 +106,35 @@ router.get('/jobsbookmark', function(req,res){
 
     if(!req.session.user)
      return res.redirect('/login');
-   return res.render('contractor/jobsbookmark', {title: "Bookmark Jobs", session:req.session});
+   return res.render('contractor/jobsbookmark', {title: "Bookmark Jobs", user : user});
 });
 
 router.get('/jobsstarted', function(req,res){
 
     if(!req.session.user)
      return res.redirect('/login');
-   return res.render('contractor/jobsstarted', {title: "Jobs Started", session:req.session});
+   return res.render('contractor/jobsstarted', {title: "Jobs Started", user : user});
 });
 
 router.get('/jobscompleted', function(req,res){
 
   if(!req.session.user)
      return res.redirect('/login');
-  return res.render('contractor/jobscompleted', {title: "Jobs Completed", session:req.session});
+  return res.render('contractor/jobscompleted', {title: "Jobs Completed", user : user});
 });
 
 router.get('/overview', function(req,res){
 
    if(!req.session.user)
      return res.redirect('/login');
-   return res.render('contractor/overview', {title: "Overview", session:req.session});
+   return res.render('contractor/overview', {title: "Overview", user : user});
 });
 
 router.get('/message', function(req,res){
 
    if(!req.session.user)
      return res.redirect('/login');
-   return res.render('contractor/message', {title: "Message", session:req.session});
+   return res.render('contractor/message', {title: "Message", user : user});
 });
 
 
@@ -142,7 +142,7 @@ router.get('/points', function(req,res){
 
    if(!req.session.user)
      return res.redirect('/login');
-   return res.render('contractor/points', {title: "Message", session:req.session});
+   return res.render('contractor/points', {title: "Message", user : user});
 });
 
 router.get('/profile',function(req,res){
@@ -152,11 +152,11 @@ router.get('/profile',function(req,res){
 
  models.contractors.findOne({
       where: {
-         id: req.session.user.id,
+         id: req.session.userID,
      }
   }).then(function(user){
     
-    res.render('contractor/profile', {title:"profile", user:user, session:req.session});
+    res.render('contractor/profile', {title:"profile", user:user, user : user});
   });
 });
 
@@ -170,7 +170,7 @@ router.post('/profile',function(req,res){
 
   models.contractors.findOne({
       where: {
-         id: req.session.user.id,
+         id: req.session.userID,
      }
   }).then(function(user){
       if(user){
@@ -186,7 +186,7 @@ router.post('/profile',function(req,res){
           .then(function(user){
 
             req.session.user = user;
-            res.render('contractor/profile', {title:"profile", session:req.session});
+            res.render('contractor/profile', {title:"profile", user : user});
           });
       }
     });

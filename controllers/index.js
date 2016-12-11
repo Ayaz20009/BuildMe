@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
    if(!req.session.user)
      return res.render('index',{title: "Build Me"});
    else
-     return res.render('index',{title: "Build Me", session:req.session});
+     return res.render('index',{title: "Build Me", user : user});
 
 });
 
@@ -37,7 +37,7 @@ router.get('/contractor-signup',function(req,res){
    if(!req.session.user)
     return res.render('contractor-signup', {title: 'Contractor Sign Up'});
    else
-     return res.render('contractor-signup', {title: 'Contractor Sign Up', session:req.session});
+     return res.render('contractor-signup', {title: 'Contractor Sign Up', user : user});
 });
 
 router.post('/contractor-signup',function(req,res,next){
@@ -75,7 +75,7 @@ router.get('/homeowner-signup',function(req,res){
   if(!req.session.user)
    return res.render('homeowner-signup',{title: "Homeowner Sign Up"});
  else
-   return res.render('homeowner-signup',{title: "Homeowner Sign Up", session:req.session});
+   return res.render('homeowner-signup',{title: "Homeowner Sign Up", user : user});
 
 
 });
@@ -160,18 +160,18 @@ router.get('/jobs', function(req,res){
     query.on('end', () => {
         // return res.json(results);
         if(!req.session.user)
-            return res.render('jobs', {title: 'Jobs', projects:results, });
+            return res.render('jobs', {title: 'Jobs', jobs:results, });
         else{
 
             if(req.session.user && req.session.user.usertype == "homeowner"){
 
-                return res.render('jobs', {title: 'Jobs', projects:results, session: req.session}); 
+                return res.render('jobs', {title: 'Jobs', jobs:results, user : user}); 
             }
             else{
                  //if contractor , first get the job that alreday bidden by the contractor
                 models.job_bids.findAll({
                     where: {
-                       coID: req.session.user.id,
+                       coID: req.session.userID,
                    },
                     attributes: ['jobID'], 
                 }).then(function(bids){
@@ -182,7 +182,7 @@ router.get('/jobs', function(req,res){
                        bidJobID.push(bids[i].jobID);
 
                     return res.render('jobs',
-                      {title: results.length + ' Jobs', projects:results, bidJobID : bidJobID, session: req.session}
+                      {title: results.length + ' Jobs', job:results, bidJobID : bidJobID, user : user}
                     ); 
                });
             }
@@ -200,7 +200,7 @@ router.post('/jobs',function(req,res){
       return res.redirect('/login');
 
    var jobID = req.body.jobID;
-   var coID = req.session.user.id;
+   var coID = req.session.userID;
    var estCost = req.body.estCost;
    var estDays = req.body.estDays;
    var estHours = req.body.estHours;
@@ -251,7 +251,7 @@ router.post('/jobs',function(req,res){
                          numBids : job.numBids + 1,
                     });
                       //update numBids
-                      models.contractors.findOne({ where: { id: req.session.user.id } })
+                      models.contractors.findOne({ where: { id: req.session.userID } })
                       .then(function(user){
 
                           user.updateAttributes({                      
@@ -284,7 +284,7 @@ router.get('/howitworks', function(req, res) {
    if(!req.session.user)
      return res.render('HowitWorks', {title: 'How it Works'}) 
    else
-     return res.render('HowitWorks', {title: 'How it Works',session: req.session})
+     return res.render('HowitWorks', {title: 'How it Works',user : user})
 });
 
 
@@ -294,60 +294,63 @@ router.get('/howitworks', function(req, res) {
 router.get('/login', function(req, res) {
   if(!req.session.user)
    return res.render('login', {title: 'Login'})
-  else
-   return res.render('login', {title: 'Login',session: req.session})
+  else{
+    if(req.session.usertype == "homeowner")
+       res.redirect("/homeowner/dashboard");
 
-
-});
-
-
-
-router.post('/homeowner/dashboard', function(req, res) {
-  var email = req.body.home_email.toLowerCase();
-  var pass = req.body.home_pass;
-  models.homeowners.findOne({
-      where: {
-         email: email,
-         // password:pass,
-     },
-  }).then(function(user){
-
-      if(user){
-
-          req.session.user = user.dataValues;
-          req.session.usertype = "homeowner";
-          res.render('./homeowner/overview', 
-            {title: user.dataValues.firstName + " " + user.dataValues.lastName, session: req.session})
-      }
-      else
-        return res.render('login', {error: true, title: 'Error'})
-  });
+    if(req.session.usertype == "contractor")
+       res.redirect("/contractor/dashboard");
+  }
 
 });
 
 
-/*
-*/
-router.post('/contractor/dashboard', function(req, res) {
-  var email = req.body.con_email.toLowerCase();
-  var pass = req.body.con_pass;
-  models.contractors.findOne({
-      where: {
-         email: email,
-         // password:pass,
-     }
-  }).then(function(user){
+/*Homeowenrs or contractors login */
 
-      if(user){
-          req.session.user = user;
-          req.session.usertype = "contractor";
-          console.log(req.session.user.usertype);
+router.post('/login', function(req, res) {
 
-          res.render('./contractor/overview', {title: user.dataValues.firstName, session: req.session})
-      }
-      else
-        return res.render('login', {error: true, title: 'Error'})
-  });
+  var usertype = req.body.usertype;
+  var email = req.body.email.toLowerCase();
+  var pass = req.body.pass;
+
+  if(usertype == "homeowner"){
+
+      models.homeowners.findOne({
+          where: {
+             email: email,
+             // password:pass,
+         },
+      }).then(function(user){
+
+          if(user){
+              req.session.userID = user.id;
+
+              return res.redirect('/homeowner/dashboard');
+          }
+          else
+            return res.render('login', {error: true, title: 'Error'})
+      });
+  }
+
+  if(usertype == "contractor"){
+
+       models.contractors.findOne({
+          where: {
+             email: email,
+             // password:pass,
+         },
+       }).then(function(user){
+
+        if(user){
+            req.session.userID = user.id;
+            res.redirect('/contractor/dashboard');
+        }
+        else
+          return res.render('login', {error: true, title: 'Error'})
+    });
+
+  }
+
 });
 
 

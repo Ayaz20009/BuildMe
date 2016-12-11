@@ -1,4 +1,12 @@
-include /base.pug
-script(src="/js/jq_homeowner.js")
-div.container-fluid(style="padding-top:1%")
-  include sidebar.pug
+extends /layout.pug
+block append scripts
+	script(src="/js/jq_homeowner.js")
+	script(type="text/javascript",src="https://www.gstatic.com/charts/loader.js")
+block content
+	div.content.container.text-center
+		div.col-lg-3.pull-left
+			block left
+				//- include sidebar.pug
+		div.col-lg-9.pull-right
+			block right
+

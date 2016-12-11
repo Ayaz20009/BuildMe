@@ -1,7 +1,10 @@
-include base.pug
-h1(align='center') Welcome to BuildMe!
-#container.col
-p(align='center') Need something fix?
-p(align='center') 
-  a(href="/howitworks") More
-  
+extends layout.pug
+block content
+	div.container-fluid.text-center.content
+		h1(align='center') Welcome to BuildMe!
+		div
+			p(align='center') Need something fix?
+		div
+			a(href="/howitworks") More
+
+

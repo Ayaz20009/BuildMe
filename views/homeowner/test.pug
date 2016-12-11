@@ -1,0 +1,41 @@
+div#biddingjobs.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
+  div.col-lg-11
+   if (job.length == 0)
+     h1 You have no job yet.  
+   else
+     h1=job.length
+     each job in job
+      div.panel.panel-success(id=job[0].jobID)=job[0].jobID
+        div.panel-heading(style="padding:0")=job.length
+        //-  if (job.length > 0)
+        //-    a.btn-warning.btn-sm.btn.col-lg-1(onClick='window.open("/homeowner/bids/'+ job.id +'");')=job.numBids
+        //-      i.fa.fa-gavel.pull-left
+        //-  else
+        //-    a.btn-warning.btn-sm.btn.col-lg-1.disabled=job.length
+        //-      i.fa.fa-gavel.pull-left
+        //-  div.dropdown.pull-right
+        //-   a.btn.dropbtn
+        //-    span.caret
+        //-   div.dropdown-content
+        //-    button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
+        //-    button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
+        //- div.panel-body.jobInfo
+        //-  //- div.row.hidden
+        //-  //-  input(name="jobID",value=job.id)
+        //-  div.row
+        //-   label.col-lg-2.control-label Descrption
+        //-   div.col-lg-10=job[0].jobDesc
+        //-  div.row
+        //-   label.col-lg-2.control-label Address
+        //-   div.col-lg-10=job[0].street + "  " + job[0].city + " " + job[0].state + " " + job[0].zipcode
+        //-  div.row
+        //-   label.col-lg-2.control-label Created At
+        //-   div.col-lg-10=job[0].createdAt
+        //-  div.row
+        //-   label.col-lg-2.control-label Updated At
+        //-   div.col-lg-10=job[0].updatedAt
+        //- div.panel-footer bids
+        //-   each bid in job
+        //-     div=bid.bidID
+        //-     div=bid.coID
+        //-     div=bid.estCost

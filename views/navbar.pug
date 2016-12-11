@@ -1,43 +1,55 @@
 nav.navbar.navbar-default.navbar-fixed-top#navbar
    div.container-fluid
-     div.navbar-header.col-sm-3.col-md-2
-        a.navbar-brand(href="/") BuildMe
-     ul.nav.navbar-nav
+    div.collapse.navbar-collapse.pull-left
+     ul.nav.navbar-nav.navbar-left
         li
            a(href="/howitworks") How it Works
         li
            a(href="/jobs") Jobs
-        if (session)
-         li
-           if (session.user.usertype == "homeowner")
-               a(href="/homeowner/dashboard") Dashboard
-           if (session.user.usertype == "contractor")
-               a(href="/contractor/dashboard") Dashboard
-     if !session
-      ul.nav.navbar-nav.navbar-right
-          li
-            a
-              span #{Fname} #{Lname}
-          li#btnLogin
-            a.btn(href="/login")
-              span.glyphicon.glyphicon-log-in  Login
-          li.dropdown
-            a.btn.dropbtn
-              span.glyphicon.glyphicon-user  Sign up
-            div.dropdown-content.bg-success(style="width:15vw")
-              a.btn.btn-primary.btn-block(href="/homeowner-signup")
-                span.glyphicon.glyphicon-home
-                span.glyphicon.glyphicon-user  Homeowner
-              a.btn.btn-primary.btn-block(href="/contractor-signup") 
-                span.glyphicon.glyphicon-wrench
-                span.glyphicon.glyphicon-user  Contractor
-     else
-      ul.nav.navbar-nav.navbar-right
+     form.navbar-form.navbar-left(role="search",method="get", action="/jobs")
+       div.form-group.col-lg-10
+        input.form-control.inputsm(name="jobDesc",type="text",placeholder="Job description")
+       button.col-lg-2.btn.btn-sm.btn-success(type="submit",style="height:5.5vh;")
+        i.fa.fa-search
+     //- div
+     //-    if (session)
+     //-     li
+     //-       if (session.user.usertype == "homeowner")
+     //-           a(href="/homeowner/dashboard") Dashboard
+     //-       if (session.user.usertype == "contractor")
+     //-           a(href="/contractor/dashboard") Dashboard
+    div.navbar-header.text-center
+      a.navbar-brand(style="font:italic bold 35px/35px Georgia, serif;",href="/")
+       i.fa.fa-home
+       i.fa.fa-wrench
+       span  BuildMe
+    div.pull-right
+     ul.nav.navbar-nav.navbar-right
+      if !user
+        li
+          a
+            span #{Fname} #{Lname}
+        li#btnLogin
+          a.btn(href="/login")
+            span.glyphicon.glyphicon-log-in  Login
         li.dropdown
           a.btn.dropbtn
-           span.glyphicon.glyphicon-user 
-            span=session.user.firstName + "  "
-            span=session.user.lastName
+            span.glyphicon.glyphicon-user  Sign up
+          div.dropdown-content.bg-success(style="width:15vw")
+            a.btn.btn-primary.btn-block(href="/homeowner-signup")
+              span.glyphicon.glyphicon-home
+              span.glyphicon.glyphicon-user  Homeowner
+            a.btn.btn-primary.btn-block(href="/contractor-signup") 
+              span.glyphicon.glyphicon-wrench
+              span.glyphicon.glyphicon-user  Contractor
+      else
+        li.dropdown
+          a.btn.dropbtn(href="/" + usertype +"/dashboard")
+           span
+             i.fa.fa-tachometer
+           span.glyphicon.glyphicon-user
+            span=user.firstName + "  "
+            span=user.lastName
           form(action="/logout",methoud="get")  
            div.dropdown-content(style="width:15vw")
              button.btn.btn-success.btn-block Logout

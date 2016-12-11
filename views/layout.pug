@@ -1,0 +1,12 @@
+html
+	head
+		title #{title}
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		block scripts
+			include source.pug
+	body
+		block top
+			include navbar.pug
+		block content
+		block foot
+			include footer.pug

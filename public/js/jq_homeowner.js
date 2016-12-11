@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-
-   //click btn Delete
   $(".btnDeleteJob").click(function(){
 
     var jobInfo_html = $(this).closest('.panel').children('.jobInfo').html();

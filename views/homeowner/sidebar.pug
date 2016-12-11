@@ -1,35 +1,34 @@
-div.col-sm-3.col-md-2
-  ul#sidebar.nav.nav-sidebar.list-group.table-of-contents
-    li.list-group-item
-      a.btn(href="/homeowner/newjob") Create a New Job
-       i.fa.fa-plus-square-o 
-    li.list-group-item
-      a.btn(href="/homeowner/jobscreated") Jobs Bidding
-       i.fa.fa-suitcase
-       span.badge=session.user.numCreated
-    li.list-group-item
-      a.btn(href="/homeowner/jobsoffering") Jobs Offering
-       img(src="/img/offer.png", style="float:left;width:25px;height:25px;",)
-       span.badge=session.user.numOffers
-    li.list-group-item
-      a.btn(href="/homeowner/jobsstarted") Jobs Started
-       i.fa.fa-tasks 
-       span.badge=session.user.numStarted
-    li.list-group-item
-      a.btn(href="/homeowner/jobscompleted") Jobs Finished
-       i.fa.fa-check-circle
-       span.badge=session.user.numFinished
-    li.list-group-item
-      a.btn(href="/homeowner/overview") Overview
-       i.fa.fa-bar-chart 
-    li.list-group-item
-      a.btn(href="/homeowner/message") Message 
-       i.fa.fa-envelope 
-       span.badge=session.user.newMessage
-    li.list-group-item
-      a.btn(href="/homeowner/points") Points
-       i.fa.fa-star
-       span.badge=session.user.points 
-    li.list-group-item
-      a.btn(href="/homeowner/profile") Profile
-       i.fa.fa-address-card-o
+ul.nav.nav-sidebar.list-group.table-of-contents#sidebar(style="padding:1%")
+  li.list-group-item
+    a.btn(href="/homeowner/newjob") Create a New Job
+     i.fa.fa-plus-square-o 
+  li.list-group-item
+    a.btn(href="/homeowner/jobscreated") Jobs Bidding
+     i.fa.fa-suitcase
+     span.badge=user.numCreated
+  li.list-group-item
+    a.btn(href="/homeowner/jobsoffering") Jobs Offering
+     img(src="/img/offer.png", style="float:left;width:25px;height:25px;",)
+     span.badge=user.numOffers
+  li.list-group-item
+    a.btn(href="/homeowner/jobsstarted") Jobs Started
+     i.fa.fa-tasks 
+     span.badge=user.numStarted
+  li.list-group-item
+    a.btn(href="/homeowner/jobscompleted") Jobs Finished
+     i.fa.fa-check-circle
+     span.badge=user.numFinished
+  li.list-group-item
+    a.btn(href="/homeowner/overview") Overview
+     i.fa.fa-bar-chart 
+  li.list-group-item
+    a.btn(href="/homeowner/message") Message 
+     i.fa.fa-envelope 
+     span.badge=user.newMessage
+  li.list-group-item
+    a.btn(href="/homeowner/points") Points
+     i.fa.fa-star
+     span.badge=user.points 
+  li.list-group-item
+    a.btn(href="/homeowner/profile") Profile
+     i.fa.fa-address-card-o

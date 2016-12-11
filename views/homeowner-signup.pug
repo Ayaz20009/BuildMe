@@ -1,19 +1,20 @@
-include base.pug
-div(align='center')
-  div.panel.panel-success(style="width:40%;",align='center')
-    div.panel-heading Get Started - it's free.
-    div.panel-body
-      h2 Homeowner
-      form(action='/homeowner-signup',method='post')
-        div.form-group.required(style="margin-top:3%")
-          input.form-control(type="text", id="inputFname", name = "firstName", placeholder="First Name",)
-        div.form-group.required
-          input.form-control(type="text", id="inputLname", name="lastName", placeholder="Last Name",)
-        div.form-group.required
-          input.form-control.numeric(type="text", id="inputzipcode", name="zipcode", placeholder="Zipcode",,maxlength="6")
-        div.form-group.required
-          input.form-control(type="text", id="inputEmail", name="email", placeholder="Email",)
-        div.form-group
-          input.form-control(type="password", id="inputpassword", name="password", placeholder="Password",)
-        button.btn.btn-success.btn-block Sign Up
-    div.panel-footer By clicking Sign Up, you agree to the BuildMe User Agreement, Privacy Policy, and Cookie Policy.
+extends layout.pug
+block content
+  div.content(align='center')
+    div.panel.panel-success(style="width:40%;",align='center')
+      div.panel-heading Get Started - it's free.
+      div.panel-body
+        h2 Homeowner
+        form(action='/homeowner-signup',method='post')
+          div.form-group.required(style="margin-top:3%")
+            input.form-control(type="text", id="inputFname", name = "firstName", placeholder="First Name",)
+          div.form-group.required
+            input.form-control(type="text", id="inputLname", name="lastName", placeholder="Last Name",)
+          div.form-group.required
+            input.form-control.numeric(type="text", id="inputzipcode", name="zipcode", placeholder="Zipcode",,maxlength="6")
+          div.form-group.required
+            input.form-control(type="text", id="inputEmail", name="email", placeholder="Email",)
+          div.form-group
+            input.form-control(type="password", id="inputpassword", name="password", placeholder="Password",)
+          button.btn.btn-success.btn-block Sign Up
+      div.panel-footer By clicking Sign Up, you agree to the BuildMe User Agreement, Privacy Policy, and Cookie Policy.
