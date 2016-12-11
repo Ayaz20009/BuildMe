@@ -1,4 +1,5 @@
-include dashboard.pug
-div#completedjobs.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-  if (!projects)
-   h1.text-center You have no completed project yet.
+extends dashboard.pug
+block right
+	div
+		if (!jobs)
+			h1.text-center You have no completed project yet.

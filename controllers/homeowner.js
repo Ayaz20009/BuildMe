@@ -5,12 +5,9 @@ const models = require('../models');
 const router = express.Router();
 var homeowner = require('../controllers/homeowner');
 const pg = require('pg');
-const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';
-const client = new pg.Client(connectionString);
-client.connect();
+
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
-
 
 
 router.route('/homeowner');
@@ -22,15 +19,13 @@ router.get('/', function(req, res) {
 
 
 
-
 router.get('/dashboard', function(req, res) {
 
   if(!req.session.userID)
     return res.redirect('/login');
 
-   models.homeowners.findByID(req.session.userID).on('success', function(user) {
-     console.log("find user");
-     console.log(user);
+   models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
      if(user)
       return res.render('homeowner/dashboard', {title: user.firstName + "'s dashboard", user : user, usertype : "homeowner"});
      else
@@ -47,8 +42,8 @@ router.get('/jobscreated', function(req, res) {
     return res.redirect('/login');
 
 // find jobs that were created by this user
-  models.homeowners.findByID(req.session.userID).on('success', function(user) {
- 
+   models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
     if(user){
 
         models.homeowner_jobs.findAll({
@@ -73,7 +68,7 @@ router.get('/jobscreated', function(req, res) {
 
 router.delete('/jobscreated',function(req,res){
 
-  console.log(req.body.id);
+
   models.homeowner_jobs.findByID(req.body.id).on('success', function(project) {
 
      project.destroy().on('success', function(u) {
@@ -131,11 +126,11 @@ router.post('/newjob', function(req, res) {
 
       }
       else
-        res.render('homeowner/newjob',{title: "Error", user : user}) 
+        res.render('homeowner/newjob',{title: "Error", user : user, usertype : "homeowner"}) 
     });
   }
   else
-    res.render('homeowner/newjob',{title: "Error",error: "Required Fields missing", user : user}) 
+    res.render('homeowner/newjob',{title: "Error",error: "Required Fields missing", user : user, usertype : "homeowner"}) 
 });
 
 
@@ -144,10 +139,10 @@ router.get('/newjob', function(req, res) {
   if(!req.session.userID)
     return res.redirect('/login');
 
-  models.homeowners.findByID(req.session.userID).on('success', function(user) {
+   models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
 
      if(user)
-       return res.render('homeowner/newjob', {title: "Create a job", user : user})
+       return res.render('homeowner/newjob', {title: "Create a job", user : user, usertype : "homeowner"})
      else
       return res.send("Homeowner user does not exists.");
   });
@@ -158,22 +153,23 @@ router.get('/newjob', function(req, res) {
 
 router.get('/jobsoffering', function(req, res) {
 
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
-  
-  models.job_offers.findAll({
 
-    where : {
-      hoID : req.session.userID,
-      accepted : null,
+  models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+    if(user){
+
+      models.job_offers.findAll({where : {hoID : req.session.userID,accepted : null,},})
+
+      .then(function(offers){
+
+        return res.render("homeowner/jobsoffering", {title: offers.length + "job offers", offers: offers, user : user, usertype : "homeowner"});
+      });
+
     }
-
-  }).then(function(offers){
-
-     // console.log(offers);
-     // return res.send(offers);
-
-    return res.render("homeowner/jobsoffering", {title: offers.length + "job offers", offers: offers, user : user});
+    else
+      return res.send("Homeowner user does not exists.");
 
   });
 
@@ -182,65 +178,66 @@ router.get('/jobsoffering', function(req, res) {
 
 router.post('/jobsoffering', function(req, res) {
 
-  var jobID = req.body.jobID;
-  var hoID = req.session.userID;
-  var bidID = req.body.bidID;
-  var coID = req.body.coID;
-  var estCost = req.body.estCost;
-  var finalCost = req.body.finalCost;
-  var estDays = req.body.estDays;
-  if (estDays == "")
-     estDays = null;
-  var startDate = req.body.startDate;
-  var comment = req.body.comment ;
+  models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
 
-  console.log("jobID: " + jobID );
-  console.log("hoID: " + hoID );
-  console.log("bidID: " + bidID );
-  console.log("coID: " + coID );
-  console.log("estCost: " + estCost);
-  console.log("finalCost: " + finalCost);
-  console.log("estDays: " + estDays);
-  console.log("startDate: " + startDate);
-  console.log("comment: " + comment);
+    if(user){
 
-  if(jobID && hoID  && bidID && coID && finalCost && startDate){
+        var jobID = req.body.jobID;
+        var hoID = req.session.userID;
+        var bidID = req.body.bidID;
+        var coID = req.body.coID;
+        var estCost = req.body.estCost;
+        var finalCost = req.body.finalCost;
+        var estDays = req.body.estDays;
+        if (estDays == "")
+           estDays = null;
+        var startDate = req.body.startDate;
+        var comment = req.body.comment ;
 
-    models.job_offers.create({
-       jobID:jobID, 
-       hoID: hoID,
-       bidID: bidID,
-       coID : coID,
-       estCost: estCost,
-       finalCost: finalCost,
-       estDays: estDays,
-       startDate: startDate,
-    }).then(function(offer,err){
+        console.log("jobID: " + jobID );
+        console.log("hoID: " + hoID );
+        console.log("bidID: " + bidID );
+        console.log("coID: " + coID );
+        console.log("estCost: " + estCost);
+        console.log("finalCost: " + finalCost);
+        console.log("estDays: " + estDays);
+        console.log("startDate: " + startDate);
+        console.log("comment: " + comment);
 
-      if(offer){
+        if(jobID && hoID  && bidID && coID && finalCost && startDate){
 
-          //update numOffers in homeowner
-          models.homeowners.findOne({
-              where: {
-                 id: req.session.userID,
-             }
-          }).then(function(user){
+          models.job_offers.create({
+             jobID:jobID, 
+             hoID: hoID,
+             bidID: bidID,
+             coID : coID,
+             estCost: estCost,
+             finalCost: finalCost,
+             estDays: estDays,
+             startDate: startDate,
+          }).then(function(offer,err){
 
-              user.updateAttributes({
-                numOffers : user.numOffers + 1
-              });
+            if(offer){
 
-              return res.redirect("/homeowner/jobsoffering");
+                //update numOffers in homeowner
+                models.homeowners.findOne({where: {id: req.session.userID,}})
+
+                .then(function(user){
+                    user.updateAttributes({numOffers : user.numOffers + 1});
+                    return res.redirect("/homeowner/jobsoffering");
+                });
+            }
+            else
+              res.send(err);
           });
-      }
-      else
-        res.send(err);
+        }
+        else
+          return res.send("required field missing");
+    }
+    else
+        return res.send("Homeowner user does not exists.");
 
-    })
-
-  }
-  else
-    return res.send("required field missing")
+    });
 
 
 });
@@ -248,27 +245,38 @@ router.post('/jobsoffering', function(req, res) {
 
 router.get('/jobsstarted', function(req, res) {
 
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
-  return res.render('homeowner/jobsstarted', 
-    {title: "Job started", user : user}
-    )
+   
+  models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+    if(user)
+       return res.render('homeowner/jobsstarted',{title: "Job started", jobs: null ,user : user, usertype : "homeowner"})
+     else
+        return res.send("Homeowner user does not exists.");
+  });
 
 });
 
 router.get('/jobscompleted', function(req, res) {
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
-  return res.render('homeowner/jobscompleted', 
-    {title: "completedjobs", user : user}
-    )
+
+  models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+    if(user)
+       return res.render('homeowner/jobscompleted', {title: "completedjobs", jobs: null, user : user, usertype : "homeowner"});
+     else
+        return res.send("Homeowner user does not exists.");
+  });
+
 });
 
 
 router.get('/overviewbids',function(req,res) {
 
-   if(!req.session.user && req.session.user.usertype != "homeowner")
-    return;
+   if(!req.session.userID)
+    return res.redirect('/login');
 
    models.homeowner_jobs.findAll({
       where: {
@@ -277,18 +285,25 @@ router.get('/overviewbids',function(req,res) {
      order: '"createdAt" DESC',
   }).then(function(data){
 
-      res.json(data);
+      return res.json(data);
   })
     
 });
 
 /*show graphs*/
 router.get('/overview', function(req, res) {
-  if(!req.session.user)
+
+  if(!req.session.userID)
     return res.redirect('/login');
 
-  return res.render('homeowner/overview', 
-    {title: "overview",user : user})
+  models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+    if(user)
+       return res.render('homeowner/overview',{title: "overview",user : user, usertype : "homeowner"})
+     else
+        return res.send("Homeowner user does not exists.");
+  });
+
 });
 
 
@@ -296,48 +311,69 @@ router.get('/overview', function(req, res) {
 
 
 router.get('/message', function(req, res) {
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
-  return res.render('homeowner/message', 
-    {title: "message", user : user}
-    )
+
+  models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+    if(user)
+        return res.render('homeowner/message', {title: "message", user : user, usertype : "homeowner"})
+    else
+        return res.send("Homeowner user does not exists.");
+
+  });
 });
 
 
 router.get('/points', function(req, res) {
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
-  return res.render('homeowner/points', 
-    {title: "points", user : user}
-    )
+
+  models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
+
+    if(user)
+         return res.render('homeowner/points', {title: "points", points: null , user : user, usertype : "homeowner"})
+    else
+        return res.send("Homeowner user does not exists.");
+
+  });
 });
 
 
+
+
+
 router.get('/profile', function(req, res) {
-  if(!req.session.user)
+
+  if(!req.session.userID)
     return res.redirect('/login');
 
-  models.homeowners.findOne({
-      where: {
-         id: req.session.userID,
-     }
-  }).then(function(user){
-    
-    res.render('homeowner/profile', {title:"profile", user:user, user : user});
+  models.homeowners.findOne({where: {id: req.session.userID,}})
+
+  .then(function(user){
+
+    if(user)
+       return res.render('homeowner/profile', {title:"profile", user : user, usertype : "homeowner"});
+    else
+        return res.send("Homeowner user does not exists.");
+
   });
 
 });
 
+
+
+
+/* update profile
+*/
 router.post('/profile', function(req, res) {
 
-  if(!req.session.user)
+  if(!req.session.userID)
      return res.redirect('/login');
 
-  models.homeowners.findOne({
-      where: {
-         id: req.session.userID,
-     }
-  }).then(function(user){
+  models.homeowners.findOne({where: {id: req.session.userID,}})
+  
+  .then(function(user){
       if(user){
           user.updateAttributes({
             firstName : req.body.Fname,
@@ -348,11 +384,12 @@ router.post('/profile', function(req, res) {
           })
           .then(function(user){
 
-            req.session.user = user;
-            
-            res.render('homeowner/profile', {title:"profile", user : user});
+            return res.redirect('profile');
           });
       }
+      else
+        return res.send("Homeowner user does not exists.");
+
     });
 });
 
@@ -362,8 +399,9 @@ view bids on the job created
 */
 router.get('/bids/:jobID', function(req, res) {
 
-  if(!req.session.user && req.session.user.usertype != "homeowner")
-    return;
+  if(!req.session.userID)
+    return res.redirect('/login');
+
   var jobID = req.params.jobID;
 
   var results = [];
@@ -390,7 +428,7 @@ router.get('/bids/:jobID', function(req, res) {
       console.log(max);
 
      return res.render('homeowner/bids',
-      {title: results.length + ' bids', bids: results, max: max[0], user : user});
+      {title: results.length + ' bids', bids: results, max: max[0], user : user, usertype : "homeowner"});
      }) ;   
   });
 
@@ -399,10 +437,10 @@ router.get('/bids/:jobID', function(req, res) {
 
 router.get('/dataBids/:jobID', function(req, res) {
 
-  // if(!req.session.user && req.session.user.usertype != "homeowner")
-  //   return;
-  var jobID = req.params.jobID;
+  // if(!req.session.userID)
+  //   return res.redirect('/login');
 
+  var jobID = req.params.jobID;
   var results = [];
   var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "state", "zipcode", "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
                   + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '

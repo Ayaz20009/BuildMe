@@ -24,7 +24,7 @@ router.use('/contractor', require('./contractor'));
 
 router.get('/', (req, res) => {
 
-   if(!req.session.user)
+   if(!req.session.userID)
      return res.render('index',{title: "Build Me"});
    else
      return res.render('index',{title: "Build Me", user : user});
@@ -34,7 +34,7 @@ router.get('/', (req, res) => {
 
 
 router.get('/contractor-signup',function(req,res){
-   if(!req.session.user)
+   if(!req.session.userID)
     return res.render('contractor-signup', {title: 'Contractor Sign Up'});
    else
      return res.render('contractor-signup', {title: 'Contractor Sign Up', user : user});
@@ -72,7 +72,7 @@ router.post('/contractor-signup',function(req,res,next){
 });
 
 router.get('/homeowner-signup',function(req,res){
-  if(!req.session.user)
+  if(!req.session.userID)
    return res.render('homeowner-signup',{title: "Homeowner Sign Up"});
  else
    return res.render('homeowner-signup',{title: "Homeowner Sign Up", user : user});
@@ -159,7 +159,7 @@ router.get('/jobs', function(req,res){
     // After all data is returned, close connection and return results
     query.on('end', () => {
         // return res.json(results);
-        if(!req.session.user)
+        if(!req.session.userID)
             return res.render('jobs', {title: 'Jobs', jobs:results, });
         else{
 
@@ -196,7 +196,7 @@ router.get('/jobs', function(req,res){
 */
 router.post('/jobs',function(req,res){
 
-  if(!req.session.user)
+  if(!req.session.userID)
       return res.redirect('/login');
 
    var jobID = req.body.jobID;
@@ -281,7 +281,7 @@ router.post('/jobs',function(req,res){
 });
 
 router.get('/howitworks', function(req, res) {
-   if(!req.session.user)
+   if(!req.session.userID)
      return res.render('HowitWorks', {title: 'How it Works'}) 
    else
      return res.render('HowitWorks', {title: 'How it Works',user : user})
@@ -292,8 +292,9 @@ router.get('/howitworks', function(req, res) {
 
 
 router.get('/login', function(req, res) {
-  if(!req.session.user)
+  if(!req.session.userID)
    return res.render('login', {title: 'Login'})
+
   else{
     if(req.session.usertype == "homeowner")
        res.redirect("/homeowner/dashboard");
@@ -324,7 +325,7 @@ router.post('/login', function(req, res) {
 
           if(user){
               req.session.userID = user.id;
-
+              req.session.usertype == "homeowner";
               return res.redirect('/homeowner/dashboard');
           }
           else
@@ -343,6 +344,8 @@ router.post('/login', function(req, res) {
 
         if(user){
             req.session.userID = user.id;
+            req.session.usertype == "contractor";
+
             res.redirect('/contractor/dashboard');
         }
         else

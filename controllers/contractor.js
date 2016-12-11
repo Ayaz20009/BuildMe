@@ -13,12 +13,12 @@ client.connect();
 router.route('/contractor');
 
 router.get('/', function(req, res) {
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
 });
 
 router.get('/dashboard', function(req, res) {
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
   return res.render('contractor/overview', {title: req.session.user.firstName + "'s dashboard", user : user})
 });
@@ -29,7 +29,7 @@ router.get('/dashboard', function(req, res) {
 */
 router.get('/bidding', function(req,res){
 
-   if(!req.session.user)
+   if(!req.session.userID)
       return res.redirect('/login');
 
   var results = [];
@@ -84,7 +84,7 @@ router.get('/bidding', function(req,res){
 
 router.get('/bidswon', function(req,res){
 
-  if(!req.session.user)
+  if(!req.session.userID)
     return res.redirect('/login');
 
   models.job_offers.findAll({
@@ -104,35 +104,35 @@ router.get('/bidswon', function(req,res){
 
 router.get('/jobsbookmark', function(req,res){
 
-    if(!req.session.user)
+    if(!req.session.userID)
      return res.redirect('/login');
    return res.render('contractor/jobsbookmark', {title: "Bookmark Jobs", user : user});
 });
 
 router.get('/jobsstarted', function(req,res){
 
-    if(!req.session.user)
+    if(!req.session.userID)
      return res.redirect('/login');
    return res.render('contractor/jobsstarted', {title: "Jobs Started", user : user});
 });
 
 router.get('/jobscompleted', function(req,res){
 
-  if(!req.session.user)
+  if(!req.session.userID)
      return res.redirect('/login');
   return res.render('contractor/jobscompleted', {title: "Jobs Completed", user : user});
 });
 
 router.get('/overview', function(req,res){
 
-   if(!req.session.user)
+   if(!req.session.userID)
      return res.redirect('/login');
    return res.render('contractor/overview', {title: "Overview", user : user});
 });
 
 router.get('/message', function(req,res){
 
-   if(!req.session.user)
+   if(!req.session.userID)
      return res.redirect('/login');
    return res.render('contractor/message', {title: "Message", user : user});
 });
@@ -140,14 +140,14 @@ router.get('/message', function(req,res){
 
 router.get('/points', function(req,res){
 
-   if(!req.session.user)
+   if(!req.session.userID)
      return res.redirect('/login');
    return res.render('contractor/points', {title: "Message", user : user});
 });
 
 router.get('/profile',function(req,res){
 
-  if(!req.session.user)
+  if(!req.session.userID)
      return res.redirect('/login');
 
  models.contractors.findOne({
@@ -165,7 +165,7 @@ router.get('/profile',function(req,res){
 //update profile
 router.post('/profile',function(req,res){
 
-  if(!req.session.user)
+  if(!req.session.userID)
      return res.redirect('/login');
 
   models.contractors.findOne({

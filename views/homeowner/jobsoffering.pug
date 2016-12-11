@@ -1,6 +1,6 @@
-include dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
- div.col-lg-11
+extends dashboard.pug
+block right 
+ div
   if (!offers)
    h1.text-center You have no job offering yet.
   else

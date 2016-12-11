@@ -1,6 +1,6 @@
-include dashboard.pug
-div.col-sm-9.col-md-10.col-sm-offset-3.col-md-offset-2
-  form.form-horizontal.col-lg-11(action="/homeowner/newjob",method="post")
+extends  dashboard.pug
+block right
+  form.form-horizontal.col-lg-11.well(action="/homeowner/newjob",method="post")
    fieldset
     legend Creat A projects 
     div.form-group.required
