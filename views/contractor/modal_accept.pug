@@ -1,0 +1,16 @@
+div#modal_accept.modal.fade(role="dialog")
+ div.modal-dialog 
+  div.modal-content
+   div.modal-header.bg-success
+    span
+     i.fa.fa-check   Accpte this job
+    a.close(data-dismiss="modal") X 
+   div.modal-body.row.text-center(style="padding-top:2%")
+    form(method="post",action="/contractor/acceptjob")
+     div#jobInfo.text-center.well
+     div.col-lg-12
+      button#btnBid.btn.btn-md.btn-success.col-lg-6(style="color:black;",type="submit") Confirm
+      a.btn.btn-default.btn-md.col-lg-6(data-dismiss="modal",type="reset") Cancel
+   //- div.modal-footer
+     
+     

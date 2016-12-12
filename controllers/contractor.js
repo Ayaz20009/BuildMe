@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
 
 
 router.get('/dashboard', function(req, res) {
-  
+
     if(!req.session.userID)
     return res.redirect('/login');
 
@@ -104,12 +104,23 @@ router.get('/bidswon', function(req,res){
 
   models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
 
-    if(user)
+    if(user){
 
-      models.job_offers.findAll({where :{coID : req.session.userID}}).then(function(offers){
+      var queryString = ' SELECT "offers".id AS "offerID","jobs"."id" AS "jobID", "jobDesc", "city", "state", "zipcode",'
+                       +' "offers"."bidID", "finalCost", "estCost", "estDays", "offers"."startDate"'
+                       +' FROM homeowner_jobs AS "jobs"'
+                       +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
+                       // +' JOIN job_bids AS "bids" ON "bids".id = "offers"."bidID"'
+                       +' WHERE "offers"."coID" = '+ req.session.userID
+                       +' AND "offers"."accepted" IS null';
+
+      sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
+
+      .then(function(offers) {
         // return res.send(offers);
-        return res.render('contractor/bidswon', {offers: offers,  user : user, usertype: req.session.usertype});
+         return res.render('contractor/bidswon', {offers: offers,  user : user, usertype: req.session.usertype});
       });
+    }
     else
        return res.send("Contractor user does not exists.");
 
@@ -117,6 +128,62 @@ router.get('/bidswon', function(req,res){
 
 });
 
+
+router.post("/acceptjob",function(req,res){
+
+  var offerID = req.body.offerID;
+  if(!req.session.userID)
+    return res.redirect('/login');
+
+   models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+    if (user){
+    //update job_ offers 
+
+       models.job_offers.findOne({where: {id: offerID,}}).then(function(offer){
+
+         if(offer){
+
+            //create one job started
+               // models.job_processing.create({jobID:offer.jobID,});
+            // .then(function(p){
+
+            //     if(p){
+                // update offer accept
+                offer.updateAttributes({accepted : true,});
+
+                //udpate contractor numStarted
+                user.updateAttributes({numStarted: user.numStarted + 1,});
+                 
+                //update homeowner numStared
+                models.homeowners.findOne({where: {id: offer.hoID,}}).
+                then(function(hoUser){
+                  hoUser.updateAttributes({numStarted: hoUser.numStarted + 1,});
+                });
+
+                //update homeowner_jobs;
+                models.homeowner_jobs.findOne({where: {id: offer.jobID,}}).
+                then(function(job){
+                  job.updateAttributes({bidID: offer.bidID,});
+                });
+
+            // });
+
+            return res.redirect("started");
+         }
+         else
+           return res.send("The Job offer does not exists.");
+
+
+      });
+      
+    }
+    else
+       return res.send("Contractor user does not exists.");
+  });
+
+
+});
 
 /*bookmark*/
 
@@ -142,13 +209,27 @@ router.get('/started', function(req,res){
   if(!req.session.userID)
     return res.redirect('/login');
 
-  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+   models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
 
-    if (user)
-       return res.render('contractor/started', {jobs : [],user : user, usertype: req.session.usertype});
+    if(user){
+
+      var queryString = ' SELECT "offers".id AS "offerID","jobs"."id" AS "jobID", "jobDesc", "city", "state", "zipcode",'
+                       +' "offers"."bidID", "finalCost", "estCost", "estDays", "offers"."startDate"'
+                       +' FROM homeowner_jobs AS "jobs"'
+                       +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
+                       // +' JOIN job_bids AS "bids" ON "bids".id = "offers"."bidID"'
+                       +' WHERE "offers"."coID" = '+ req.session.userID
+                       +' AND "offers"."accepted" IS TRUE';
+
+      sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
+       .then(function(jobs) {
+        // return res.send(offers);
+         return res.render('contractor/started', {jobs: jobs,  user : user, usertype: req.session.usertype});
+      });
+    }
     else
-      return res.send("Contractor user does not exists.");
-  });
+       return res.send("Contractor user does not exists.");
+   });
 
 });
 

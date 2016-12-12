@@ -3,14 +3,10 @@ const bcrypt = require('bcrypt-nodejs');
 const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
-  var job_bids = sequelize.define('job_bids', {
+  var job_process = sequelize.define('job_process', {
     jobID: DataTypes.INTEGER,
-    coID: DataTypes.INTEGER,
-    estCost: DataTypes.INTEGER,
-    estDays: DataTypes.INTEGER,
-    estHours: DataTypes.INTEGER,
-    startDate: DataTypes.DATE,
-    comment : DataTypes.TEXT,
+    percentage : DataTypes.DOUBLE,
+    createAt: DataTypes.DATE,
   }, {
     classMethods: {
       associate: function(models) {
@@ -18,5 +14,6 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return job_bids;
+
+  return job_process;
 };

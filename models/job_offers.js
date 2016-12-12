@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
     finalCost: DataTypes.INTEGER,
     estDays: DataTypes.INTEGER,
     // estHours: DataTypes.INTEGER,
-    startDate: DataTypes.INTEGER,
+    startDate: DataTypes.DATE,
     comment : DataTypes.TEXT,
     accepted: DataTypes.BOOLEAN,
   }, {

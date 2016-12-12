@@ -1,7 +1,60 @@
 extends dashboard.pug
 block title
-	title=jobs.length+ " jobs started"
+  title="jobing " + jobs.length+ " jobs"
 block right 
-	div
-		if (jobs.length == 0)
-			h1.text-center You have no started project yet.
+ div
+  if (jobs.length == 0)
+   h1.text-center You have no staring job yet.
+  else
+   each job in jobs
+      div.panel.panel-success.panel-job(id=job.id)
+        div.panel-heading(style="padding:0")
+         div.dropdown.pull-right
+          a.btn.dropbtn
+           span.caret
+          div.dropdown-content
+           button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
+           button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
+        div.panel-body
+         div.row
+          label.col-lg-2.control-label Description
+          div.col-lg-10=job.jobDesc
+         div.row
+          label.col-lg-2.control-label Location
+          div.col-lg-10=job.street + " "+ job.city +" "+ job.state + " "+ job.zipcode
+         div.row
+           if (job.comment)
+            label.col-lg-2.control-label Comment
+            div.col-lg-10=job.comment
+         div.row.panel-default.panel
+           div.col-lg-6
+            label.col-lg-4.control-label Contractor
+            div.col-lg-8=job.firstName + " " + job.lastName
+           div.col-lg-6
+            label.col-lg-4.control-label Company
+            div.col-lg-8=job.companyName
+           div.col-lg-6
+            label.col-lg-4.control-label License
+            div.col-lg-8=job.licenseNumber
+           div.col-lg-6
+            label.col-lg-4.control-label Phone
+            div.col-lg-8=job.phoneNumber
+           div.col-lg-6
+            label.col-lg-4.control-label Est. Cost
+            div.col-lg-8="$ " + job.estCost
+           div.col-lg-6
+            label.col-lg-4.control-label Final Cost
+            div.col-lg-8="$ " + job.finalCost
+         div.row
+          if (job.estDays)
+            label.col-lg-2.control-label Est. Days
+            div.col-lg-10=job.estDays + " days"
+         div.row
+            label.col-lg-2.control-label Start Date
+            div.col-lg-10=job.startDate
+         div.row
+            label.col-lg-2.control-label Process
+            div.col-lg-10.progress
+              div.progress-bar.progress-bar-info(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-info"><div class="panel-heading">Job progress</div><div class="panel-body h4 text-info">'+ 0+'</div></div>',role="progressbar", aria-valuenow="30", aria-valuemin="0",aria-valuemax="100",style=";width:0%")
+
+

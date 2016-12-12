@@ -2,14 +2,15 @@ ul.nav.nav-sidebar.list-group.table-of-contents#sidebar
   li.list-group-item
     a.btn(href="/homeowner/newjob") Create a New Job
      i.fa.fa-plus-square-o 
+     span.badge=user.numCreated
   li.list-group-item
     a.btn(href="/homeowner/bidding") Jobs Bidding
      i.fa.fa-suitcase
-     span.badge=user.numCreated
+     span.badge=(user.numCreated - user.numStarted)
   li.list-group-item
     a.btn(href="/homeowner/offering") Jobs Offering
      img(src="/img/offer.png", style="float:left;width:25px;height:25px;",)
-     span.badge=user.numOffers
+     span.badge=(user.numOffers - user.numStarted)
   li.list-group-item
     a.btn(href="/homeowner/started") Jobs Started
      i.fa.fa-tasks 

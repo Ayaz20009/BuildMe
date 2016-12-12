@@ -42,8 +42,9 @@ $("input.numeric").keyup(function (e) {
 
 $('a[data-toggle=tab]').click(function(){
 
-  $(this).closest(".panel").find('input').val("");
- 
+  $(this).closest(".panel").find('input[name=email]').val("");
+  $(this).closest(".panel").find('input[name=password]').val("");
+
   if($(this).text() == "Homeowner")
     $(this).closest('.panel').removeClass('panel-primary').addClass('panel-success');
   else

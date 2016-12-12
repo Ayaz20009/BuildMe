@@ -278,13 +278,13 @@ router.post('/jobs',function(req,res){
       if(estHours == "")
         estHours = 0;
   
-   console.log("jobID: " + jobID);
-   console.log("coID: " + coID);
-   console.log("estCost: " + estCost);
-   console.log("estDays " + estDays);
-   console.log("estHours " + estHours);
-   console.log("startDate: " + startDate);
-   console.log("comment: " + comment);
+   // console.log("jobID: " + jobID);
+   // console.log("coID: " + coID);
+   // console.log("estCost: " + estCost);
+   // console.log("estDays " + estDays);
+   // console.log("estHours " + estHours);
+   // console.log("startDate: " + startDate);
+   // console.log("comment: " + comment);
 
    //valid input
   if(jobID && coID && estCost && 
@@ -377,9 +377,8 @@ router.get('/howitworks', function(req, res) {
 
 
 
-
-
 router.get('/login', function(req, res) {
+
   if(!req.session.userID)
    return res.render('login');
 
@@ -399,9 +398,9 @@ router.get('/login', function(req, res) {
 router.post('/login', function(req, res) {
 
   var usertype = req.body.usertype;
+  console.log(usertype);
   var email = req.body.email.toLowerCase();
   var pass = req.body.pass;
-
   if(usertype == "homeowner"){
 
       models.homeowners.findOne({
@@ -446,9 +445,6 @@ router.post('/login', function(req, res) {
 
 
 router.get('/logout', function(req, res) {
-
-    req.session.userID = null;
-    req.session.usertype = null;
 
     req.session.destroy(function(err) {
       if(err) {

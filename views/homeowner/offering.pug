@@ -4,7 +4,7 @@ block title
 block right 
  div
   if (offers.length == 0)
-   h1.text-center You have no job offering yet.
+   h1.text-center You have no new job offering yet.
   else
    each offer in offers
       div.panel.panel-default.panel-offer(id=offer.id)
@@ -45,8 +45,7 @@ block right
             label.col-lg-2.control-label Est. Days
             div.col-lg-10=offer.estDays + " days"
          div.row
-          if (offer.estDays)
-            label.col-lg-2.control-label startDate
+            label.col-lg-2.control-label Start Date
             div.col-lg-10=offer.startDate
          div.row
           label.col-lg-2.control-label Comment

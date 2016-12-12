@@ -1,6 +1,49 @@
 extends dashboard.pug
 block title
-  title=jobs.length + " jobs started"
+  title=jobs.length + " started jobs"
 block right
- if (jobs.length == 0)
-   h1.text-center You have no jobs started yet.
+ div
+  if (jobs.length == 0)
+   h1.text-center You have no new job started yet.
+  else
+   each job in jobs
+      div.panel.panel-success.panel-job
+        div.panel-heading(style="padding:0")
+         div.dropdown.pull-right
+          a.btn.dropbtn
+           span.caret
+          div.dropdown-content
+           button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
+           button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
+        div.panel-body
+         div.jobInfo
+           input.hidden(name="jobID",value=job.jobID)
+           div.row
+            label.col-lg-3.control-label Description
+            div.col-lg-9=job.jobDesc
+           div.row
+            label.col-lg-3.control-label Location
+            div.col-lg-9=job.city + " " + job.state + " " + job.state + " " + job.zipcode
+           div.row
+            label.col-lg-3.control-label Final Cost
+            div.col-lg-9="$ " + job.finalCost
+         div.row
+          label.col-lg-3.control-label Est.Cost
+          div.col-lg-9="$ " + job.estCost
+         div.row
+          if ( job.estDays)
+            label.col-lg-3.control-label Est. Days
+            div.col-lg-9=job.estDays + " days"
+         div.row
+          if (job.startDate)
+           label.col-lg-3.control-label Start Date
+           div.col-lg-9=job.startDate
+         div.row
+          if ( job.comment)
+           label.col-lg-3.control-label Note
+           div.col-lg-9=job.comment
+         div.row
+          label.col-lg-3.control-label Progress
+          div.col-lg-9.progress
+              div.progress-bar.progress-bar-info(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-info"><div class="panel-heading">Job progress</div><div class="panel-body h4 text-info">'+ 0+'</div></div>',role="progressbar", aria-valuenow="30", aria-valuemin="0",aria-valuemax="100",style="width:0%")
+

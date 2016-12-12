@@ -4,10 +4,10 @@ block title
 block right
  div
   if (offers.length == 0)
-   h1.text-center You have no job offered yet.
+   h1.text-center You have no new job offered yet.
   else
    each offer in offers
-      div.panel.panel-default.panel-offer(id=offer.id)
+      div.panel.panel-default.panel-offer
         div.panel-heading(style="padding:0")
          div.dropdown.pull-right
           a.btn.dropbtn
@@ -16,27 +16,35 @@ block right
            button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
            button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_offer") Delete
         div.panel-body
+         div.jobInfo
+           input.hidden(name="offerID",value=offer.offerID)
+           div.row
+            label.col-lg-3.control-label Description
+            div.col-lg-9=offer.jobDesc
+           div.row
+            label.col-lg-3.control-label Location
+            div.col-lg-9=offer.city + " " + offer.state + " " + offer.state + " " + offer.zipcode
+           div.row
+            label.col-lg-3.control-label Final Cost
+            div.col-lg-9="$ " + offer.finalCost
          div.row
-          label.col-lg-2.control-label jobID
-          div.col-lg-10=offer.jobID
+          label.col-lg-3.control-label Est.Cost
+          div.col-lg-9="$ " + offer.estCost
          div.row
-          label.col-lg-2.control-label BID
-          div.col-lg-10=offer.bidID
+          if ( offer.estDays)
+            label.col-lg-3.control-label Est. Days
+            div.col-lg-9=offer.estDays + " days"
          div.row
-          label.col-lg-2.control-label coID
-          div.col-lg-10=offer.coID
+          if (offer.startDate)
+           label.col-lg-3.control-label Start Date
+           div.col-lg-9=offer.startDate
          div.row
-          label.col-lg-2.control-label Estimate Cost
-          div.col-lg-10=offer.estCost
-         div.row
-          label.col-lg-2.control-label Final Cost
-          div.col-lg-10=offer.finalCost
-         div.row
-          label.col-lg-2.control-label Estimate Days
-          div.col-lg-10=offer.estDays
-         div.row
-          label.col-lg-2.control-label startDate
-          div.col-lg-10=offer.startDate
-         div.row
-          label.col-lg-2.control-label Comment
-          div.col-lg-10=offer.comment
+          if ( offer.comment)
+           label.col-lg-3.control-label Note
+           div.col-lg-9=offer.comment
+        div.panel-footer.text-center(style="height:10vh")
+         button.btnAccept.btn.btn-success.btn-sm(role="tooltip",title="Accept the job",data-toggle="modal",data-target="#modal_accept")  Accept
+          i.fa.fa-check-circle-o.pull-left
+         button.btnRejec6.btn.btn-danger.btn-sm(role="tooltip",title="Reject the job",data-toggle="modal",data-target="#modal" ) Reject
+              i.fa.fa-times-circle-o.pull-left 
+ include modal_accept.pug

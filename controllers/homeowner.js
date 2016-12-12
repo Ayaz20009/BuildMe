@@ -46,7 +46,7 @@ router.get('/bidding', function(req, res) {
 
     if(user){
 
-        models.homeowner_jobs.findAll({where: {hoID: user.id,},order: '"createdAt" DESC',})
+        models.homeowner_jobs.findAll({where: {hoID: user.id, bidID: null},order: '"createdAt" DESC',})
 
         .then(function(jobs){
 
@@ -66,10 +66,8 @@ router.get('/bidding', function(req, res) {
     }
     else
       res.send("Homeowner user does not exists.")
-
   });
   
-
 });
 
 
@@ -184,12 +182,6 @@ router.get('/offering', function(req, res) {
            res.send(results);
        });
 
-    //   models.job_offers.findAll({where : {hoID : req.session.userID, accepted : null,},})
-
-    //   .then(function(offers){
-
-    //   });
-
     }
     else
       return res.send("Homeowner user does not exists.");
@@ -273,8 +265,22 @@ router.get('/started', function(req, res) {
    
   models.homeowners.findOne({where: { id : req.session.userID} }).then(function(user) {
 
-    if(user)
-       return res.render('homeowner/started',{jobs: [] ,user : user, usertype : "homeowner"})
+    if(user){
+
+      var queryString = ' SELECT "jobs"."id" AS "jobID", "jobDesc", "street", "city", "state", "estCost", "finalCost", "startDate"'
+                       +' "bidID", "contractors".id AS "coID", "firstName", "lastName" , "companyName", "licenseNumber", "phoneNumber"'
+                       +' FROM homeowner_jobs AS "jobs"'
+                       +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
+                       +' JOIN contractors ON "contractors".id = "offers"."coID"'
+                       +' WHERE "offers"."hoID" = '+ req.session.userID
+                       +' AND "offers"."accepted" IS TRUE;'
+
+      sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
+       .then(function(jobs) {
+        // return res.send(jobs);
+        return res.render('homeowner/started',{jobs: jobs , user : user, usertype : "homeowner"})
+      });
+    }
      else
         return res.send("Homeowner user does not exists.");
   });

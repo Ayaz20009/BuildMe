@@ -49,10 +49,10 @@
 #sidebar{
      /*font-size: 1.5vw;*/
      /*z-index: 1000;*/
-    position: fixed;
+    /*position: fixed;*/
     /*left: 250px;*/
     /*width: 0;*/
-    height: 100%;
+    /*height: 100%;*/
     /*margin-left: -250px;*/
     overflow-y: auto;
     /*background: lightblue;*/

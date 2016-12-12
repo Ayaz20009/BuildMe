@@ -14,6 +14,12 @@ $(document).ready(function(){
 	var option = url.split("contractor/")[1].split("/")[0];
 	$('#sidebar a[href*="'+ option  +'"]').addClass("btn-primary");
 
+	$('.btnAccept').click(function(){
+
+        $("#modal_accept #jobInfo").html($(this).closest(".panel-offer").find(".jobInfo").html());
+
+	});
+
 
 });
 
