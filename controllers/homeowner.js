@@ -434,15 +434,24 @@ router.get('/job_bids/:jobID', function(req, res) {
     if(user){
 
       var jobID = req.params.jobID;
+      
+      var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "state", "zipcode", "bids"."id" AS "bidID", "bids"."coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
+                  + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '
+                  + 'FROM "job_bids" AS "bids" '
+                  + 'JOIN "contractors" on "contractors"."id" = "bids"."coID" '
+                  + 'JOIN "homeowner_jobs" AS "job" on "job"."id" = "bids"."jobID"' 
+                  + 'WHERE "bids"."jobID" =' + jobID 
+                  + 'ORDER BY "bids"."createdAt" ASC';
 
-      var results = [];
-       
+      sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
+
+      .then(function(results) {
+
 
         var queryMax = 'SELECT MAX("estCost") AS "estCost",MAX("estDays") AS "estDays","jobID"' 
                         + 'FROM contractors JOIN job_bids on contractors.id = job_bids."coID"'
                         + 'WHERE "jobID" = ' + jobID
                         + 'GROUP BY "jobID"';
-
         //get max 
         sequelize.query(queryMax, { type: sequelize.QueryTypes.SELECT}).
         then(function(max){
@@ -450,6 +459,7 @@ router.get('/job_bids/:jobID', function(req, res) {
           console.log(max);
 
          return res.render('homeowner/job_bids',{bids: results, max: max[0], user : user, usertype : "homeowner"});
+        });
       });
     }
     else
