@@ -9,9 +9,9 @@ div#modal_offer.modal.fade(role="dialog")
     form(method="post",action="/homeowner/offering")
      div#bidInfo
      div.col-lg-12.form-group.required
-       label.control-label.col-lg-4(for="cost") Final Cost ($) :
+       label.control-label.col-lg-4(for="estCost") Final Cost ($) :
        div.col-lg-6
-         p#estCost.form-control
+         div.form-control(name="estCost")
        div#btnChangeCost.col-lg-2.btn.btn-primary.btn-md
         i.fa.fa-pencil
      div.col-lg-12.form-group.required.finalCost.hidden

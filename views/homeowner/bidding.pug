@@ -10,27 +10,33 @@ block right
       each job in jobs
         div.panel.panel-default(id=job.id)
           div.panel-heading(style="padding:0")
-            if (job.numBids > 0)
-              a.btn-warning.btn-sm.btn.col-lg-1(onClick='window.open("/homeowner/bids/'+ job.id +'");')=job.numBids
-                i.fa.fa-gavel.pull-left
-            else
-              a.btn-warning.btn-sm.btn.col-lg-1.disabled=job.numBids
-                i.fa.fa-gavel.pull-left
             div.dropdown.pull-right
               a.btn.dropbtn
                 span.caret
               div.dropdown-content
                 button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
                 button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
-          div.panel-body.jobInfo
+          div.panel-body.jobInfo(style="padding-left:0")
             input.hidden(name="jobID",value=job.id)
-            div.col-lg-12
-              label.col-lg-2.control-label Descrption
-              div.col-lg-10=job.jobDesc.trim()
-            div.col-lg-12
-              label.col-lg-2.control-label Address
-              div.col-lg-10=job.street + "  " + job.city + " " + job.state + " " + job.zipcode
+            div.col-lg-2 
+              if (job.numBids > 0)
+                a.btn-warning.btn-block.btn.col-lg-1(onClick='window.open("/homeowner/job_bids/'+ job.id +'");')=job.numBids
+                  i.fa.fa-gavel.pull-left
+              else
+                a.btn-warning.btn-block.btn.col-lg-1.disabled=job.numBids
+                  i.fa.fa-gavel.pull-left
+              if (offerID.indexOf(job.id) != -1)
+                a.btn-success.btn-block.btn.col-lg-1
+                  img(src="/img/offerBid.png" style="width:25px;height:25px")
+            div.col-lg-10
+              div.col-lg-12
+                label.col-lg-2.control-label Descrption
+                div.col-lg-10=job.jobDesc.trim()
+              div.col-lg-12
+                label.col-lg-2.control-label Address
+                div.col-lg-10=job.street + "  " + job.city + " " + job.state + " " + job.zipcode
           div.panel-footer.time="Created At: " + job.createdAt.toString().substr(0,25)
+
             //- div.col-lg-6
             //-   label.col-lg-2.control-label Updated At
             //-   div.col-lg-10=job.updatedAt

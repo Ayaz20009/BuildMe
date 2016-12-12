@@ -6,8 +6,6 @@ block right
    if (bids.length == 0)
      h1.text-center You have no bids on jobs.
    else
-     - var width = bids.length * 550;
-     div.col-lg-12(style="width:"+ width+"px;overflow-x:auto;min-width:100%;min-height:80%;")
        each bid in bids
          div.panel.panel-warning.bidInfo.col-lg-12(id="bidID_"+bid.bidID,style="padding:0;")
             div.panel-heading(style="padding:1%") 

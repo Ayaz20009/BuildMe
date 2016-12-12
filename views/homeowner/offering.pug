@@ -3,7 +3,7 @@ block title
   title="Offering " + offers.length+ " jobs"
 block right 
  div
-  if (!offers)
+  if (offers.length == 0)
    h1.text-center You have no job offering yet.
   else
    each offer in offers
@@ -17,26 +17,37 @@ block right
            button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_offer") Delete
         div.panel-body
          div.row
-          label.col-lg-2.control-label jobID
-          div.col-lg-10=offer.jobID
+          label.col-lg-2.control-label Description
+          div.col-lg-10=offer.jobDesc
          div.row
-          label.col-lg-2.control-label BID
-          div.col-lg-10=offer.bidID
+          label.col-lg-2.control-label Location
+          div.col-lg-10=offer.street + " "+ offer.city +" "+ offer.state + " "+ offer.zipcode
          div.row
-          label.col-lg-2.control-label coID
-          div.col-lg-10=offer.coID
+          label.col-lg-2.control-label Contractor
+          div.col-lg-10=offer.firstName + " " + offer.lastName
          div.row
-          label.col-lg-2.control-label Estimate Cost
-          div.col-lg-10=offer.estCost
+          label.col-lg-2.control-label Company
+          div.col-lg-10=offer.companyName
+         div.row
+          label.col-lg-2.control-label License
+          div.col-lg-10=offer.licenseNumber
+         div.row
+          label.col-lg-2.control-label Phone
+          div.col-lg-10=offer.phoneNumber
+         div.row
+          label.col-lg-2.control-label Est. Cost
+          div.col-lg-10="$ " + offer.estCost
          div.row
           label.col-lg-2.control-label Final Cost
-          div.col-lg-10=offer.finalCost
+          div.col-lg-10="$ " + offer.finalCost
          div.row
-          label.col-lg-2.control-label Estimate Days
-          div.col-lg-10=offer.estDays
+          if (offer.estDays)
+            label.col-lg-2.control-label Est. Days
+            div.col-lg-10=offer.estDays + " days"
          div.row
-          label.col-lg-2.control-label startDate
-          div.col-lg-10=offer.startDate
+          if (offer.estDays)
+            label.col-lg-2.control-label startDate
+            div.col-lg-10=offer.startDate
          div.row
           label.col-lg-2.control-label Comment
           div.col-lg-10=offer.comment

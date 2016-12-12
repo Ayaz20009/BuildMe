@@ -1,0 +1,100 @@
+extends dashboard
+block title
+  title=bids.length + " bids : " + bids[0].jobDesc.substr(0,10)
+block append scripts
+//- //script(type="text/javascript",src="/js/jq_chartBids.js")
+block content
+  - var maxReview = 5;
+  div.content.container
+   div.well.h2.col-lg-12.text-center=bids[0].jobDesc
+    div.h3=bids[0].street + " " + bids[0].city + " " + bids[0].state + " " + bids[0].zipcode 
+   hr
+   div.col-lg-12.text-center
+     - var i = 0;
+     each bid in bids
+       - i++;
+       div.panel.panel-warning.panel-bid(id="bidID_"+bid.bidID,style="margin:1vw;width:36vw;height:36vw;display:inline-block;border-radius:20%;border:3px solid #FF9900")
+          div(style="height:10vw;font-size:1.2vw;padding:5%")
+            - var Name = bid.firstName  + "   " + bid.lastName;
+            div.bidInfo.hidden
+              div.col-lg-12.form-group
+               label.cotrol-label.col-lg-4 Contractor
+               div.col-lg-8=Name
+              input.hidden(name="jobID",value=bid.jobID)
+              input.hidden(name="bidID",value=bid.bidID)
+              input.hidden(name="coID",value=bid.coID)
+              input.hidden(name="estCost",value=bid.estCost)
+              input.hidden(name="estDays",value=bid.estDays)
+            div.col-lg-2.text-center
+              span.text-warning(style="font-size:1.5vw")
+                 i.fa.fa-gavel=' ' + i
+              button.btn.btn-success.btnChooseBid(style="margin-top:3%;padding:0;",role="tooltip",title="Choose this bid.",data-toggle="modal",data-target="#modal_offer",data-placement="right")
+                img(src="/img/offerBid.png" style="width:70px;height:70px")
+            div.col-lg-8
+
+              div.col-lg-12
+                label.col-lg-2.control-label
+                  i.fa.fa-user
+                div.col-lg-10(name="coName")=Name
+              div.col-lg-12
+                label.col-lg-2.control-label
+                  i.fa.fa-building-o
+                div.col-lg-10=bid.companyName
+              div.col-lg-12
+                label.col-lg-2.control-label
+                 i.fa.fa-id-card
+                div.col-lg-10=bid.licenseNumber
+              div.col-lg-12
+                label.col-lg-2.control-label
+                  i.fa.fa-phone
+                div.col-lg-10=bid.phoneNumber
+              div.col-lg-12
+                label.col-lg-2.control-label
+                   i.fa.fa-star
+                div.col-lg-10(name="points")
+            div.col-lg-2
+              button.btn.avatar(role="tooltip",title="View Profile", data-placement="bottom",style="height:4vw;width:4vw;font-size:2vw")=bid.firstName[0] + bid.lastName[0]
+              a.btn.text-primary(role="tooltip",title="Send Message To " + Name, data-placement="left", style="margin-top:10%;padding:0")
+                 i.fa.fa-comments(style="font-size:5vw")
+          hr
+          div.panel-body(style="height:20vw;padding:1%;overflow-y:auto;")
+            div.col-lg-12
+              label.col-lg-3.control-label Est. Cost
+              div.col-lg-3="$ " + bid.estCost
+                - var costPc = bid.estCost/max.estCost * 100
+              div.progress
+                div.progress-bar(role="progressbar", aria-valuenow="70",data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-info"><div class="panel-heading">Estimate Cost</div><div class="pane-body h4 text-info">'+ bid.estCost +'</div></div>',
+      aria-valuemin="0", aria-valuemax="100", style="background-color:#4286f4;width:"+ costPc +"%")
+            div.col-lg-12
+              label.col-lg-3.control-label Est. Days
+              div.col-lg-3="$ " + bid.estDays
+                - var dayPc = bid.estDays/max.estDays * 100
+              div.progress
+                div.progress-bar(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-danger"><div class="panel-heading">Estimate Days</div><div class="panel-body h4 text-info">'+ bid.estDays +'</div></div>',role="progressbar", aria-valuenow="30", aria-valuemin="0",aria-valuemax="100",style="background-color:#DC3912;width:"+ dayPc +"%")
+            div.col-lg-12
+              label.col-lg-3.control-label Points
+               - var points = (Math.random()*10000).toFixed(0)
+               - var ptPC = points/10000*100;
+              div.col-lg-3=points
+              div.progress
+                div.progress-bar.progress-bar-success(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-success"><div class="panel-heading">Average Review </div><div class="panel-body h4 text-success">'+ points+'</div></div>',role="progressbar", aria-valuenow="30", aria-valuemin="0",aria-valuemax="100",style="width:"+ ptPC +"%")
+            div.col-lg-12
+              label.col-lg-3.control-label Review
+               - var review = (Math.random()*5).toFixed(2)
+               - var reviewPC = review/5*100;
+              div.col-lg-3=review
+              div.progress
+                div.progress-bar.progress-bar-warning(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-warning"><div class="panel-heading">Average Review </div><div class="panel-body h4 text-danger">'+ review +'</div></div>',role="progressbar", aria-valuenow="30", aria-valuemin="0",aria-valuemax="100",style="background-color:yellow;width:"+ reviewPC +"%")
+            div.col-lg-12
+              label.col-lg-4.control-label Avaliable Date
+              div.col-lg-8(name="startDate")=bid.startDate.toString().substr(0,15)
+            div.col-lg-12
+              label.col-lg-4.control-label Proposal
+              div.col-lg-8
+                a Proposal(PDF)
+            div.col-lg-12
+              label.col-lg-4.control-label Comment
+              div.col-lg-8(style="height:5vw")=bid.comment
+          div.time="Bid At : " + bid.createdAt.toString().substr(0,24)
+
+  include modal_offer.pug

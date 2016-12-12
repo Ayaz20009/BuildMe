@@ -12,18 +12,21 @@ $(document).ready(function(){
 	var option = url.split("homeowner/")[1].split("/")[0];
 	$('#sidebar a[href*="'+ option  +'"]').addClass("btn-success");
 
-
     $(".btnChooseBid").click(function(){
-    
-        var panelBid = $(this).closest('.panel-bid');
-        var estCost = panelBid.find("[name=estCost]").text();
-        var startDate = new Date(panelBid.find("[name=startDate]").text());
-        var startDateString = (startDate.getMonth() + 1 ) + "/" + startDate.getDate() + "/" + startDate.getFullYear(); 
+
+        var panel = $(this).closest('.panel-bid');
         var modal = $('#modal_offer');
-        modal.find("#bidInfo").html(panelBid.find('.bidInfo').html());
-        modal.find('#estCost').text(estCost);
-        modal.find('.finalCost').addClass("hidden");
+        modal.find("#bidInfo").html(panel.find('.bidInfo').html());
+        
+        var estCost = modal.find("input[name=estCost]").val();
+        modal.find('div[name=estCost]').text(estCost);
+
+        modal.find(".finalCost").addClass("hidden");
         modal.find('input[name=finalCost]').val(estCost);
+
+        var startDate = new Date(panel.find("[name=startDate]").text());
+
+        var startDateString = (startDate.getMonth() + 1 ) + "/" + startDate.getDate() + "/" + startDate.getFullYear(); 
         modal.find('input[name=startDate]').val(startDateString);
    });
 

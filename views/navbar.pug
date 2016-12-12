@@ -11,13 +11,7 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
         input.form-control.inputsm(name="jobDesc",type="text",placeholder="Job description")
        button#btnSearch.col-lg-2.btn.btn-md.btn-success(type="submit",style="height:6.5vh;")
         i.fa.fa-search
-     //- div
-     //-    if (session)
-     //-     li
-     //-       if (session.user.usertype == "homeowner")
-     //-           a(href="/homeowner/dashboard") Dashboard
-     //-       if (session.user.usertype == "contractor")
-     //-           a(href="/contractor/dashboard") Dashboard
+
     div.navbar-header.text-center
       a.navbar-brand(style="font:italic bold 35px/35px Georgia, serif;",href="/")
        i.fa.fa-home
@@ -26,9 +20,6 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
     div.pull-right
      ul.nav.navbar-nav.navbar-right
       if !user
-        li
-          a
-            span #{Fname} #{Lname}
         li#btnLogin
           a.btn(href="/login")
             span.glyphicon.glyphicon-log-in  Login
@@ -46,13 +37,13 @@ nav.navbar.navbar-default.navbar-fixed-top#navbar
         li.dropdown
           a.btn.dropbtn(href="/" + usertype +"/dashboard")
            span
-             i.fa.fa-tachometer
+              i.fa.fa-tachometer.pull-left
            span.glyphicon.glyphicon-user
             span=user.firstName + "  "
             span=user.lastName
-          form(action="/logout",methoud="delete")  
-           div.dropdown-content(style="width:15vw")
-             button.btn.btn-success.btn-block(type="submit") Logout
+          div.dropdown-content.bg-success(style="width:15vw;paddding:0")
+            form(action="/logout",methoud="get",style="paddding:0")  
+              button.btn.btn-default.btn-block(type="submit") Logout
 
 
 

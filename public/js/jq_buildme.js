@@ -41,6 +41,8 @@ $("input.numeric").keyup(function (e) {
 // $("#modal_bid").modal("show");
 
 $('a[data-toggle=tab]').click(function(){
+
+  $(this).closest(".panel").find('input').val("");
  
   if($(this).text() == "Homeowner")
     $(this).closest('.panel').removeClass('panel-primary').addClass('panel-success');
