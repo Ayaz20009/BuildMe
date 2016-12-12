@@ -29,6 +29,7 @@ router.use('/contractor', require('./contractor'));
 
 router.get('/', (req, res) => {
 
+
    if(!req.session.userID)
      return res.render('index');
    else{
@@ -53,7 +54,6 @@ router.get('/', (req, res) => {
    }
 
 });
-
 
 
 router.get('/contractor-signup',function(req,res){

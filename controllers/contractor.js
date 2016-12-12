@@ -144,29 +144,27 @@ router.post("/acceptjob",function(req,res){
 
          if(offer){
 
+            queryString = 'INSERT INTO job_process ("jobID", "createdAt", "updatedAt") VALUES ('+ offer.jobID + ',  CURRENT_TIMESTAMP ,  CURRENT_TIMESTAMP )';
             //create one job started
-               // models.job_processing.create({jobID:offer.jobID,});
-            // .then(function(p){
+            sequelize.query(queryString);
+        //     if(p){
+            // update offer accept
+            offer.updateAttributes({accepted : true,});
 
-            //     if(p){
-                // update offer accept
-                offer.updateAttributes({accepted : true,});
+            //udpate contractor numStarted
+            user.updateAttributes({numStarted: user.numStarted + 1,});
+             
+            //update homeowner numStared
+            models.homeowners.findOne({where: {id: offer.hoID,}}).
+            then(function(hoUser){
+              hoUser.updateAttributes({numStarted: hoUser.numStarted + 1,});
+            });
 
-                //udpate contractor numStarted
-                user.updateAttributes({numStarted: user.numStarted + 1,});
-                 
-                //update homeowner numStared
-                models.homeowners.findOne({where: {id: offer.hoID,}}).
-                then(function(hoUser){
-                  hoUser.updateAttributes({numStarted: hoUser.numStarted + 1,});
-                });
-
-                //update homeowner_jobs;
-                models.homeowner_jobs.findOne({where: {id: offer.jobID,}}).
-                then(function(job){
-                  job.updateAttributes({bidID: offer.bidID,});
-                });
-
+            //update homeowner_jobs;
+            models.homeowner_jobs.findOne({where: {id: offer.jobID,}}).
+            then(function(job){
+              job.updateAttributes({bidID: offer.bidID,});
+            });
             // });
 
             return res.redirect("started");
@@ -214,10 +212,11 @@ router.get('/started', function(req,res){
     if(user){
 
       var queryString = ' SELECT "offers".id AS "offerID","jobs"."id" AS "jobID", "jobDesc", "city", "state", "zipcode",'
-                       +' "offers"."bidID", "finalCost", "estCost", "estDays", "offers"."startDate"'
+                       +' "offers"."bidID", "finalCost", "estCost", "estDays", "offers"."startDate", "percentage"'
                        +' FROM homeowner_jobs AS "jobs"'
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        // +' JOIN job_bids AS "bids" ON "bids".id = "offers"."bidID"'
+                       +' JOIN job_process AS "process" on "process"."jobID" = "jobs".id '
                        +' WHERE "offers"."coID" = '+ req.session.userID
                        +' AND "offers"."accepted" IS TRUE';
 

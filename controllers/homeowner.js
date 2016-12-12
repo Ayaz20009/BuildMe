@@ -435,7 +435,7 @@ router.get('/job_bids/:jobID', function(req, res) {
 
       var jobID = req.params.jobID;
       
-      var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "state", "zipcode", "bids"."id" AS "bidID", "bids"."coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
+      var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "state", "zipcode", "bids"."id" AS "bidID", "bids"."coID", "estCost", "estDays", "bids"."startDate","comment", "bids"."createdAt",'
                   + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '
                   + 'FROM "job_bids" AS "bids" '
                   + 'JOIN "contractors" on "contractors"."id" = "bids"."coID" '

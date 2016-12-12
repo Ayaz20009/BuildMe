@@ -30,7 +30,7 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('job_processing');
+    return queryInterface.dropTable('job_process');
     
   }
 };
