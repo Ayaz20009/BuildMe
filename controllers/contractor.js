@@ -61,7 +61,6 @@ router.get('/bidding', function(req,res){
                         + 'ON "bids"."jobID" = "jobs"."id"'
                         + ' JOIN "homeowners" on "homeowners"."id" = "jobs"."hoID"'
                         + 'WHERE "coID" = '+ req.session.userID
-                        // + 'AND "bidID" IS NOT null '
                         + 'ORDER BY "jobCreatedAt" DESC, "bidUpdatedAt" DESC';
 
          sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
@@ -107,12 +106,13 @@ router.get('/bidswon', function(req,res){
     if(user){
 
       var queryString = ' SELECT "offers".id AS "offerID","jobs"."id" AS "jobID", "jobDesc", "city", "state", "zipcode",'
-                       +' "offers"."bidID", "finalCost", "estCost", "estDays", "offers"."startDate"'
+                       +' "offers"."bidID", "finalCost", "estCost", "estDays", "offers"."startDate", "offers".accepted'
                        +' FROM homeowner_jobs AS "jobs"'
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        // +' JOIN job_bids AS "bids" ON "bids".id = "offers"."bidID"'
                        +' WHERE "offers"."coID" = '+ req.session.userID
-                       +' AND "offers"."accepted" IS null';
+                       // +' AND "offers"."accepted" IS null'
+                       ;
 
       sequelize.query(queryString, { type: sequelize.QueryTypes.SELECT})
 
@@ -160,7 +160,7 @@ router.post("/acceptjob",function(req,res){
               hoUser.updateAttributes({numStarted: hoUser.numStarted + 1,});
             });
 
-            //update homeowner_jobs;
+            //update homeowner_jobs; bidID
             models.homeowner_jobs.findOne({where: {id: offer.jobID,}}).
             then(function(job){
               job.updateAttributes({bidID: offer.bidID,});

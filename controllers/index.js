@@ -5,8 +5,8 @@ const models = require('../models');
 const router = express.Router();
 //const basename = path.basename(module.filename);
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
-// const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
+// const sequelize = new Sequelize("postgres://pg_user:pg_pass@localhost:5432/buildme_development");
+const sequelize = new Sequelize("postgres://test_user:test_pass@localhost:5432/buildme_development");
 
 // const pg = require('pg');
 // const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/buildme_development';

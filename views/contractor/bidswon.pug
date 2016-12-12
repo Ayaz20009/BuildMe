@@ -42,9 +42,12 @@ block right
           if ( offer.comment)
            label.col-lg-3.control-label Note
            div.col-lg-9=offer.comment
-        div.panel-footer.text-center(style="height:10vh")
-         button.btnAccept.btn.btn-success.btn-sm(role="tooltip",title="Accept the job",data-toggle="modal",data-target="#modal_accept")  Accept
-          i.fa.fa-check-circle-o.pull-left
-         button.btnRejec6.btn.btn-danger.btn-sm(role="tooltip",title="Reject the job",data-toggle="modal",data-target="#modal" ) Reject
-              i.fa.fa-times-circle-o.pull-left 
+        div.panel-footer.text-center
+          if (offer.accepted)
+            h4.text-success You accept this offer, job started.
+          else
+           button.btnAccept.btn.btn-success.btn-sm(role="tooltip",title="Accept the job",data-toggle="modal",data-target="#modal_accept")  Accept
+            i.fa.fa-check-circle-o.pull-left
+           button.btnRejec6.btn.btn-danger.btn-sm(role="tooltip",title="Reject the job",data-toggle="modal",data-target="#modal" ) Reject
+                i.fa.fa-times-circle-o.pull-left 
  include modal_accept.pug

@@ -267,11 +267,12 @@ router.get('/started', function(req, res) {
 
     if(user){
 
-      var queryString = ' SELECT "jobs"."id" AS "jobID", "jobDesc", "street", "city", "state", "estCost", "finalCost", "startDate"'
+      var queryString = ' SELECT "jobs"."id" AS "jobID", "percentage", "jobDesc", "street", "city", "state", "estCost", "finalCost", "startDate"'
                        +' "bidID", "contractors".id AS "coID", "firstName", "lastName" , "companyName", "licenseNumber", "phoneNumber"'
                        +' FROM homeowner_jobs AS "jobs"'
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        +' JOIN contractors ON "contractors".id = "offers"."coID"'
+                       +' JOIN job_process AS "process" on "process"."jobID" = "jobs".id '
                        +' WHERE "offers"."hoID" = '+ req.session.userID
                        +' AND "offers"."accepted" IS TRUE;'
 

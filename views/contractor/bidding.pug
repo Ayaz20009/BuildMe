@@ -8,19 +8,21 @@ block right
    else
        each bid in bids
          div.panel.panel-warning.bidInfo.col-lg-12(id="bidID_"+bid.bidID,style="padding:0;")
-            div.panel-heading(style="padding:1%") 
-              if (bids.bidID)
-                span This job bidding is closed.
+            if (bid.bidID)
+              if (bid.bidID == bid.id)
+                div.bg-success(style="padding:0") This job bidding is closed. You won
               else
-                span This job is still Open
-              //- //- button.btn-danger.btn.btn-sm(data-toggle="modal",data-target="#modal_withdraw") X
-              div.dropdown.pull-right 
-                a.btn.dropbtn
-                 span.caret
-                div.dropdown-content
-                 if (!bids.bidID)
-                   button.btnUpdate.btn.btn-sm.btn-primary.btn-block Edit
-                 button.btnDeleteBid.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_bid") X
+                div.bg-danger(style="padding:0") This job bidding is closed. You did not win
+            else
+              div.bg-warning(style="padding:0") This job is still Open
+              //- //- button.btn-danger.btn.btn-sm(data-toggle="modal",data-target="#modal_withdraw"
+            div.dropdown.pull-right 
+              a.btn.dropbtn
+               span.caret
+              div.dropdown-content
+               if (!bid.bidID)
+                 button.btnUpdate.btn.btn-sm.btn-primary.btn-block Edit
+               button.btnDeleteBid.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_bid") X
             div.panel-body.row(style="padding:2%;")
                //- div.col-lg-1.avatar.btn.btn-default=bid.jobID
                div.col-lg-12.bidInfo
