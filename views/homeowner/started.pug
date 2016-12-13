@@ -55,7 +55,7 @@ block right
          div.row
             label.col-lg-2.control-label Process
             div.col-lg-10.progress(style="height:2vw;")
-              div.progress-bar.progress-bar-info(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-info"><div class="panel-heading">Job progress</div><div class="panel-body h4 text-info">'+ job.percentage +'</div></div>',role="progressbar", aria-valuenow=job.percentage, aria-valuemin="0",aria-valuemax="100",style=";width:"+ job.percentage +"%")
+              div.progress-bar.progress-bar-info.progress-bar-striped.active(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-info"><div class="panel-heading">Job progress</div><div class="panel-body h3 text-info">'+ job.percentage +'</div></div>',role="progressbar", aria-valuenow=job.percentage, aria-valuemin="0",aria-valuemax="100",style=";width:"+ job.percentage +"%")
                 span.text-center(style="width:100%;color:black;font-size:0.8vw")=job.percentage + " %"
                 
 

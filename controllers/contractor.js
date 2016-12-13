@@ -144,7 +144,7 @@ router.post("/acceptjob",function(req,res){
 
          if(offer){
 
-            queryString = 'INSERT INTO job_process ("jobID", "createdAt", "updatedAt") VALUES ('+ offer.jobID + ',  CURRENT_TIMESTAMP ,  CURRENT_TIMESTAMP )';
+            queryString = 'INSERT INTO job_progress ("jobID", "createdAt", "updatedAt") VALUES ('+ offer.jobID + ',  CURRENT_TIMESTAMP ,  CURRENT_TIMESTAMP )';
             //create one job started
             sequelize.query(queryString);
         //     if(p){
@@ -216,7 +216,7 @@ router.get('/started', function(req,res){
                        +' FROM homeowner_jobs AS "jobs"'
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        // +' JOIN job_bids AS "bids" ON "bids".id = "offers"."bidID"'
-                       +' JOIN job_process AS "process" on "process"."jobID" = "jobs".id '
+                       +' JOIN (SELECT "jobID", MAX(percentage) AS percentage FROM job_progress GROUP by "jobID") AS "process" on "process"."jobID" = "jobs".id '
                        +' WHERE "offers"."coID" = '+ req.session.userID
                        +' AND "offers"."accepted" IS TRUE';
 
@@ -328,7 +328,6 @@ router.get('/profile',function(req,res){
 
 
 
-
 //update profile
 router.post('/profile',function(req,res){
 
@@ -355,6 +354,38 @@ router.post('/profile',function(req,res){
     });
 
 });
+
+//create progress in job_progress
+
+router.post('/updateprogress',function(req,res){
+
+  // if(!req.session.userID)
+  //    return res.redirect('/login');
+
+  models.contractors.findOne({where: {id: req.session.userID,}}).then(function(user){
+
+      if(user){
+
+        var jobID = req.body.jobID;
+        var percentage = parseFloat(req.body.percentage.trim());
+        var updatedPercentage = parseFloat(req.body.updatedPercentage.trim());
+
+        if(updatedPercentage > percentage)
+          //create one job progress
+            var queryString = 'INSERT INTO job_progress ("jobID", "percentage", "createdAt", "updatedAt") VALUES ('+ jobID + ', '+ updatedPercentage +', CURRENT_TIMESTAMP ,  CURRENT_TIMESTAMP )';
+            sequelize.query(queryString).spread(function (row, created){
+              
+              return res.redirect("/contractor/started");
+          });
+
+      }
+      else
+         return res.send("Contractor user does not exists.");
+    });
+
+});
+
+
 
 
 

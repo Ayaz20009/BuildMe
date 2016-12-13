@@ -1,0 +1,24 @@
+div#modal_update_progress.modal.fade(role="dialog")
+ div.modal-dialog 
+  div.modal-content
+   form(method="post",action="/contractor/updateprogress/")
+    div.modal-header.bg-info
+      span Update the progress
+        i.fa.fa-cog.fa-spin.fa-3x.fa-fw.pull-left
+      a.close(data-dismiss="modal") X 
+    div.modal-body.row.text-center(style="padding-top:2%")
+      div#jobInfo.well
+      div.col-lg-12
+         label.col-lg-6 Updated Percentage(%)
+         div.col-lg-6
+          input.updatedPercentage.numeric(name="updatedPercentage")
+      div.col-lg-12
+         input.form-control.updatedPercentage(type="range",min="0",max="100",step="0.1",value="50")
+      div.col-lg-12.progress.text-center(style="height:2vw;")
+        div.progress-bar.progress-bar-info.progress-bar-striped.active(role="progressbar", aria-valuemin="0",aria-valuemax="100")
+          span.text-center.updatedPercentage(style="width:100%;color:black;font-size:1vw")
+    div.modal-footer.text-center
+      button#btnUpdateProgress.btn.btn-md.btn-info.col-lg-5.col-lg-offset-1(type="submit") Update
+      a.btn.btn-default.btn-md.col-lg-5(data-dismiss="modal",type="reset") Cancel
+     
+    

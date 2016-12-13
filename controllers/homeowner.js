@@ -272,7 +272,7 @@ router.get('/started', function(req, res) {
                        +' FROM homeowner_jobs AS "jobs"'
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        +' JOIN contractors ON "contractors".id = "offers"."coID"'
-                       +' JOIN job_process AS "process" on "process"."jobID" = "jobs".id '
+                       +' JOIN job_progress AS "process" on "process"."jobID" = "jobs".id '
                        +' WHERE "offers"."hoID" = '+ req.session.userID
                        +' AND "offers"."accepted" IS TRUE;'
 

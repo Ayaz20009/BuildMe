@@ -3,9 +3,10 @@ const bcrypt = require('bcrypt-nodejs');
 const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
-  var job_process = sequelize.define('job_process', {
+  var job_progress = sequelize.define('job_progress', {
     jobID: DataTypes.INTEGER,
     percentage : DataTypes.DOUBLE,
+    confirmed : DataTypes.BOOLEAN,
     createAt: DataTypes.DATE,
   }, {
     classMethods: {
@@ -15,5 +16,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  return job_process;
+  return job_progress;
 };

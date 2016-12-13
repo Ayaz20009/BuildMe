@@ -16,10 +16,40 @@ $(document).ready(function(){
 
 	$('.btnAccept').click(function(){
 
-        $("#modal_accept #jobInfo").html($(this).closest(".panel-offer").find(".jobInfo").html());
+     $("#modal_accept #jobInfo").html($(this).closest(".panel-offer").find(".jobInfo").html());
 
 	});
 
+
+  $(".btnUpdateProgress").click(function(){
+     
+     var panel = $(this).closest(".panel-job");
+     $("#modal_update_progress #jobInfo").html(panel.find(".jobInfo").html());
+     var jobID = panel.find("input[name=jobID]");
+     var percentage = panel.find("input[name=percentage]").val();
+      SetPercentage(percentage);
+
+  });
+
+    $("#modal_update_progress input.updatedPercentage").change(function(){
+
+         var percentage = $("#modal_update_progress input[name=percentage]").val();
+         var updatedPercentage = $(this).val();
+
+         if(updatedPercentage > percentage || updatedPercentage <= 100)
+           SetPercentage(updatedPercentage);
+         else
+           SetPercentage(percentage);
+
+    });
+
+    function SetPercentage(pt){
+
+       $("#modal_update_progress input.updatedPercentage").val(pt);
+       $("#modal_update_progress span.updatedPercentage").text(pt + " %");
+       $("#modal_update_progress .progress-bar").css("width",pt + "%");
+
+    };
 
 });
 
