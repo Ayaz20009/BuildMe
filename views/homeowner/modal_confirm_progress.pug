@@ -1,0 +1,15 @@
+div#modal_confirm_progress.modal.fade(role="dialog")
+ div.modal-dialog 
+  div.modal-content
+   form(method="post",action="/homeowner/confirmprogress/")
+    div.modal-header.bg-success
+      span Confirm the progress
+        i.fa.fa-cog.fa-spin.fa-3x.fa-fw.pull-left
+      a.close(data-dismiss="modal") X 
+    div.modal-body.row.text-center(style="padding-top:2%")
+      div#jobInfo.well
+    div.modal-footer.text-center
+      button#btnConfirmProgress.btn.btn-md.btn-success.col-lg-5.col-lg-offset-1(type="submit") Confirm
+      a.btn.btn-default.btn-md.col-lg-5(data-dismiss="modal",type="reset") Cancel
+     
+    

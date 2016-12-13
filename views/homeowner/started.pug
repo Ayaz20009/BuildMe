@@ -7,26 +7,41 @@ block right
    h1.text-center You have no staring job yet.
   else
    each job in jobs
-      div.panel.panel-success.panel-job(id=job.id)
+      div.panel.panel-success.panel-job(id=job.jobID)
         div.panel-heading(style="padding:0")
-         div.dropdown.pull-right
-          a.btn.dropbtn
-           span.caret
-          div.dropdown-content
-           button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
-           button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
+         //- div.dropdown.pull-right
+         //-  a.btn.dropbtn
+         //-   span.caret
+         //-  div.dropdown-content
+         //-   button.btnUpdate.btn.btn-sm.btn-success.btn-block Update
+         //-   button.btnDeleteJob.btn.btn-sm.btn-danger.btn-block(data-toggle="modal",data-target="#modal_delete_job") Delete
         div.panel-body
+         div.jobInfo
+           input.hidden(name="progressID",value=job.progressID)
+           input.hidden(name="jobID",value=job.jobID)
+           input.hidden(name="percentage",value=job.percentage)
+           input.hidden(name="finalCost",value=job.finalCost)
+           input.hidden(name="coID",value=job.coID)
+           div.row
+            label.col-lg-2.control-label Description
+            div.col-lg-10=job.jobDesc
+           div.row
+            label.col-lg-2.control-label Location
+            div.col-lg-10=job.street + " "+ job.city +" "+ job.state + " "+ job.zipcode
+           div.row
+            label.col-lg-2.control-label Progress
+            div.col-lg-10=job.percentage + " %"
          div.row
-          label.col-lg-2.control-label Description
-          div.col-lg-10=job.jobDesc
+            label.col-lg-2.control-label Start Date
+            div.col-lg-10=job.startDate
          div.row
-          label.col-lg-2.control-label Location
-          div.col-lg-10=job.street + " "+ job.city +" "+ job.state + " "+ job.zipcode
+            label.col-lg-2.control-label Points
+            div.col-lg-10=job.startDate
          div.row
            if (job.comment)
             label.col-lg-2.control-label Comment
             div.col-lg-10=job.comment
-         div.row.panel-default.panel
+         div.row.panel-primary.panel(style="margin:1%")
            div.col-lg-6
             label.col-lg-4.control-label Contractor
             div.col-lg-8=job.firstName + " " + job.lastName
@@ -49,14 +64,28 @@ block right
           if (job.estDays)
             label.col-lg-2.control-label Est. Days
             div.col-lg-10=job.estDays + " days"
-         div.row
-            label.col-lg-2.control-label Start Date
-            div.col-lg-10=job.startDate
-         div.row
-            label.col-lg-2.control-label Process
-            div.col-lg-10.progress(style="height:2vw;")
+         div.row.progress(style="height:2vw;margin:1%")
               div.progress-bar.progress-bar-info.progress-bar-striped.active(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-info"><div class="panel-heading">Job progress</div><div class="panel-body h3 text-info">'+ job.percentage +'</div></div>',role="progressbar", aria-valuenow=job.percentage, aria-valuemin="0",aria-valuemax="100",style=";width:"+ job.percentage +"%")
                 span.text-center(style="width:100%;color:black;font-size:0.8vw")=job.percentage + " %"
+        div.panel-footer.text-center
+          if (job.percentage < 100 )
+            if (job.confirmed)
+              button.btn.btn-success.disabled(role="tooltip",title="You Confirmed the Progress")
+                span.pull-left.col-lg-3
+                  i.fa.fa-check
+                span.col-lg-9  You Confirmed the Progress
+            else
+              button.btnConfirmProgress.btn.btn-info(role="tooltip",title="Confirm Progress for points",data-toggle="modal",data-target="#modal_confirm_progress")
+                span.pull-left.col-lg-3
+                  i.fa.fa-gear
+                span.co-lg-9 Confirm the Progress
+          else
+            div.bg-success
+              span.pull-left.col-lg-2
+                i.fa.fa-check
+              span.col-lg-10  This job was completed by the contractor
+  include modal_confirm_progress.pug
+
                 
 
 

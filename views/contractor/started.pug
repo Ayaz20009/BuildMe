@@ -45,19 +45,24 @@ block right
            div.col-lg-9=job.comment
          div.row 
            label.col-lg-3.control-label  Points Earned
-           div.col-lg-9=job.percentage/100 * job.finalCost
+           div.col-lg-9=job.pointsEarned
          div.row
           div.col-lg-12.progress.text-center(style="height:2vw;vertical-algin:middle")
               div.progress-bar.progress-bar-info.progress-bar-striped.active(data-toggle="tooltip", data-placement="bottom",data-html="true",title='<div class="panel panel-info"><div class="panel-heading">Job progress</div><div class="panel-body h3 text-info">'+ job.percentage + '</div></div>',role="progressbar", aria-valuenow=job.percentage, aria-valuemin="0",aria-valuemax="100",style="width:"+ job.percentage  +"%")
                 span.text-center(style="width:100%;color:black;font-size:1vw")=job.percentage + " %"
         div.panel-footer.text-center
-          if (job.percentage <= 100)
+          if (job.percentage < 100)
             button.btnUpdateProgress.btn.btn-info(role="tooltip",title="Update Progress for points",data-toggle="modal",data-target="#modal_update_progress")
               span.pull-left.col-lg-3
                 i.fa.fa-gear
-              span.col-lg-9  Update Process
+              span.col-lg-9  Update Progress
+            if (job.confirmed)
+              div.btn.bg-success.disabled
+                span.pull-left.col-lg-3
+                  i.fa.fa-check
+                span.col-lg-9  Progress Confirmed
           else
-            button.btn.btn-success.disabled
+            div.btn.bg-success
               span.pull-left.col-lg-3
                 i.fa.fa-check
               span.col-lg-9  You Completed this job. 

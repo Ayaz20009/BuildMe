@@ -267,12 +267,13 @@ router.get('/started', function(req, res) {
 
     if(user){
 
-      var queryString = ' SELECT "jobs"."id" AS "jobID", "percentage", "jobDesc", "street", "city", "state", "estCost", "finalCost", "startDate"'
-                       +' "bidID", "contractors".id AS "coID", "firstName", "lastName" , "companyName", "licenseNumber", "phoneNumber"'
+      var queryString = ' SELECT "jobs"."id" AS "jobID", "percentage", "jobDesc", "street", "city", "state", "zipcode","estCost", "finalCost", "offers"."startDate"'
+                       +' "bidID", "contractors".id AS "coID", "firstName", "lastName" , "companyName", "licenseNumber", "phoneNumber",  "progressID", "percentage", "confirmed" '
                        +' FROM homeowner_jobs AS "jobs"'
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        +' JOIN contractors ON "contractors".id = "offers"."coID"'
-                       +' JOIN job_progress AS "process" on "process"."jobID" = "jobs".id '
+                       +' JOIN (SELECT id  AS "progressID", "jobID", percentage, confirmed  FROM job_progress WHERE percentage = (SELECT MAX(percentage) FROM job_progress) ) AS "process" ' 
+                       +' ON "process"."jobID" = "jobs".id '
                        +' WHERE "offers"."hoID" = '+ req.session.userID
                        +' AND "offers"."accepted" IS TRUE;'
 
@@ -478,7 +479,7 @@ router.get('/dataBids/:jobID', function(req, res) {
 
   var jobID = req.params.jobID;
   var results = [];
-  var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "state", "zipcode", "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
+  var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "city", "state", "zipcode", "bids"."id" AS "bidID", "coID", "estCost", "estDays", "startDate","comment", "bids"."createdAt",'
                   + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '
                   + 'FROM "job_bids" AS "bids" '
                   + 'JOIN "contractors" on "contractors"."id" = "bids"."coID" '
@@ -497,6 +498,70 @@ router.get('/dataBids/:jobID', function(req, res) {
 
 });
 
+
+
+/* confirm job progress, update homeower and contractor points */
+router.post('/confirmprogress', function(req, res) {
+
+  if(!req.session.userID)
+     return res.redirect('/login');
+
+  models.homeowners.findOne({where: {id: req.session.userID,}})
+  
+  .then(function(user){
+      if(user){
+
+        var progressID = req.body.progressID;
+        var jobID = req.body.jobID;
+        var coID = req.body.coID;
+        var percentage = req.body.percentage;
+        var finalCost = req.body.finalCost;
+
+        //find last confirmed percentage;
+        var queryString1 = 'SELECT percentage FROM job_progress' +  
+                           ' WHERE confirmed IS NOT NULL AND "jobID" = '+ jobID + ' AND id <> '+ progressID  +
+                           ' ORDER BY id DESC LIMIT 1';
+         sequelize.query(queryString1, { type: sequelize.QueryTypes.SELECT})
+         .then(function(confirmed){
+
+             //calculate points
+             var points;
+             if(confirmed.length == 0)
+                points = percentage/100 * finalCost;
+             else
+                points = (percentage - confirmed[0].percentage)/100 * finalCost;
+
+            //update in job_process
+            var queryString = 'UPDATE job_progress SET confirmed = true, points = '+ points +', "updatedAt" = CURRENT_TIMESTAMP WHERE id= '+ progressID ;
+            
+            sequelize.query(queryString).spread(function (row, updated){
+
+                //update points for homeowner 
+                user.updateAttributes({points : user.points + points})
+                .then((updated) => {}).catch(() => {
+                  return res.send('ERROR');
+                });
+                
+                //contractor
+                models.contractors.findOne({where: { id: coID}})
+                .then(function(coUser){
+                     coUser.updateAttributes({points : coUser.points + points});
+                })
+                .then((updated) => {}).catch(() => {
+                  return res.send('ERROR');
+                });
+
+                return res.redirect("/homeowner/started");
+            });
+
+         });
+            
+      }
+      else
+        return res.send("Homeowner user does not exists.");
+
+    });
+});
 
 
 

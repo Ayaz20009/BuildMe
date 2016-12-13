@@ -212,11 +212,13 @@ router.get('/started', function(req,res){
     if(user){
 
       var queryString = ' SELECT "offers".id AS "offerID","jobs"."id" AS "jobID", "jobDesc", "city", "state", "zipcode",'
-                       +' "offers"."bidID", "finalCost", "estCost", "estDays", "offers"."startDate", "percentage"'
+                       +' "offers"."bidID", "finalCost", "estCost", "estDays", "offers"."startDate", "percentage" , "confirmed", "pointsEarned" '
                        +' FROM homeowner_jobs AS "jobs"'
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        // +' JOIN job_bids AS "bids" ON "bids".id = "offers"."bidID"'
-                       +' JOIN (SELECT "jobID", MAX(percentage) AS percentage FROM job_progress GROUP by "jobID") AS "process" on "process"."jobID" = "jobs".id '
+                       +' JOIN (SELECT id  AS "progressID", "jobID", percentage, confirmed' 
+                              +' FROM job_progress WHERE percentage = (SELECT MAX(percentage) FROM job_progress) ) AS "process" ON "process"."jobID" = "jobs".id '
+                       + 'JOIN (SELECT "jobID", SUM(points) AS "pointsEarned" FROM job_progress GROUP by "jobID") AS "points" ON "points"."jobID" = "jobs".id '
                        +' WHERE "offers"."coID" = '+ req.session.userID
                        +' AND "offers"."accepted" IS TRUE';
 

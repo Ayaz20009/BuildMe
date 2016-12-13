@@ -59,5 +59,12 @@ $(document).ready(function(){
 
     });
 
+
+    $(".btnConfirmProgress").click(function(){
+     
+     var panel = $(this).closest(".panel-job");
+     $("#modal_confirm_progress #jobInfo").html(panel.find(".jobInfo").html());
+    });
+
 });
 

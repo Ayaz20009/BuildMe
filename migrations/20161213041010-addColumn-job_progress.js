@@ -17,6 +17,13 @@ module.exports = {
         }
       ),
 
+      queryInterface.addColumn('job_progress',
+        "points",
+        {
+          type: Sequelize.INTEGER
+        }
+      ),
+
       ];
   },
 
@@ -31,7 +38,7 @@ module.exports = {
 
     return [
       queryInterface.removeColumn('job_progress', 'confirmed'),
-      // queryInterface.removeColumn('homeowner_jobs', '
+      queryInterface.removeColumn('homeowner_jobs', 'points'),
 
     ];
   }
