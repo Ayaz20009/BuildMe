@@ -217,7 +217,7 @@ router.get('/started', function(req,res){
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        // +' JOIN job_bids AS "bids" ON "bids".id = "offers"."bidID"'
                        +' JOIN (SELECT id  AS "progressID", "jobID", percentage, confirmed' 
-                              +' FROM job_progress WHERE percentage = (SELECT MAX(percentage) FROM job_progress) ) AS "process" ON "process"."jobID" = "jobs".id '
+                              +' FROM job_progress WHERE percentage IN (SELECT MAX(percentage) FROM job_progress GROUP BY "jobID") ) AS "process" ON "process"."jobID" = "jobs".id '
                        + 'JOIN (SELECT "jobID", SUM(points) AS "pointsEarned" FROM job_progress GROUP by "jobID") AS "points" ON "points"."jobID" = "jobs".id '
                        +' WHERE "offers"."coID" = '+ req.session.userID
                        +' AND "offers"."accepted" IS TRUE';

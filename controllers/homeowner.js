@@ -272,7 +272,7 @@ router.get('/started', function(req, res) {
                        +' FROM homeowner_jobs AS "jobs"'
                        +' JOIN job_offers AS "offers" ON "jobs".id = "offers"."jobID" '
                        +' JOIN contractors ON "contractors".id = "offers"."coID"'
-                       +' JOIN (SELECT id  AS "progressID", "jobID", percentage, confirmed  FROM job_progress WHERE percentage = (SELECT MAX(percentage) FROM job_progress) ) AS "process" ' 
+                       +' JOIN (SELECT id  AS "progressID", "jobID", percentage, confirmed  FROM job_progress WHERE percentage IN (SELECT MAX(percentage) FROM job_progress GROUP BY "jobID")) AS "process" ' 
                        +' ON "process"."jobID" = "jobs".id '
                        +' WHERE "offers"."hoID" = '+ req.session.userID
                        +' AND "offers"."accepted" IS TRUE;'
@@ -437,8 +437,8 @@ router.get('/job_bids/:jobID', function(req, res) {
 
       var jobID = req.params.jobID;
       
-      var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "state", "zipcode", "bids"."id" AS "bidID", "bids"."coID", "estCost", "estDays", "bids"."startDate","comment", "bids"."createdAt",'
-                  + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber" '
+      var queryString = 'SELECT "job"."id" AS "jobID", "jobDesc", "street", "city", "state", "zipcode", "bids"."id" AS "bidID", "bids"."coID", "estCost", "estDays", "bids"."startDate","comment", "bids"."createdAt",'
+                  + '"firstName", "lastName", "companyName", "licenseNumber","phoneNumber", "points" '
                   + 'FROM "job_bids" AS "bids" '
                   + 'JOIN "contractors" on "contractors"."id" = "bids"."coID" '
                   + 'JOIN "homeowner_jobs" AS "job" on "job"."id" = "bids"."jobID"' 
@@ -450,7 +450,7 @@ router.get('/job_bids/:jobID', function(req, res) {
       .then(function(results) {
 
 
-        var queryMax = 'SELECT MAX("estCost") AS "estCost",MAX("estDays") AS "estDays","jobID"' 
+        var queryMax = 'SELECT MAX("estCost") AS "estCost",MAX("estDays") AS "estDays", MAX(points) AS "points" ,"jobID"' 
                         + 'FROM contractors JOIN job_bids on contractors.id = job_bids."coID"'
                         + 'WHERE "jobID" = ' + jobID
                         + 'GROUP BY "jobID"';
